@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin: Crear Nuevo Equipo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for lists */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #d1d5db;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111418] font-display overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-row">
+<!-- Sidebar -->
+<aside class="hidden w-64 flex-col border-r border-[#e5e7eb] bg-white dark:bg-[#111418] lg:flex sticky top-0 h-screen">
+<div class="flex flex-col gap-4 p-4 h-full">
+<!-- User Profile / App Header -->
+<div class="flex gap-3 items-center mb-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Wendy's Admin Logo red gradient" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDiS9e1kaviUtkX6G_c2wrMvYTzix26Qa94cQshWqkliezZ1skEu4Ga9wTxF7LPZChlelg3pYQ59ppXLCVg-gvIn61BJZ6nR3RsS32bYip9ZV6btXRd3ncLKyJz1Y-e_xiZqy3d4eTT3c0Y0NJd4m-FrH0OBFaY41XwhlBpSImEoH5a5D__2x0xpmEp-dZ0QT48YxDrba28ohhkN0fSPlSy0_elmBnO_qoTKXA5cSIpNbM8haaRl6rPT6oowsKbrd_-R0AbPiy-lIE6");'>
+</div>
+<div class="flex flex-col">
+<h1 class="text-[#111418] dark:text-white text-base font-medium leading-normal">Wendy's Admin</h1>
+<p class="text-[#617589] text-sm font-normal leading-normal">Ticket System</p>
+</div>
+</div>
+<!-- Navigation -->
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-background-light dark:hover:bg-gray-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#617589] group-hover:text-[#111418] dark:text-gray-400 dark:group-hover:text-white">dashboard</span>
+<p class="text-[#111418] dark:text-white text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-background-light dark:hover:bg-gray-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#617589] group-hover:text-[#111418] dark:text-gray-400 dark:group-hover:text-white">confirmation_number</span>
+<p class="text-[#111418] dark:text-white text-sm font-medium leading-normal">Tickets</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-background-light dark:hover:bg-gray-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#617589] group-hover:text-[#111418] dark:text-gray-400 dark:group-hover:text-white">storefront</span>
+<p class="text-[#111418] dark:text-white text-sm font-medium leading-normal">Vendors</p>
+</a>
+<!-- Active Item -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">groups</span>
+<p class="text-primary text-sm font-medium leading-normal">Teams</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-background-light dark:hover:bg-gray-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#617589] group-hover:text-[#111418] dark:text-gray-400 dark:group-hover:text-white">settings</span>
+<p class="text-[#111418] dark:text-white text-sm font-medium leading-normal">Settings</p>
+</a>
+</nav>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0 bg-background-light dark:bg-background-dark">
+<div class="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 pb-6">
+<a class="text-[#617589] text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Home</a>
+<span class="text-[#617589] text-sm font-medium leading-normal">/</span>
+<a class="text-[#617589] text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Teams</a>
+<span class="text-[#617589] text-sm font-medium leading-normal">/</span>
+<span class="text-[#111418] dark:text-white text-sm font-medium leading-normal">Create New Team</span>
+</div>
+<!-- Page Header -->
+<div class="mb-8">
+<h1 class="text-[#111418] dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">Crear Nuevo Equipo</h1>
+<p class="text-[#617589] text-base font-normal leading-normal mt-2">Define team details and assign members to manage tickets effectively.</p>
+</div>
+<!-- Form Container -->
+<div class="bg-white dark:bg-[#111418] rounded-xl border border-[#dbe0e6] dark:border-gray-800 shadow-sm overflow-hidden">
+<form class="flex flex-col h-full" onsubmit="event.preventDefault();">
+<!-- Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 lg:p-8">
+<!-- Left Column: Metadata -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<h3 class="text-[#111418] dark:text-white text-lg font-bold leading-tight">Detalles del Equipo</h3>
+<label class="flex flex-col w-full">
+<span class="text-[#111418] dark:text-gray-200 text-sm font-medium leading-normal pb-2">Nombre del Equipo</span>
+<input class="form-input flex w-full min-w-0 resize-none overflow-hidden rounded-lg text-[#111418] dark:text-white border border-[#dbe0e6] dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-0 focus:ring-2 focus:ring-primary/20 focus:border-primary h-12 px-4 text-base font-normal transition-all" placeholder="Ej. Ventas Norte" type="text"/>
+</label>
+<label class="flex flex-col w-full flex-1">
+<span class="text-[#111418] dark:text-gray-200 text-sm font-medium leading-normal pb-2">Descripción</span>
+<textarea class="form-input flex w-full min-w-0 flex-1 resize-none rounded-lg text-[#111418] dark:text-white border border-[#dbe0e6] dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-0 focus:ring-2 focus:ring-primary/20 focus:border-primary min-h-[160px] p-4 text-base font-normal transition-all" placeholder="Responsables de la zona norte y gestión de tickets prioritarios..."></textarea>
+<span class="text-[#617589] text-xs mt-2 text-right">0/300 caracteres</span>
+</label>
+</div>
+<!-- Right Column: Member Selection -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<div class="flex justify-between items-end">
+<h3 class="text-[#111418] dark:text-white text-lg font-bold leading-tight">Asignar Miembros</h3>
+<span class="text-[#617589] text-sm">Drag &amp; Drop or use arrows</span>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 h-[450px]">
+<!-- Available Members List -->
+<div class="flex flex-col flex-1 border border-[#dbe0e6] dark:border-gray-700 rounded-lg bg-background-light dark:bg-gray-900 overflow-hidden">
+<div class="p-3 bg-white dark:bg-[#1a2633] border-b border-[#dbe0e6] dark:border-gray-700 flex flex-col gap-2">
+<span class="text-[#111418] dark:text-white text-sm font-semibold">Miembros Disponibles</span>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-[#617589] text-[18px]">search</span>
+<input class="w-full h-8 pl-8 pr-3 text-sm rounded bg-[#f0f2f4] dark:bg-gray-800 border-none focus:ring-1 focus:ring-primary text-[#111418] dark:text-white placeholder-[#617589]" placeholder="Buscar..." type="text"/>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-2 flex flex-col gap-1">
+<!-- Item 1 -->
+<div class="flex items-center gap-3 p-2 rounded hover:bg-white dark:hover:bg-gray-800 cursor-pointer group transition-colors border border-transparent hover:border-[#dbe0e6] dark:hover:border-gray-700">
+<div class="bg-center bg-cover rounded-full size-8 shrink-0" data-alt="Portrait of Sarah Jenkins" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBDoJwj4yRQHNfzIIt0zQa5B5_gSbST2gS12mvmXuc6Muuri6PEzSCaHY-YF6JtdYS9lg9fpp4S2Vtj6wcnKaQeq4hyYcC6BVt7TbmjvYaFIAQTlF2C-7FumjAOf2GvjjvjWD9pleEFcIwuK_HuBGTEHfYRKun4uqykpe7kUOMag60rpKTsqAasuMBBSNbngv-VRFSL3yKkjmrNBkYIaL1oC43OBclTxhD5ZQZR_sEg40Uz5sicxN50cDuAEgX305lVLCHFtjX_56NO");'></div>
+<div class="flex flex-col min-w-0">
+<p class="text-[#111418] dark:text-white text-sm font-medium truncate">Sarah Jenkins</p>
+<p class="text-[#617589] text-xs truncate">Manager</p>
+</div>
+<span class="material-symbols-outlined ml-auto text-[#dbe0e6] group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all text-[20px]">add_circle</span>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center gap-3 p-2 rounded bg-white dark:bg-gray-800 shadow-sm cursor-pointer border border-primary/30 relative">
+<div class="bg-center bg-cover rounded-full size-8 shrink-0" data-alt="Portrait of Michael Chen" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDOynYvn1VdSIss_5NKC7bsRoalt0qUgOUx_HXst83nLdVA2JPFX0wHe5rq1LKhCkqDd9H6JlAp-Vac3UmEfWlros9upwyjBs2KYMgtLZhm0QPU_c7-QWb_4WQfjoBXVhNk4pwiGcjcOI_6oh5LDRXeQdHdPFHVKk26BB95i9N6zA_PHkcGnwmAzQiWJI3l0R5No4Vf2pWNjBXkTSacsPzaFvmewA7s4iRyMTgsrR9qA54uV-xdhxF4uGiJuQ-bBpXvQiR2mD8Rl7Fj");'></div>
+<div class="flex flex-col min-w-0">
+<p class="text-[#111418] dark:text-white text-sm font-medium truncate">Michael Chen</p>
+<p class="text-[#617589] text-xs truncate">Sales Rep</p>
+</div>
+<div class="absolute inset-y-0 right-0 w-1 bg-primary rounded-r"></div>
+</div>
+<!-- Item 3 -->
+<div class="flex items-center gap-3 p-2 rounded hover:bg-white dark:hover:bg-gray-800 cursor-pointer group transition-colors border border-transparent hover:border-[#dbe0e6] dark:hover:border-gray-700">
+<div class="bg-center bg-cover rounded-full size-8 shrink-0" data-alt="Portrait of Jessica Wu" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA_WJ6oPswEECUlY5SV2tOHamLY8nSc3po4cH9VjrZj2a1KjExQzIUKAnRS4HaqlxZ4uVjnYv2QkZiy0oyPpkenlO2wO2AAXcin47qL7e4KfBpT6STx8mGYaEBHFTMSYYIVprnVPMCF12NBeULpO1FkGLqbD2KgSJ5HiuQhJ8C_G_XGdpbXYrTJ3EOQfg2u_bA_hulrapPUQv_O0Lm8DUa8X2giS3qaHmDQaURLc7sz1csXZFNjqf0JZzwXPXutUha7mhj-YJexVayX");'></div>
+<div class="flex flex-col min-w-0">
+<p class="text-[#111418] dark:text-white text-sm font-medium truncate">Jessica Wu</p>
+<p class="text-[#617589] text-xs truncate">Support</p>
+</div>
+<span class="material-symbols-outlined ml-auto text-[#dbe0e6] group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all text-[20px]">add_circle</span>
+</div>
+<!-- Item 4 -->
+<div class="flex items-center gap-3 p-2 rounded hover:bg-white dark:hover:bg-gray-800 cursor-pointer group transition-colors border border-transparent hover:border-[#dbe0e6] dark:hover:border-gray-700">
+<div class="bg-center bg-cover rounded-full size-8 shrink-0" data-alt="Portrait of David Miller" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBVcQb-zDlH-JMarLl4Oncli8doh0tlIdHxGsV7l5i4vIa8EP3qMm6jJW43xjHuArdXS7I5bLYnTlN9DdoPixlTom8_MnaBFRN8F7mY5lotNyI7aWSP9xaEBjuocvc-l_8WwMv8YW_nmX71r3gmdqL67GONTcSPuEjysVYG7EVJJDy6GIMTPM8LQoAz1kA4S2iTw4-ADof1hDIZXQpKO13S7aKXvrNep1gxUMMibMpb8op4yPRYbyHymbHsajRS0KuTaxs5le_nTyC1");'></div>
+<div class="flex flex-col min-w-0">
+<p class="text-[#111418] dark:text-white text-sm font-medium truncate">David Miller</p>
+<p class="text-[#617589] text-xs truncate">Logistics</p>
+</div>
+<span class="material-symbols-outlined ml-auto text-[#dbe0e6] group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all text-[20px]">add_circle</span>
+</div>
+</div>
+</div>
+<!-- Controls -->
+<div class="flex sm:flex-col items-center justify-center gap-2 shrink-0">
+<button class="size-8 sm:size-10 flex items-center justify-center rounded-full bg-primary text-white hover:bg-blue-600 transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[20px] sm:rotate-0 rotate-90">chevron_right</span>
+</button>
+<button class="size-8 sm:size-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 border border-[#dbe0e6] dark:border-gray-700 text-[#617589] hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[20px] sm:rotate-0 rotate-90">chevron_left</span>
+</button>
+</div>
+<!-- Selected Members List -->
+<div class="flex flex-col flex-1 border border-[#dbe0e6] dark:border-gray-700 rounded-lg bg-background-light dark:bg-gray-900 overflow-hidden">
+<div class="p-3 bg-white dark:bg-[#1a2633] border-b border-[#dbe0e6] dark:border-gray-700 h-[89px] flex flex-col justify-center">
+<span class="text-[#111418] dark:text-white text-sm font-semibold">Miembros del Equipo</span>
+<span class="text-[#617589] text-xs mt-1">2 seleccionados</span>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-2 flex flex-col gap-1">
+<!-- Selected Item 1 -->
+<div class="flex items-center gap-3 p-2 rounded bg-white dark:bg-gray-800 shadow-sm border border-[#dbe0e6] dark:border-gray-700">
+<div class="bg-center bg-cover rounded-full size-8 shrink-0" data-alt="Portrait of Ana Garcia" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC5p_O9PTOg3g8ueU3uGlUJbQLyZQsn2zzKw03p6nGsqB2NZCeHCzqNnVdmB47vR-36zmd9DccxnMzCLASrVbWb2aLR4FQ-uDHritHVBKZZYAWCaMlxwS3UX-mBrBAiDOO3wNoGp-Y7ALOt770lBntlLLfn9j5jDr6Gf3I8nXTy0pP7OCiYjO0nSjxuJ7frVVZK_E1FNJ7guKCCtyP_n51rrwjBehSQDoCBsHde9-zl18hPodI3NAy7a6rvv9f7KgMQAClZWE5lIxLr");'></div>
+<div class="flex flex-col min-w-0 flex-1">
+<p class="text-[#111418] dark:text-white text-sm font-medium truncate">Ana Garcia</p>
+<p class="text-[#617589] text-xs truncate">Team Lead</p>
+</div>
+<button class="text-[#617589] hover:text-red-500 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Selected Item 2 -->
+<div class="flex items-center gap-3 p-2 rounded bg-white dark:bg-gray-800 shadow-sm border border-[#dbe0e6] dark:border-gray-700">
+<div class="bg-center bg-cover rounded-full size-8 shrink-0" data-alt="Portrait of Roberto Gomez" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCgL2Khvu2fmR28cgvaAKdMSsZbg1nx4nEa7yz6SCI3q7YcjxAHzD8FfQuibGqzy3vGOKNL95peF2bUXjxNZtkpB2X95Y1XBfH95jeYMtuGwQAc53KYwRWaK-uAz_67T4tQ5yagOfaHNdsSyW5oXQiUmutX53yt3Oo3Akg5hdm3pODtxy0Fp8CVPccbUlNKnkvxNvsTouGbFtPoX8aUpqHqW5FRGlmc_n9wXnYOSYSM-TjuGcC2NSl191JaNQ4uATyjNIXa4Upvo6s-");'></div>
+<div class="flex flex-col min-w-0 flex-1">
+<p class="text-[#111418] dark:text-white text-sm font-medium truncate">Roberto Gomez</p>
+<p class="text-[#617589] text-xs truncate">Vendor Mgr</p>
+</div>
+<button class="text-[#617589] hover:text-red-500 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="p-6 lg:p-8 bg-[#f9fafb] dark:bg-[#1a2633] border-t border-[#dbe0e6] dark:border-gray-800 flex justify-end gap-3 rounded-b-xl">
+<button class="px-6 py-2.5 rounded-lg border border-[#dbe0e6] dark:border-gray-700 bg-white dark:bg-gray-800 text-[#111418] dark:text-white font-medium text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors" type="button">
+                                Cancelar
+                            </button>
+<button class="px-6 py-2.5 rounded-lg bg-primary text-white font-medium text-sm hover:bg-blue-600 shadow-sm transition-colors flex items-center gap-2" type="submit">
+<span class="material-symbols-outlined text-[18px]">save</span>
+                                Guardar Equipo
+                            </button>
+</div>
+</form>
+</div>
+</div>
+</main>
+</div>
+</body></html>

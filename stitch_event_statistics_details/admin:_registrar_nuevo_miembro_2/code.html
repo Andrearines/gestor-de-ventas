@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin: Registrar Nuevo Miembro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "primary-hover": "#1a75d2",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "text-main": "#111418",
+                        "text-secondary": "#617589",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }.sidebar-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-main dark:text-white overflow-hidden">
+<div class="flex h-screen w-full">
+<aside class="w-64 flex flex-col h-full bg-white dark:bg-[#1a2632] border-r border-[#f0f2f4] dark:border-[#2a3b4d] shrink-0 transition-all duration-300">
+<div class="p-4 border-b border-[#f0f2f4] dark:border-[#2a3b4d]">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 shrink-0 shadow-sm" data-alt="Wendy's logo icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDYM1np1a67frPZuLgigW4NWR46lg4HsRu2aHgxbMq2pZSwJX_V8hZ9U655QmQa9c70ILXXM2HHS1s8E8JPr3Y0B6fjC-QGcCBN3K5CFPaxSy0f_YlFi8ii-rtSv9MMxkQSrMCp4dyxyjfCnCuA7iePDcXJSONSlpTaHwuDmNPrTJ_vX43TuQ1RdYFfPTGZaj883fxH3jfB2CQx83z8SrYeayRJ4ICcNJLkEvBKFy8Ewwm_NqFLYwI2qqa2_UVxmCBFFQTAvADEJ1Sr");'></div>
+<div class="flex flex-col overflow-hidden">
+<h1 class="text-text-main dark:text-white text-base font-bold leading-normal truncate">Wendy's Admin</h1>
+<p class="text-text-secondary text-xs font-normal leading-normal truncate">Administrador</p>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto sidebar-scroll py-4 px-3 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-background-light dark:hover:bg-[#23303e] group transition-colors" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-primary transition-colors">dashboard</span>
+<p class="text-text-main dark:text-gray-300 text-sm font-medium">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary group transition-colors" href="#">
+<span class="material-symbols-outlined text-primary font-variation-settings-fill">group</span>
+<p class="text-primary text-sm font-bold">Miembros</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-background-light dark:hover:bg-[#23303e] group transition-colors" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-primary transition-colors">work</span>
+<p class="text-text-main dark:text-gray-300 text-sm font-medium">Equipos</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-background-light dark:hover:bg-[#23303e] group transition-colors" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-primary transition-colors">bar_chart</span>
+<p class="text-text-main dark:text-gray-300 text-sm font-medium">Reportes</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-background-light dark:hover:bg-[#23303e] group transition-colors" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-primary transition-colors">settings</span>
+<p class="text-text-main dark:text-gray-300 text-sm font-medium">Configuración</p>
+</a>
+</div>
+<div class="p-4 border-t border-[#f0f2f4] dark:border-[#2a3b4d]">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/10 group transition-colors text-red-600 dark:text-red-400" href="#">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium">Cerrar Sesión</p>
+</a>
+</div>
+</aside>
+<main class="flex-1 flex flex-col min-w-0 bg-background-light dark:bg-background-dark overflow-hidden">
+<header class="h-16 flex items-center justify-between border-b border-[#f0f2f4] dark:border-[#2a3b4d] bg-white dark:bg-[#1a2632] px-6 shrink-0 z-10">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 text-sm">
+<a class="text-text-secondary hover:text-primary transition-colors" href="#">Inicio</a>
+<span class="text-text-secondary">/</span>
+<a class="text-text-secondary hover:text-primary transition-colors" href="#">Miembros</a>
+<span class="text-text-secondary">/</span>
+<span class="text-text-main dark:text-white font-medium">Nuevo</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="relative flex items-center justify-center size-10 rounded-full hover:bg-background-light dark:hover:bg-[#23303e] text-text-secondary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-[#1a2632]"></span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-full bg-gray-100 dark:bg-[#23303e] text-text-main dark:text-white font-bold text-sm">
+                    WA
+                </button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-6 md:p-10">
+<div class="max-w-3xl mx-auto flex flex-col gap-6">
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl font-bold tracking-tight text-text-main dark:text-white">Registrar Nuevo Miembro</h1>
+<p class="text-text-secondary text-base max-w-2xl">
+                        Complete los detalles a continuación para agregar un nuevo vendedor al sistema y asignarlo a un equipo.
+                    </p>
+</div>
+<div class="bg-white dark:bg-[#1a2632] rounded-xl shadow-sm border border-[#f0f2f4] dark:border-[#2a3b4d] overflow-hidden">
+<form class="p-8 flex flex-col gap-8">
+<div class="flex flex-col gap-5">
+<h3 class="text-sm uppercase tracking-wider text-text-secondary font-semibold border-b border-[#f0f2f4] dark:border-[#2a3b4d] pb-2">Información Personal</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-text-main dark:text-gray-200" for="fullName">Nombre Completo</label>
+<input class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#101922] text-text-main dark:text-white px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400 dark:placeholder:text-gray-500 transition-all" id="fullName" placeholder="Ej: Juan Pérez" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-text-main dark:text-gray-200" for="email">Correo Electrónico</label>
+<input class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#101922] text-text-main dark:text-white px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400 dark:placeholder:text-gray-500 transition-all" id="email" placeholder="nombre@wendys.com" type="email"/>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-5">
+<h3 class="text-sm uppercase tracking-wider text-text-secondary font-semibold border-b border-[#f0f2f4] dark:border-[#2a3b4d] pb-2">Seguridad</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2 relative">
+<label class="text-sm font-medium text-text-main dark:text-gray-200" for="password">Contraseña</label>
+<div class="relative">
+<input class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#101922] text-text-main dark:text-white px-4 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400 dark:placeholder:text-gray-500 transition-all" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-text-main dark:hover:text-white" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+<p class="text-xs text-text-secondary">Mínimo 8 caracteres</p>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-text-main dark:text-gray-200" for="confirmPassword">Confirmar Contraseña</label>
+<input class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#101922] text-text-main dark:text-white px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400 dark:placeholder:text-gray-500 transition-all" id="confirmPassword" placeholder="••••••••" type="password"/>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-5">
+<h3 class="text-sm uppercase tracking-wider text-text-secondary font-semibold border-b border-[#f0f2f4] dark:border-[#2a3b4d] pb-2">Organización</h3>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-text-main dark:text-gray-200" for="team">Equipo de Ventas</label>
+<div class="relative">
+<select class="w-full h-11 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#101922] text-text-main dark:text-white px-4 pr-10 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all cursor-pointer" id="team">
+<option disabled="" selected="" value="">Seleccionar equipo...</option>
+<option value="norte">Ventas Zona Norte</option>
+<option value="sur">Ventas Zona Sur</option>
+<option value="digital">Canales Digitales</option>
+</select>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-text-secondary">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-end gap-3 pt-4 mt-2 border-t border-[#f0f2f4] dark:border-[#2a3b4d]">
+<button class="px-6 h-10 rounded-lg bg-transparent hover:bg-gray-100 dark:hover:bg-[#23303e] text-text-main dark:text-white text-sm font-semibold transition-colors" type="button">
+                                Cancelar
+                            </button>
+<button class="px-6 h-10 rounded-lg bg-primary hover:bg-primary-hover text-white text-sm font-bold shadow-sm transition-all flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[20px]">check</span>
+                                Crear Miembro
+                            </button>
+</div>
+</form>
+</div>
+<div class="text-center text-xs text-text-secondary py-4">
+<p>© 2024 Wendy's Ticket Management System. Todos los derechos reservados.</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

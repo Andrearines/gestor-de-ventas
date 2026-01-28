@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Wendy's Admin - Registro de Ventas</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for table container if needed */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+</head>
+<body>
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden text-[#111418] dark:text-white">
+<!-- Top Navigation Bar -->
+<div class="layout-container flex w-full flex-col bg-white dark:bg-[#1a202c] border-b border-[#f0f2f4] dark:border-gray-700">
+<header class="flex items-center justify-between whitespace-nowrap px-4 md:px-10 py-3 max-w-[1440px] mx-auto w-full">
+<div class="flex items-center gap-4 text-[#111418] dark:text-white">
+<div class="size-8 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-size: 32px;">fastfood</span>
+</div>
+<h2 class="text-[#111418] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Wendy's Admin</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-[#111418] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-bold leading-normal" href="#">Ventas</a>
+<a class="text-[#111418] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Eventos</a>
+<a class="text-[#111418] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Usuarios</a>
+<a class="text-[#111418] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Configuración</a>
+</div>
+<div class="flex gap-2">
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[#f0f2f4] dark:bg-gray-700 text-[#111418] dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[#f0f2f4] dark:bg-gray-700 text-[#111418] dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-white dark:ring-gray-800" data-alt="Admin user profile picture with a professional look" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDnvHD9MRUkCqgCwv2T33PbGrcq1D4n9392ECbnCCtn13VJ0bz0IsoqaxZEuqFyuQWc6prGoKHjXBp3zw1TshKLDRLMnRLSQnOJ31IEGRE8q8o1Vsg6N3iVZG7Wl1WWEVdOnPU929w32G6wq9BoQZFtrJHAAcsW9iW-SEmqFsxIuLEemNg8-Mjb51k53jdDMMC3q7d8yxpJLnGRniQBXLrgBxxllOmIyDZHEQQVcWmAx-jrDhniQPIGdWVzVsUSMRDIl21azw4ckHKt");'></div>
+</div>
+</div>
+</header>
+</div>
+<!-- Main Content -->
+<div class="flex flex-1 justify-center py-5 px-4 md:px-10">
+<div class="layout-content-container flex flex-col max-w-[1280px] flex-1 w-full gap-6">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 px-1">
+<a class="text-[#617589] dark:text-gray-400 text-sm font-medium leading-normal hover:underline" href="#">Inicio</a>
+<span class="text-[#617589] dark:text-gray-400 text-sm font-medium leading-normal">/</span>
+<a class="text-[#617589] dark:text-gray-400 text-sm font-medium leading-normal hover:underline" href="#">Ventas</a>
+<span class="text-[#617589] dark:text-gray-400 text-sm font-medium leading-normal">/</span>
+<span class="text-[#111418] dark:text-white text-sm font-medium leading-normal">Registro de Ventas</span>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between items-end gap-3 px-1">
+<div class="flex flex-col gap-2">
+<h1 class="text-[#111418] dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Registro de Ventas y Sincronización</h1>
+<p class="text-[#617589] dark:text-gray-400 text-base font-normal leading-normal max-w-2xl">
+                            Monitoree todas las transacciones de tickets y combos en tiempo real. Gestione el estado de sincronización con el servidor central.
+                        </p>
+</div>
+</div>
+<!-- Control Toolbar & Filters -->
+<div class="bg-white dark:bg-[#1a202c] rounded-xl border border-[#dbe0e6] dark:border-gray-700 p-4 shadow-sm">
+<div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-4">
+<!-- Filters Group -->
+<div class="flex flex-col md:flex-row gap-4 w-full lg:w-auto flex-1">
+<label class="flex flex-col min-w-40 flex-1 md:max-w-[240px]">
+<p class="text-[#111418] dark:text-gray-200 text-xs font-bold uppercase tracking-wider mb-2">Buscar</p>
+<div class="relative">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] dark:text-white dark:bg-gray-800 focus:outline-0 focus:ring-2 focus:ring-primary border border-[#dbe0e6] dark:border-gray-600 bg-white h-11 placeholder:text-[#617589] pl-[40px] pr-[15px] text-sm font-normal leading-normal transition-all" placeholder="ID Transacción o Vendedor" type="text"/>
+<div class="absolute left-3 top-2.5 text-[#617589]">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+</div>
+</label>
+<label class="flex flex-col min-w-40 flex-1 md:max-w-[200px]">
+<p class="text-[#111418] dark:text-gray-200 text-xs font-bold uppercase tracking-wider mb-2">Rango de Fechas</p>
+<div class="relative">
+<input class="form-input cursor-pointer flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] dark:text-white dark:bg-gray-800 focus:outline-0 focus:ring-2 focus:ring-primary border border-[#dbe0e6] dark:border-gray-600 bg-white h-11 placeholder:text-[#617589] pl-[40px] pr-[15px] text-sm font-normal leading-normal transition-all" type="text" value="Oct 24 - Oct 31, 2023"/>
+<div class="absolute left-3 top-2.5 text-[#617589]">
+<span class="material-symbols-outlined text-[20px]">date_range</span>
+</div>
+</div>
+</label>
+<label class="flex flex-col min-w-40 flex-1 md:max-w-[200px]">
+<p class="text-[#111418] dark:text-gray-200 text-xs font-bold uppercase tracking-wider mb-2">Estado Sync</p>
+<div class="relative">
+<select class="form-select cursor-pointer flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] dark:text-white dark:bg-gray-800 focus:outline-0 focus:ring-2 focus:ring-primary border border-[#dbe0e6] dark:border-gray-600 bg-white h-11 pl-[40px] pr-[30px] text-sm font-normal leading-normal appearance-none transition-all">
+<option value="all">Todos los estados</option>
+<option value="online">Online (Sincronizado)</option>
+<option value="offline">Offline (Pendiente)</option>
+</select>
+<div class="absolute left-3 top-2.5 text-[#617589]">
+<span class="material-symbols-outlined text-[20px]">cloud_sync</span>
+</div>
+<div class="absolute right-3 top-2.5 text-[#617589] pointer-events-none">
+<span class="material-symbols-outlined text-[20px]">arrow_drop_down</span>
+</div>
+</div>
+</label>
+</div>
+<!-- Actions Group -->
+<div class="flex gap-3 w-full lg:w-auto justify-end">
+<button class="flex items-center justify-center overflow-hidden rounded-lg h-11 bg-white border border-[#dbe0e6] dark:border-gray-600 text-[#111418] dark:text-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-4 transition-all">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+<span class="hidden sm:inline">Más Filtros</span>
+</button>
+<button class="flex items-center justify-center overflow-hidden rounded-lg h-11 bg-primary hover:bg-blue-600 text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-6 shadow-md transition-all">
+<span class="material-symbols-outlined text-[20px]">sim_card_download</span>
+<span class="truncate">Exportar a Excel</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Data Table Section -->
+<div class="bg-white dark:bg-[#1a202c] rounded-xl border border-[#dbe0e6] dark:border-gray-700 shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#f9fafb] dark:bg-gray-800 border-b border-[#dbe0e6] dark:border-gray-700">
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-[#617589] dark:text-gray-400 w-[120px]">ID</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-[#617589] dark:text-gray-400 w-[180px]">Fecha</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-[#617589] dark:text-gray-400">Vendedor</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-[#617589] dark:text-gray-400">Evento</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-[#617589] dark:text-gray-400">Detalle</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-[#617589] dark:text-gray-400 text-right">Total</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-[#617589] dark:text-gray-400 text-center w-[140px]">Estado Sync</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase tracking-wider text-[#617589] dark:text-gray-400 w-[60px]"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#dbe0e6] dark:divide-gray-700">
+<!-- Row 1 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<td class="py-4 px-6 text-sm font-medium text-primary cursor-pointer hover:underline">#TX-9921</td>
+<td class="py-4 px-6 text-sm text-[#111418] dark:text-gray-200">
+<div class="flex flex-col">
+<span class="font-medium">24 Oct 2023</span>
+<span class="text-xs text-[#617589]">10:30 AM</span>
+</div>
+</td>
+<td class="py-4 px-6 text-sm text-[#111418] dark:text-gray-200">
+<div class="flex items-center gap-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-6 bg-gray-200" data-alt="Avatar of Juan Perez" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAIt52bqLEqFtEnL-Ewm4s4YPGr0dINU32eAAvkjMvsQSjvmvI8QRVl4G05iQ9VidHkkMb-7XSX3ERTEiYB5VW9jug6R_0x7Wds2LZuDq972786Sponexx951UGPwmpa-3pCS5aeCE5nTfuZDMLOKSa5mRlG9Xw4LXRQbMu0sI_0PGtKIJ7bkAfZEszyuYPRcGedXkOZlWdBNNeJhi00Zz6yDyVbLr4fj_b9OY3jK5sRDyXkMmEtn1OZf4s3RtJ1BPkiQDCqyWnBuRM");'></div>
+                                            Juan Pérez
+                                        </div>
+</td>
+<td class="py-4 px-6 text-sm text-[#111418] dark:text-gray-200">Concierto Coldplay</td>
+<td class="py-4 px-6 text-sm text-[#111418] dark:text-gray-200">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                                            Combo Familiar
+                                        </span>
+</td>
+<td class="py-4 px-6 text-sm font-bold text-[#111418] dark:text-white text-right">$45.00</td>
+<td class="py-4 px-6 text-center">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800">
+<div class="size-2 rounded-full bg-green-500"></div>
+<span class="text-xs font-semibold">Online</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-[#617589] hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<td class="py-4 px-6 text-sm font-medium text-primary cursor-pointer hover:underline">#TX-9922</td>
+<td class="py-4 px-6 text-sm text-[#111418] dark:text-gray-200">
+<div class="flex flex-col">
+<span class="font-medium">24 Oct 2023</span>
+<span class="text-xs text-[#617589]">10:32 AM</span>
+</div>
+</td>
+<td class="py-4 px-6 text-sm text-[#111418] dark:text-gray-200">
+<div class="flex items-center gap-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-6 bg-gray-200" data-alt="Avatar of Maria Gomez" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCG6fKW2tiVUUcJP7VXQFfDkuMYwRxY3sqqB45qWQ1O0ahwLA1DeE6C1P160d3W670eZ93MCiChkVFgh3lE4uPjsHnaTjTKj2bpkp0Plfo01CI_4L9Wjq8QsSpFuuUals61RKFaGRMg9rV04_EtpdNczDgPOMLUxEO38HdwwMmn4oUyDcJUpVJjeVs2WOEBZ1j3e3_uWk1yWKb8S7TrgfBqn1ypZzydJSxxUQ7A7n6ZoHPPvHs7eXSkrfE_uuL-FNOWsj9bEdO0dHOG");'></div>
+                                            Maria Gomez
+                                        </div>
+</td>
+<td class="py-4 px-6 text-sm text-[#111418] dark:text-gray-200">Festival Verano</td>
+<td class="py-4 px-6 text-sm text-[#111418] dark:text-gray-200">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300">
+                                            Ticket General x4
+                                        </span>
+</td>
+<td class="py-4 px-6 text-sm font-bold text-[#111418] dark:text-white text-right">$120.00</td>
+<td class="py-4 px-6 text-center">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 border border-orange-200 dark:border-orange-800">
+<div class="size-2 rounded-full bg-orange-500 animate-pulse"></div>
+<span class="text-xs font-semibold">Pendiente</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-[#617589] hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<td class="py-4 px-6 text-sm font-medium text-primary cursor-pointer hover:underline">#TX-9923</td>
+<td class="py-4 px-6 text-sm text-[#111418] dark:text-gray-200">
+<div class="flex flex-col">
+<span class="font-medium">24 Oct 2023</span>
+<span class="text-xs text-[#617589]">10:45 AM</span>
+</div>
+</td>
+<td class="py-4 px-6 text-sm text-[#111418] dark:text-gray-200">
+<div class="flex items-center gap-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-6 bg-gray-200" data-alt="Avatar of Carlos Ruiz" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDrp-OhsZMcSV3SRFVRL9XgehvmFvbJJu_jaf8ZHgpG2CwMsl1073tVIf__ogPCTDKOR4-UX9285c9-x_1L6nVP_HwAU-vK-U1rDdxbr33FMvGDpOGzSt7eK87rTprOngje0bBGXhF0VPxxZzu_p_Bln3kycC4W6z44PKs9YWtFRltH5E5gEPquYA94zpnrFC8_ua0Ll0iVpgwu-GyiXfxmTqcznU_Ncpon3JZHE1kQF5UPbfi9GGmImQInJAT7DgGOcA9ggMzO9NZ2");'></div>
+                                            Carlos Ruiz
+                                        </div>
+</td>
+<td class="py-4 px-6 text-sm text-[#111418] dark:text-gray-200">Concierto Coldplay</td>
+<td class="py-4 px-6 text-sm text-[#111418] dark:text-gray-200">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                                            Combo Pareja
+                                        </span>
+</td>
+<td class="py-4 px-6 text-sm font-bold text-[#111418] dark:text-white text-right">$85.50</td>
+<td class="py-4 px-6 text-center">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800">
+<div class="size-2 rounded-full bg-green-500"></div>
+<span class="text-xs font-semibold">Online</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-[#617589] hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<td class="py-4 px-6 text-sm font-medium text-primary cursor-pointer hover:underline">#TX-9924</td>
+<td class="py-4 px-6 text-sm text-[#111418] dark:text-gray-200">
+<div class="flex flex-col">
+<span class="font-medium">24 Oct 2023</span>
+<span class="text-xs text-[#617589]">11:05 AM</span>
+</div>
+</td>
+<td class="py-4 px-6 text-sm text-[#111418] dark:text-gray-200">
+<div class="flex items-center gap-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-6 bg-gray-200" data-alt="Avatar of Sofia Lopez" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDasL9EFu_8zTAXmQUQBBLXBokTjQ4rzTgIn_V_qEi2ysbmfMnu2-8yz7nrD-6IHBdsv7hob1zZ7h8Dd2vYGK71N9dYkyj9VzBKTahZiBi7zNt9q53RNMrg5lTEPVeLI4ehSAKxojlBbHeYNel8-Lqjg70cNraIhdRkEG9s7rF1B9xH1ZsL02EQBW7nG8hNfWLzldbIYZP04RDTK3v4GHNjywOyIsIomSOXSPxC89kl7IdhQK9RSPx18ng2so0lH8QSecLYaeioCV9G");'></div>
+                                            Sofia Lopez
+                                        </div>
+</td>
+<td class="py-4 px-6 text-sm text-[#111418] dark:text-gray-200">Expo Tech</td>
+<td class="py-4 px-6 text-sm text-[#111418] dark:text-gray-200">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300">
+                                            Ticket VIP
+                                        </span>
+</td>
+<td class="py-4 px-6 text-sm font-bold text-[#111418] dark:text-white text-right">$200.00</td>
+<td class="py-4 px-6 text-center">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800">
+<div class="size-2 rounded-full bg-red-500"></div>
+<span class="text-xs font-semibold">Offline</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-[#617589] hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-between border-t border-[#dbe0e6] dark:border-gray-700 bg-white dark:bg-[#1a202c] px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="text-sm text-[#617589] dark:text-gray-400">Mostrando</span>
+<span class="text-sm font-bold text-[#111418] dark:text-white">1-10</span>
+<span class="text-sm text-[#617589] dark:text-gray-400">de</span>
+<span class="text-sm font-bold text-[#111418] dark:text-white">245</span>
+<span class="text-sm text-[#617589] dark:text-gray-400">transacciones</span>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg border border-[#dbe0e6] dark:border-gray-600 px-3 py-2 text-sm font-bold text-[#111418] dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50">
+<span class="material-symbols-outlined text-[16px] mr-1">chevron_left</span>
+                                Anterior
+                            </button>
+<button class="flex items-center justify-center rounded-lg border border-[#dbe0e6] dark:border-gray-600 px-3 py-2 text-sm font-bold text-[#111418] dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
+                                Siguiente
+                                <span class="material-symbols-outlined text-[16px] ml-1">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

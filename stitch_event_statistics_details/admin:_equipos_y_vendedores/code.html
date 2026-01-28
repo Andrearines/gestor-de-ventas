@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Wendy's Ticket Admin: Equipos y Vendedores</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "primary-dark": "#1a6bbd",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "text-main": "#111418",
+                        "text-secondary": "#637588",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem", 
+                        "lg": "0.5rem", 
+                        "xl": "0.75rem", 
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light text-text-main h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e5e7eb] bg-white px-6 py-3 z-20 shadow-sm shrink-0">
+<div class="flex items-center gap-4">
+<div class="size-8 flex items-center justify-center text-primary bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined">confirmation_number</span>
+</div>
+<h2 class="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em]">Wendy's Ticket Admin</h2>
+</div>
+<div class="flex flex-1 justify-end gap-4 items-center">
+<div class="relative hidden sm:block">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-text-secondary">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</span>
+<input class="w-64 py-2 pl-10 pr-4 text-sm bg-background-light border-none rounded-full focus:ring-2 focus:ring-primary/20 focus:bg-white transition-colors outline-none placeholder-text-secondary/70 text-text-main" placeholder="Buscar..." type="text"/>
+</div>
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-background-light text-text-secondary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border border-white"></span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border border-gray-200 cursor-pointer" data-alt="Admin user profile picture showing a professional avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBnj3GSu3RHD67bt61RGv_zhzc5at8vLgrvC45Ww387M3JD1rwaajH2W7JRWol6uKffa3FySSeZ6M_OzaD7fAylw4POwAK2f3Ig0sKop4mBFhzSxtwscA66ZcqUX9KCiibbrrjHsBHnsgc5JXNyl-3zdCw6fytwbrvi2WWo9Lqy3WeM-2nrii9OhZjnei2quC4-NyrwCMg04vNcEO-jt2qLOYnMY72LCYfAkD91DtYzFauevinkaqeTB7ZxzzImzaJrvUO28jkQMOEm");'></div>
+</div>
+</header>
+<!-- Main Layout -->
+<div class="flex flex-1 overflow-hidden">
+<!-- Left Sidebar: Teams -->
+<aside class="w-80 bg-white border-r border-[#e5e7eb] flex flex-col shrink-0 z-10 h-full">
+<div class="p-5 border-b border-[#f0f2f4]">
+<h3 class="text-xs font-bold text-text-secondary uppercase tracking-wider mb-1">Gestión de Equipos</h3>
+<p class="text-sm text-text-secondary opacity-80">Selecciona un equipo para administrar</p>
+</div>
+<div class="flex-1 overflow-y-auto p-3 space-y-1">
+<!-- Active Item -->
+<div class="group flex items-center gap-3 px-3 py-3 rounded-xl bg-primary/5 border border-primary/10 cursor-pointer transition-all hover:bg-primary/10">
+<div class="bg-center bg-no-repeat bg-cover rounded-lg h-10 w-10 shrink-0 shadow-sm" data-alt="Blue abstract icon representing North Team" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD8UZQR0idMsXRHRKjnmtoP4FAgec79X-5cmcKNCLChveE4pAyLRQGadlcS_eUh-RLEyxBQzilFqqxZI32JpHyw92N07qIS8wbwj2wK3j36wUqbs8JZP5nc1mY25ymkwevGnmYQRif1thnfJgQjdzIZeoT4Gz3B8VGWV-zPADGapZjJoY3FljMnfK5LWacOFLqkFAlnnWj_oAJWKDFqCBLgFS4LOX4B74g1mT9-HnUg_eGxV4VVEHEnLYVyt8syNBFtZuYpwGaT_0Pn");'></div>
+<div class="flex-1 min-w-0">
+<p class="text-primary font-semibold text-sm truncate">Equipo Norte</p>
+<p class="text-text-secondary text-xs truncate">12 Miembros • Activo</p>
+</div>
+<span class="material-symbols-outlined text-primary">chevron_right</span>
+</div>
+<!-- Inactive Item -->
+<div class="group flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-background-light border border-transparent hover:border-gray-100 cursor-pointer transition-all">
+<div class="bg-center bg-no-repeat bg-cover rounded-lg h-10 w-10 shrink-0 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all" data-alt="Red abstract icon representing South Team" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDM_HNgOJNJImQ2__O60phy6ETb3J27SSA13l7bk-NJH0EG6jqMDkQu4lf4jV-WVbsUvBP5bEU3fM_11R7eypdxMOHEg4D71Us_TfFLQp1BCsXbnW7m-DvZsGEM8mwHjPOI71JOecaHPT8e2okjVA74JL1J2u21Y3u2X6hoKfyJ2qHVBUPygR3hj5sCJYc0Bgx_DtWjC0vzgYOEl54lpLZpGWXD4lJro_RrjJENXpRP0KMXh-ihcmReTXOHR7g8eqomdA71WU519ob4");'></div>
+<div class="flex-1 min-w-0">
+<p class="text-text-main font-medium text-sm truncate">Equipo Sur</p>
+<p class="text-text-secondary text-xs truncate">8 Miembros • Pausado</p>
+</div>
+</div>
+<!-- Inactive Item -->
+<div class="group flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-background-light border border-transparent hover:border-gray-100 cursor-pointer transition-all">
+<div class="bg-center bg-no-repeat bg-cover rounded-lg h-10 w-10 shrink-0 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all" data-alt="Purple abstract icon representing Central Team" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuArdB0Hod4l-nErEL1cihDuIJ4pztMcTdtpvwypp7s0GOvCuQgzvMmZny4T3ojkRjKpdqMhLr40P7EHHKC7GyxAABs4Xb4BqSnc2j3RZ5uqFTic8GKBGHVscKCtNXEg2PW4DU1SKFcrNG6JJbbzciu4guX5mNXHs1tjEH8dQzHAr7WRhnX2eLj3gm6OKT7ZWvo8_EVeA_j_8X88j5kKKdzuKkjOX_kB0GBy2dpMY9nslCF5vc6Y5NH-gepiaQfoyLsSLhewK7ZnGld4");'></div>
+<div class="flex-1 min-w-0">
+<p class="text-text-main font-medium text-sm truncate">Wendy's Central</p>
+<p class="text-text-secondary text-xs truncate">24 Miembros • Activo</p>
+</div>
+</div>
+<!-- Inactive Item -->
+<div class="group flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-background-light border border-transparent hover:border-gray-100 cursor-pointer transition-all">
+<div class="bg-center bg-no-repeat bg-cover rounded-lg h-10 w-10 shrink-0 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all" data-alt="Orange abstract icon representing Special Events Team" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD-8YXbzDrzgMH4rRdSpXHU_v8ShwOxLnZPwLfKjsbHoO-ii4bW3qssowQdDOHi10B8EakrU1CMWgRJrwEQe9KArI4-JI11gekMvax8eAlV2c4HxKe5RKKsySS9g-eg9NAfTo4BNYw_WydOkdQ0-QvT4rQ9dool9x_xj0cdtizbQ3nWymCR2ajrxqxzNzDDoTHeQbmyoS9pWn-33F_0XK8IKP2Nw519hentOeO5E7oUByMjzVnelKdqAN5qNWG_3iBpziYhQskVYlZ-");'></div>
+<div class="flex-1 min-w-0">
+<p class="text-text-main font-medium text-sm truncate">Eventos Especiales</p>
+<p class="text-text-secondary text-xs truncate">5 Miembros • Temp</p>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-[#e5e7eb]">
+<button class="flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-white border border-dashed border-gray-300 rounded-xl text-text-main text-sm font-medium hover:bg-background-light hover:border-primary/50 hover:text-primary transition-all group">
+<span class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-[20px]">add_circle</span>
+                    Crear Nuevo Equipo
+                </button>
+</div>
+</aside>
+<!-- Right Panel: Members Management -->
+<main class="flex-1 flex flex-col h-full overflow-hidden bg-background-light relative">
+<!-- Sticky Header inside Right Panel -->
+<div class="px-8 py-6 bg-white border-b border-[#e5e7eb] flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<h1 class="text-2xl font-bold text-text-main">Equipo Norte</h1>
+<span class="px-2 py-0.5 rounded-md bg-green-100 text-green-700 text-xs font-medium border border-green-200">Activo</span>
+</div>
+<div class="flex items-center gap-4 text-sm text-text-secondary">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">confirmation_number</span>
+                            Total Ventas: <strong class="text-text-main">1,248</strong>
+</span>
+<span class="w-1 h-1 rounded-full bg-gray-300"></span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">group</span>
+                            Vendedores: <strong class="text-text-main">12</strong>
+</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-text-secondary hover:text-primary hover:bg-primary/5 rounded-lg transition-colors" title="Configuración del equipo">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<!-- CTA with implied form fields via prompt -->
+<button class="flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-lg font-medium shadow-sm transition-all shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+                        Registrar Nuevo Vendedor
+                    </button>
+</div>
+</div>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-8">
+<!-- Metrics Summary Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
+<div>
+<p class="text-text-secondary text-sm font-medium">Tickets Vendidos</p>
+<p class="text-2xl font-bold text-text-main mt-1">1,248</p>
+<span class="text-xs text-green-600 flex items-center gap-0.5 mt-1 font-medium">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +12% vs ayer
+                            </span>
+</div>
+<div class="size-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
+<span class="material-symbols-outlined">confirmation_number</span>
+</div>
+</div>
+<div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
+<div>
+<p class="text-text-secondary text-sm font-medium">Tickets Faltantes</p>
+<p class="text-2xl font-bold text-text-main mt-1">24</p>
+<span class="text-xs text-orange-600 flex items-center gap-0.5 mt-1 font-medium">
+<span class="material-symbols-outlined text-[14px]">warning</span> Requiere atención
+                            </span>
+</div>
+<div class="size-12 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center">
+<span class="material-symbols-outlined">search_off</span>
+</div>
+</div>
+<div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
+<div>
+<p class="text-text-secondary text-sm font-medium">Tickets Perdidos</p>
+<p class="text-2xl font-bold text-text-main mt-1">3</p>
+<span class="text-xs text-text-secondary flex items-center gap-0.5 mt-1">
+                                En revisión
+                            </span>
+</div>
+<div class="size-12 rounded-full bg-red-50 text-red-600 flex items-center justify-center">
+<span class="material-symbols-outlined">delete_forever</span>
+</div>
+</div>
+</div>
+<!-- Member Grid -->
+<h3 class="text-[#111418] text-base font-bold leading-tight tracking-[-0.015em] mb-4 flex items-center gap-2">
+                    Miembros del Equipo
+                    <span class="bg-gray-200 text-gray-600 text-xs py-0.5 px-2 rounded-full font-medium">12</span>
+</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+<!-- New Vendor Quick Form Card (Optional visual representation of the "form fields" requested) -->
+<div class="bg-white rounded-2xl border border-dashed border-gray-300 p-6 flex flex-col justify-center items-center gap-4 hover:border-primary hover:bg-blue-50/30 transition-all group cursor-pointer h-full min-h-[280px]">
+<div class="size-16 rounded-full bg-primary/10 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]">person_add</span>
+</div>
+<div class="text-center">
+<h4 class="font-semibold text-text-main">Añadir Vendedor</h4>
+<p class="text-sm text-text-secondary mt-1">Crear nueva cuenta de acceso</p>
+</div>
+<div class="w-full max-w-[200px] mt-2 space-y-2 pointer-events-none opacity-60 group-hover:opacity-100 transition-opacity">
+<div class="h-8 bg-gray-100 rounded border border-gray-200 w-full flex items-center px-2 text-xs text-gray-400">Nombre completo</div>
+<div class="h-8 bg-gray-100 rounded border border-gray-200 w-full flex items-center px-2 text-xs text-gray-400">Contraseña temporal</div>
+</div>
+</div>
+<!-- Member Card 1 -->
+<div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 hover:shadow-md transition-shadow flex flex-col justify-between h-full min-h-[280px]">
+<div>
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="size-12 rounded-full bg-cover bg-center border border-gray-100" data-alt="Portrait of vendor Juan Perez" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBlClo-rpeafMdUloCpXWF7-g4LFkSfc_AdqW1OyrjIW_JCaqxHQlQTukA5gs1ziqR8gL-0rehol-wC2cG-AXm53o4r2SiPqN69O7Yr3yI0c7z66HikeTqEt-mJrhvAbko6fbcA5Zku_szvVIqlPzer9bqC7hs7dEoAcx2zxhiZii_5mtq3ITkNFD73VRbIFcz9tA-NgWjj9ovWPBpzYZlJxV6mPWAMsU9kYwM-RbZ0JSJCQCG3zjlGADYnln6cVcsMdTo0av1Qrpxl");'></div>
+<div>
+<h4 class="font-bold text-text-main">Juan Pérez</h4>
+<p class="text-xs text-text-secondary font-mono">ID: VND-8821</p>
+</div>
+</div>
+<button class="text-gray-400 hover:text-text-main">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="grid grid-cols-3 gap-2 mb-4">
+<div class="bg-green-50 p-2 rounded-lg text-center">
+<p class="text-xs text-green-700 font-medium mb-1">Vendidos</p>
+<p class="text-lg font-bold text-green-800">142</p>
+</div>
+<div class="bg-orange-50 p-2 rounded-lg text-center">
+<p class="text-xs text-orange-700 font-medium mb-1">Faltantes</p>
+<p class="text-lg font-bold text-orange-800">2</p>
+</div>
+<div class="bg-gray-50 p-2 rounded-lg text-center">
+<p class="text-xs text-gray-600 font-medium mb-1">Perdidos</p>
+<p class="text-lg font-bold text-gray-700">0</p>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs text-text-secondary mb-1">
+<span>Eficiencia de Ventas</span>
+<span>98%</span>
+</div>
+<div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+<div class="bg-green-500 h-1.5 rounded-full" style="width: 98%"></div>
+</div>
+</div>
+</div>
+<div class="flex gap-2 mt-5 pt-4 border-t border-gray-100">
+<button class="flex-1 text-xs font-medium text-text-main py-2 px-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                                Editar
+                            </button>
+<button class="flex-1 text-xs font-medium text-text-main py-2 px-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                                Reset Clave
+                            </button>
+</div>
+</div>
+<!-- Member Card 2 -->
+<div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 hover:shadow-md transition-shadow flex flex-col justify-between h-full min-h-[280px]">
+<div>
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="size-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center border border-purple-200 font-bold text-lg">
+                                        MR
+                                    </div>
+<div>
+<h4 class="font-bold text-text-main">Maria Rodriguez</h4>
+<p class="text-xs text-text-secondary font-mono">ID: VND-8825</p>
+</div>
+</div>
+<button class="text-gray-400 hover:text-text-main">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="grid grid-cols-3 gap-2 mb-4">
+<div class="bg-green-50 p-2 rounded-lg text-center">
+<p class="text-xs text-green-700 font-medium mb-1">Vendidos</p>
+<p class="text-lg font-bold text-green-800">89</p>
+</div>
+<div class="bg-gray-50 p-2 rounded-lg text-center">
+<p class="text-xs text-gray-600 font-medium mb-1">Faltantes</p>
+<p class="text-lg font-bold text-gray-700">0</p>
+</div>
+<div class="bg-gray-50 p-2 rounded-lg text-center">
+<p class="text-xs text-gray-600 font-medium mb-1">Perdidos</p>
+<p class="text-lg font-bold text-gray-700">0</p>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs text-text-secondary mb-1">
+<span>Eficiencia de Ventas</span>
+<span>100%</span>
+</div>
+<div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 100%"></div>
+</div>
+</div>
+</div>
+<div class="flex gap-2 mt-5 pt-4 border-t border-gray-100">
+<button class="flex-1 text-xs font-medium text-text-main py-2 px-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                                Editar
+                            </button>
+<button class="flex-1 text-xs font-medium text-text-main py-2 px-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                                Reset Clave
+                            </button>
+</div>
+</div>
+<!-- Member Card 3 (Warning State) -->
+<div class="bg-white rounded-2xl border border-red-100 shadow-sm p-5 hover:shadow-md transition-shadow flex flex-col justify-between h-full min-h-[280px] relative overflow-hidden">
+<div class="absolute top-0 right-0 size-16 bg-red-500/5 rounded-bl-full -mr-8 -mt-8"></div>
+<div>
+<div class="flex justify-between items-start mb-4 relative">
+<div class="flex items-center gap-3">
+<div class="size-12 rounded-full bg-cover bg-center border border-gray-100" data-alt="Portrait of vendor Carlos Ruiz" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDQ_yxiT9f_kkWKlHXWBjTkU0Jk3V4nPoxI67zsp6EqW6hxws-zA5gCdMfV2O79pS1R-b83G7H9Xkh8Pf9XMGKU83CnC4J9f2lcUeG7ZermgnQWLg-Y6M_9ywEWQfOIy29ll20-_5Fb8VxzoM905v9K3VABG8T8294WNJFaD_ESeErrK4AJArHHmU_zX-2Z1afE2ozeo9nU9lyV0isitSLD6XxwFWM1MjBOqAYvoHnlosH0ivQE9_IUPz0_dDpaq-2P1oFXsGwbGjb4");'></div>
+<div>
+<h4 class="font-bold text-text-main">Carlos Ruiz</h4>
+<p class="text-xs text-text-secondary font-mono">ID: VND-8830</p>
+</div>
+</div>
+<button class="text-gray-400 hover:text-text-main">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="grid grid-cols-3 gap-2 mb-4">
+<div class="bg-green-50 p-2 rounded-lg text-center">
+<p class="text-xs text-green-700 font-medium mb-1">Vendidos</p>
+<p class="text-lg font-bold text-green-800">45</p>
+</div>
+<div class="bg-red-50 p-2 rounded-lg text-center border border-red-100">
+<p class="text-xs text-red-700 font-medium mb-1">Faltantes</p>
+<p class="text-lg font-bold text-red-800">12</p>
+</div>
+<div class="bg-gray-50 p-2 rounded-lg text-center">
+<p class="text-xs text-gray-600 font-medium mb-1">Perdidos</p>
+<p class="text-lg font-bold text-gray-700">1</p>
+</div>
+</div>
+<div class="bg-red-50 rounded-lg p-2 flex items-start gap-2">
+<span class="material-symbols-outlined text-red-500 text-[18px] mt-0.5">warning</span>
+<p class="text-xs text-red-700 leading-snug">
+                                    Revisión requerida: Alto número de tickets faltantes esta semana.
+                                </p>
+</div>
+</div>
+<div class="flex gap-2 mt-5 pt-4 border-t border-gray-100">
+<button class="flex-1 text-xs font-medium text-text-main py-2 px-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                                Editar
+                            </button>
+<button class="flex-1 text-xs font-medium text-red-600 py-2 px-3 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 transition-colors">
+                                Suspender
+                            </button>
+</div>
+</div>
+<!-- Member Card 4 -->
+<div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 hover:shadow-md transition-shadow flex flex-col justify-between h-full min-h-[280px]">
+<div>
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="size-12 rounded-full bg-cover bg-center border border-gray-100" data-alt="Portrait of vendor Sofia Lopez" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA7F0IunQ3DSCswpt-0Vhe2n6lz6mixmAHvismc_jFhfuqpQo0Cu1L-PWKgn6xGfFBls6QP2ZSbnI3jHc2ucuHBsOzkTL4HBS9-ccg3ZDJ-3dglAjJoO27FL_2yCIP985NwDMY0OUhyKda3fDD4MlyVhS_K7UN_mjnye-bizZVJZcPtjsGUHVqUTNXvyx_8enLXMc5Q4z3_mgV51sMevcVbzz1YGlpO4WaLP4sSqbSpoMc8LsY-jr_0Dz0iLzSLRTcMQuvXG2Ik6dAg");'></div>
+<div>
+<h4 class="font-bold text-text-main">Sofia Lopez</h4>
+<p class="text-xs text-text-secondary font-mono">ID: VND-8832</p>
+</div>
+</div>
+<button class="text-gray-400 hover:text-text-main">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="grid grid-cols-3 gap-2 mb-4">
+<div class="bg-green-50 p-2 rounded-lg text-center">
+<p class="text-xs text-green-700 font-medium mb-1">Vendidos</p>
+<p class="text-lg font-bold text-green-800">210</p>
+</div>
+<div class="bg-gray-50 p-2 rounded-lg text-center">
+<p class="text-xs text-gray-600 font-medium mb-1">Faltantes</p>
+<p class="text-lg font-bold text-gray-700">0</p>
+</div>
+<div class="bg-gray-50 p-2 rounded-lg text-center">
+<p class="text-xs text-gray-600 font-medium mb-1">Perdidos</p>
+<p class="text-lg font-bold text-gray-700">0</p>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs text-text-secondary mb-1">
+<span>Eficiencia de Ventas</span>
+<span>100%</span>
+</div>
+<div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+<div class="bg-green-500 h-1.5 rounded-full" style="width: 100%"></div>
+</div>
+</div>
+</div>
+<div class="flex gap-2 mt-5 pt-4 border-t border-gray-100">
+<button class="flex-1 text-xs font-medium text-text-main py-2 px-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                                Editar
+                            </button>
+<button class="flex-1 text-xs font-medium text-text-main py-2 px-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                                Reset Clave
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

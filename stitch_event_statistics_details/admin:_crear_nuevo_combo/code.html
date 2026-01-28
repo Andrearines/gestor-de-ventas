@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin: Crear Nuevo Combo (Simplificado)</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-[#111418] dark:text-white overflow-hidden">
+<div class="flex h-screen w-full">
+<aside class="w-64 flex-shrink-0 bg-white dark:bg-[#1a2632] border-r border-[#e5e7eb] dark:border-[#2a3b4d] flex flex-col h-full transition-all duration-300 hidden md:flex">
+<div class="p-4 border-b border-[#e5e7eb] dark:border-[#2a3b4d]">
+<div class="flex gap-3 items-center">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 flex-shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBCcsyeWHvIAW4pp2Zl3u1Snj8sK9_DOsNOWJggSKWPt6EHB-Tm0yukBlc_0PC0_hKa6-ey63WFucZRr9p2FsKOHgi8wwTQdT3KVlZzYnHeosDEt6i8TusGs43rCR8WEB8QhuH9rvuPrpO7iWO1ZXEATylQkrX8mltr_RT9WLaCMw7gdPurX-4b4QbrdhGQMjT5lUpe29_8YxRYDzVhUj6Vz6jJIZQ8iCbbBYZ_fpn0ZIDJmzqloso04t_e-du_gC9sW5qcRANFGQfe");'></div>
+<div class="flex flex-col overflow-hidden">
+<h1 class="text-[#111418] dark:text-white text-base font-bold leading-normal truncate">Admin Panel</h1>
+<p class="text-[#617589] dark:text-[#94a3b8] text-xs font-normal leading-normal truncate">Sistema de Tickets</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto py-4 flex flex-col gap-2 px-3">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#617589] dark:text-[#94a3b8] hover:bg-[#f0f2f4] dark:hover:bg-[#2a3b4d] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[24px] group-hover:text-[#111418] dark:group-hover:text-white">dashboard</span>
+<span class="text-sm font-medium leading-normal group-hover:text-[#111418] dark:group-hover:text-white">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#617589] dark:text-[#94a3b8] hover:bg-[#f0f2f4] dark:hover:bg-[#2a3b4d] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[24px] group-hover:text-[#111418] dark:group-hover:text-white">calendar_today</span>
+<span class="text-sm font-medium leading-normal group-hover:text-[#111418] dark:group-hover:text-white">Eventos</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary dark:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px] fill-1">lunch_dining</span>
+<span class="text-sm font-semibold leading-normal">Combos</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#617589] dark:text-[#94a3b8] hover:bg-[#f0f2f4] dark:hover:bg-[#2a3b4d] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[24px] group-hover:text-[#111418] dark:group-hover:text-white">storefront</span>
+<span class="text-sm font-medium leading-normal group-hover:text-[#111418] dark:group-hover:text-white">Vendedores</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#617589] dark:text-[#94a3b8] hover:bg-[#f0f2f4] dark:hover:bg-[#2a3b4d] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[24px] group-hover:text-[#111418] dark:group-hover:text-white">settings</span>
+<span class="text-sm font-medium leading-normal group-hover:text-[#111418] dark:group-hover:text-white">Configuración</span>
+</a>
+</nav>
+</aside>
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<header class="bg-white dark:bg-[#1a2632] border-b border-[#e5e7eb] dark:border-[#2a3b4d] px-6 py-4 flex flex-wrap items-center justify-between gap-4 z-10 sticky top-0">
+<div class="flex flex-col">
+<h2 class="text-[#111418] dark:text-white text-2xl font-bold leading-tight">Crear Nuevo Combo</h2>
+<p class="text-[#617589] dark:text-[#94a3b8] text-sm">Completa la información básica para el nuevo combo.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 h-10 rounded-lg border border-[#e5e7eb] dark:border-[#2a3b4d] bg-white dark:bg-transparent text-[#111418] dark:text-white text-sm font-semibold hover:bg-gray-50 dark:hover:bg-[#2a3b4d] transition-colors">
+                        Cancelar
+                    </button>
+<button class="px-4 h-10 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-blue-600 shadow-sm transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">check</span>
+                        Guardar Combo
+                    </button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-4 md:p-8 md:px-12 lg:px-20">
+<div class="max-w-[700px] mx-auto flex flex-col gap-6">
+<section class="bg-white dark:bg-[#1a2632] rounded-xl border border-[#e5e7eb] dark:border-[#2a3b4d] p-8 shadow-sm">
+<div class="mb-8 border-b border-[#e5e7eb] dark:border-[#2a3b4d] pb-4">
+<h3 class="text-lg font-bold text-[#111418] dark:text-white">Detalles del Combo</h3>
+</div>
+<div class="grid grid-cols-1 gap-8">
+<label class="flex flex-col gap-2">
+<span class="text-[#111418] dark:text-[#e2e8f0] text-sm font-medium">Nombre del Combo</span>
+<input class="form-input w-full rounded-lg border border-[#dbe0e6] dark:border-[#374151] bg-white dark:bg-[#111827] h-12 px-4 text-base text-[#111418] dark:text-white placeholder-[#617589] dark:placeholder-[#64748b] focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="Ej. Combo Familiar Premium" type="text"/>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-[#111418] dark:text-[#e2e8f0] text-sm font-medium">Precio Base ($)</span>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-[#617589] dark:text-[#64748b] font-medium">$</span>
+<input class="form-input w-full rounded-lg border border-[#dbe0e6] dark:border-[#374151] bg-white dark:bg-[#111827] h-12 pl-8 pr-4 text-base text-[#111418] dark:text-white placeholder-[#617589] dark:placeholder-[#64748b] focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="0.00" step="0.01" type="number"/>
+</div>
+</label>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

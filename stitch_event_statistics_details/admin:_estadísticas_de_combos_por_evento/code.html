@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin: Estadísticas de Combos por Evento</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #dbe0e6;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111418] dark:text-white antialiased min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-64 border-r border-[#dbe0e6] dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col shrink-0">
+<div class="p-6">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Wendy's brand management logo profile" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCnrEX9_WGqPLmIe479Mb0jbNF3gDlQHaSvJSgcdKbQL-AfFvXWqoBrwPcwAjwc3bEIZEH9QPjf2Ed_hRdeOo-Y_cyWq9BZ_K-MSyYF8F6u65Lr0zk3FuAaJKmutZm5MoHop7mfowvhaImQnJzAIdgXeQaPaCMfeT-K0-5nvTbqdF8VokAT27vykZBiL2jl4HyCZVI9lP_Q-U-r1yhIkoBrUl9YyijrmsdWLI8ZDq1IRyfIuSQ04cZB0Oyt2ZMJyWVTdiN6E0yQqu98");'></div>
+<div class="flex flex-col">
+<h1 class="text-[#111418] dark:text-white text-base font-bold leading-none">Wendy's Admin</h1>
+<p class="text-[#617589] dark:text-slate-400 text-xs font-normal mt-1">Management System</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
+<div class="flex items-center gap-3 px-3 py-2 text-[#617589] dark:text-slate-400 hover:bg-[#f0f2f4] dark:hover:bg-slate-800 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium">Dashboard</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-[#617589] dark:text-slate-400 hover:bg-[#f0f2f4] dark:hover:bg-slate-800 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined">calendar_month</span>
+<p class="text-sm font-medium">Eventos</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined">bar_chart_4_bars</span>
+<p class="text-sm font-semibold">Estadísticas</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-[#617589] dark:text-slate-400 hover:bg-[#f0f2f4] dark:hover:bg-slate-800 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined">group</span>
+<p class="text-sm font-medium">Vendedores</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-[#617589] dark:text-slate-400 hover:bg-[#f0f2f4] dark:hover:bg-slate-800 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined">inventory_2</span>
+<p class="text-sm font-medium">Inventario</p>
+</div>
+<div class="pt-4 pb-2">
+<p class="px-3 text-[10px] font-bold text-[#617589] uppercase tracking-wider">Configuración</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-[#617589] dark:text-slate-400 hover:bg-[#f0f2f4] dark:hover:bg-slate-800 rounded-lg cursor-pointer transition-colors">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium">Ajustes</p>
+</div>
+</nav>
+<div class="p-4 border-t border-[#dbe0e6] dark:border-slate-800">
+<div class="flex items-center gap-3 px-3 py-2 text-[#617589] dark:text-slate-400 hover:text-red-500 cursor-pointer transition-colors">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium">Cerrar Sesión</p>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+<!-- Top Navbar -->
+<header class="flex h-16 shrink-0 items-center justify-between border-b border-[#dbe0e6] dark:border-slate-800 bg-white dark:bg-slate-900 px-8">
+<div class="flex items-center gap-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="text-[#617589] text-xs font-medium">Admin</span>
+<span class="text-[#617589] text-xs">/</span>
+<span class="text-primary text-xs font-semibold">Estadísticas de Combos</span>
+</div>
+<h2 class="text-[#111418] dark:text-white text-lg font-bold leading-tight">Ventas por Evento</h2>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 mr-4 border-r pr-4 border-[#dbe0e6] dark:border-slate-800">
+<a class="px-3 py-2 text-primary bg-primary/10 rounded-lg text-sm font-bold" href="#">Resumen</a>
+<a class="px-3 py-2 text-[#617589] dark:text-slate-400 hover:bg-[#f0f2f4] dark:hover:bg-slate-800 rounded-lg text-sm font-medium" href="#">Detalle por Combo</a>
+</div>
+<button class="flex items-center justify-center p-2 rounded-lg bg-[#f0f2f4] dark:bg-slate-800 text-[#111418] dark:text-white transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">notifications</span>
+</button>
+<div class="flex items-center gap-3 ml-2 cursor-pointer">
+<div class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs border border-primary/30">
+                            JD
+                        </div>
+</div>
+</div>
+</header>
+<!-- Page Content Scrollable Area -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-8">
+<!-- Page Heading & Filters -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
+<div class="max-w-2xl">
+<h1 class="text-[#111418] dark:text-white text-3xl font-black tracking-tight mb-2">Estadísticas de Combos</h1>
+<p class="text-[#617589] dark:text-slate-400 text-base">Analiza el rendimiento de tus combos, ventas totales y mejores vendedores en tiempo real.</p>
+</div>
+<div class="flex flex-wrap items-center gap-3">
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-bold text-[#617589] uppercase tracking-wider">Evento</label>
+<select class="min-w-[200px] h-10 px-3 rounded-lg border-[#dbe0e6] dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:border-primary focus:ring-1 focus:ring-primary dark:text-white">
+<option>Summer Fest 2024</option>
+<option>Beach Blast Concert</option>
+<option>Gastro-Feria CDMX</option>
+<option>Copa Libertadores Final</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-bold text-[#617589] uppercase tracking-wider">Rango de Fecha</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#617589]" style="font-size: 18px;">calendar_today</span>
+<input class="h-10 pl-10 pr-4 rounded-lg border-[#dbe0e6] dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:border-primary focus:ring-1 focus:ring-primary dark:text-white" type="text" value="01 Jun - 15 Jun, 2024"/>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 self-end">
+<button class="flex items-center gap-2 h-10 px-4 bg-primary text-white text-sm font-bold rounded-lg hover:bg-primary/90 transition-all shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 18px;">download</span>
+<span>Exportar a Excel</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Summary Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-[#dbe0e6] dark:border-slate-800 flex flex-col gap-2 shadow-sm">
+<p class="text-[#617589] dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Ventas Totales</p>
+<div class="flex items-baseline justify-between">
+<p class="text-[#111418] dark:text-white text-2xl font-black">$45,230.00</p>
+<span class="text-[#078838] bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded text-xs font-bold">+12.5%</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-[#dbe0e6] dark:border-slate-800 flex flex-col gap-2 shadow-sm">
+<p class="text-[#617589] dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Unidades Vendidas</p>
+<div class="flex items-baseline justify-between">
+<p class="text-[#111418] dark:text-white text-2xl font-black">1,240</p>
+<span class="text-[#078838] bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded text-xs font-bold">+5.2%</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-[#dbe0e6] dark:border-slate-800 flex flex-col gap-2 shadow-sm">
+<p class="text-[#617589] dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Combo Estrella</p>
+<p class="text-[#111418] dark:text-white text-2xl font-black truncate">Dave's Double</p>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-[#dbe0e6] dark:border-slate-800 flex flex-col gap-2 shadow-sm">
+<p class="text-[#617589] dark:text-slate-400 text-xs font-bold uppercase tracking-wider">Ticket Promedio</p>
+<div class="flex items-baseline justify-between">
+<p class="text-[#111418] dark:text-white text-2xl font-black">$36.47</p>
+<span class="text-[#078838] bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded text-xs font-bold">+2.1%</span>
+</div>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-white dark:bg-slate-900 border border-[#dbe0e6] dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#f8fafb] dark:bg-slate-800/50 border-b border-[#dbe0e6] dark:border-slate-800">
+<th class="px-6 py-4 text-[#111418] dark:text-white text-sm font-bold">Nombre del Combo</th>
+<th class="px-6 py-4 text-[#111418] dark:text-white text-sm font-bold">Evento</th>
+<th class="px-6 py-4 text-[#111418] dark:text-white text-sm font-bold text-center">Unidades</th>
+<th class="px-6 py-4 text-[#111418] dark:text-white text-sm font-bold text-right">Ingresos</th>
+<th class="px-6 py-4 text-[#111418] dark:text-white text-sm font-bold">Top Vendedor</th>
+<th class="px-6 py-4 text-sm font-bold"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#f0f2f4] dark:divide-slate-800">
+<tr class="hover:bg-[#f8fafb] dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-[#f0f2f4] flex items-center justify-center overflow-hidden">
+<img class="object-cover size-full" data-alt="Baconator Combo meal image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaWXaf4xMMyqaFNxhVYaYrwpEN56IBAfw9zqYv77j-1i-CKvCqUonLR2gyUX_gLcxN43bpsSVABQhb_SktSYrmLoku5Nk0tX1TAmanNGMvwsIrMvtAue9p4v73Nw9-6s0vMRdqmdw6XkBFD0qkcjv7A3QbjsICqrOdY_GVPS6d8ExCb0r5YKo0sqlvBm3pDTIb0Ryrb17KWCWutGnLuM7lqZ3_0_2Zy3a2Q8QZhaMC1frlwxDvh4qxXkxRGPrgp9cu3vRIXpyeNr5s"/>
+</div>
+<span class="text-[#111418] dark:text-white font-semibold">Baconator Combo</span>
+</div>
+</td>
+<td class="px-6 py-4 text-[#617589] dark:text-slate-400 text-sm">Summer Fest 2024</td>
+<td class="px-6 py-4 text-center text-[#111418] dark:text-white font-medium">450</td>
+<td class="px-6 py-4 text-right text-[#078838] font-bold">$12,450.00</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold">RL</div>
+<span class="text-[#111418] dark:text-white text-sm">Ricardo Luna</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-1 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="bg-slate-50/30 dark:bg-slate-800/10 hover:bg-[#f8fafb] dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-[#f0f2f4] flex items-center justify-center overflow-hidden">
+<img class="object-cover size-full" data-alt="Classic Dave's Single Burger" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAk-Su2rQ9w6xSNB8SyXtt3WHQgJytYVTWUCEvtuHWOwc6RMlUES1XIoZo0RydSw97i0gJbA7hmd2kCYOpEKMF3iMt6jkl0PYY7-xCao8aKT18_i1syIMCyyPP-mbFm3WmqmYu3gjR_KaKd9978a9noNk5qllSUEOfxotngTrQhAzjJKbroEtUiqqfDO2bjnHMbchyLudxH-fkoptZmIN3_AR-evBwflR9F5_TSBYrX5ey4JHToHAmdHD18PMzum2kp_GXFPRQeJCO8"/>
+</div>
+<span class="text-[#111418] dark:text-white font-semibold">Dave's Single Combo</span>
+</div>
+</td>
+<td class="px-6 py-4 text-[#617589] dark:text-slate-400 text-sm">Summer Fest 2024</td>
+<td class="px-6 py-4 text-center text-[#111418] dark:text-white font-medium">320</td>
+<td class="px-6 py-4 text-right text-[#078838] font-bold">$8,960.00</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold">MM</div>
+<span class="text-[#111418] dark:text-white text-sm">Marta Martínez</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-1 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-[#f8fafb] dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-[#f0f2f4] flex items-center justify-center overflow-hidden">
+<img class="object-cover size-full" data-alt="Spicy Chicken Sandwich meal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDohtoSqRpjtjlE2B_7WGIDNtZZMciEbBw_yrTT4byYC-KuM279FPRb-EW7IDJg_d10YPEiSC1AKd5D6Smvn2-nnhifOZREmWOKOgE2TCy1WiemF0ttceglkQpVtQzfkrzrEp59ySt43DeyZkX-ikwp-k6Rg885DSGqaedrfBD1M407zyM0d80T9ohjupEzTvyjkcpnd_Xao8N1L00tnKxgqT7EZfvxthm1nGy_Lft1KwDKNLJ3NGi4JYYVUkLqLaKqvj-BUVbZpT4p"/>
+</div>
+<span class="text-[#111418] dark:text-white font-semibold">Spicy Chicken Combo</span>
+</div>
+</td>
+<td class="px-6 py-4 text-[#617589] dark:text-slate-400 text-sm">Summer Fest 2024</td>
+<td class="px-6 py-4 text-center text-[#111418] dark:text-white font-medium">285</td>
+<td class="px-6 py-4 text-right text-[#078838] font-bold">$7,410.00</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold">AS</div>
+<span class="text-[#111418] dark:text-white text-sm">Andrés Sosa</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-1 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="bg-slate-50/30 dark:bg-slate-800/10 hover:bg-[#f8fafb] dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-[#f0f2f4] flex items-center justify-center overflow-hidden">
+<div class="flex items-center justify-center size-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined">lunch_dining</span>
+</div>
+</div>
+<span class="text-[#111418] dark:text-white font-semibold">4 for $4 Meal</span>
+</div>
+</td>
+<td class="px-6 py-4 text-[#617589] dark:text-slate-400 text-sm">Summer Fest 2024</td>
+<td class="px-6 py-4 text-center text-[#111418] dark:text-white font-medium">155</td>
+<td class="px-6 py-4 text-right text-[#078838] font-bold">$620.00</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold">CP</div>
+<span class="text-[#111418] dark:text-white text-sm">Carlos Pérez</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-1 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-[#dbe0e6] dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900">
+<p class="text-xs text-[#617589] dark:text-slate-400">Mostrando 4 de 12 combos activos</p>
+<div class="flex gap-1">
+<button class="px-3 py-1 rounded border border-[#dbe0e6] dark:border-slate-700 text-sm font-medium hover:bg-[#f0f2f4] dark:hover:bg-slate-800 disabled:opacity-50" disabled="">Anterior</button>
+<button class="px-3 py-1 rounded bg-primary text-white text-sm font-bold shadow-sm">1</button>
+<button class="px-3 py-1 rounded border border-[#dbe0e6] dark:border-slate-700 text-sm font-medium hover:bg-[#f0f2f4] dark:hover:bg-slate-800">2</button>
+<button class="px-3 py-1 rounded border border-[#dbe0e6] dark:border-slate-700 text-sm font-medium hover:bg-[#f0f2f4] dark:hover:bg-slate-800">Siguiente</button>
+</div>
+</div>
+</div>
+<!-- Secondary Charts Section (Decorative Visual) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+<div class="bg-white dark:bg-slate-900 border border-[#dbe0e6] dark:border-slate-800 rounded-xl p-6 shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-bold">Distribución por Vendedor</h3>
+<button class="text-primary text-sm font-semibold">Ver todos</button>
+</div>
+<div class="space-y-4">
+<div class="flex flex-col gap-1.5">
+<div class="flex justify-between text-sm">
+<span class="font-medium">Ricardo Luna</span>
+<span class="font-bold text-primary">35%</span>
+</div>
+<div class="w-full h-2 bg-[#f0f2f4] dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 35%;"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<div class="flex justify-between text-sm">
+<span class="font-medium">Marta Martínez</span>
+<span class="font-bold text-primary">28%</span>
+</div>
+<div class="w-full h-2 bg-[#f0f2f4] dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 28%;"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<div class="flex justify-between text-sm">
+<span class="font-medium">Andrés Sosa</span>
+<span class="font-bold text-primary">22%</span>
+</div>
+<div class="w-full h-2 bg-[#f0f2f4] dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 22%;"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 border border-[#dbe0e6] dark:border-slate-800 rounded-xl p-6 shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-bold">Tendencia de Ventas (Hora)</h3>
+<span class="text-xs text-[#617589] font-medium px-2 py-1 bg-background-light dark:bg-slate-800 rounded">Hoy</span>
+</div>
+<div class="h-32 flex items-end gap-2 px-2">
+<div class="flex-1 bg-primary/20 rounded-t h-[30%]"></div>
+<div class="flex-1 bg-primary/20 rounded-t h-[45%]"></div>
+<div class="flex-1 bg-primary/20 rounded-t h-[60%]"></div>
+<div class="flex-1 bg-primary rounded-t h-[90%]"></div>
+<div class="flex-1 bg-primary rounded-t h-[100%]"></div>
+<div class="flex-1 bg-primary rounded-t h-[80%]"></div>
+<div class="flex-1 bg-primary/40 rounded-t h-[65%]"></div>
+<div class="flex-1 bg-primary/20 rounded-t h-[40%]"></div>
+<div class="flex-1 bg-primary/10 rounded-t h-[20%]"></div>
+</div>
+<div class="flex justify-between mt-2 text-[10px] text-[#617589] font-bold uppercase tracking-widest px-1">
+<span>12pm</span>
+<span>2pm</span>
+<span>4pm</span>
+<span>6pm</span>
+<span>8pm</span>
+<span>10pm</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

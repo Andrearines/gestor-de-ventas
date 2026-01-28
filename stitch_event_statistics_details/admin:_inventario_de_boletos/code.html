@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin: Inventario de Boletos - Wendy's</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "primary-dark": "#1a6bbd",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111418] dark:text-white h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e5e7eb] dark:border-[#2a3441] bg-white dark:bg-[#101922] px-6 py-3 shrink-0 z-20">
+<div class="flex items-center gap-4 text-[#111418] dark:text-white">
+<div class="size-8 flex items-center justify-center bg-primary rounded-lg text-white">
+<span class="material-symbols-outlined text-xl">confirmation_number</span>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Wendy's Admin</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-[#617589] hover:text-primary dark:text-gray-400 dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-bold leading-normal relative after:content-[''] after:absolute after:-bottom-5 after:left-0 after:w-full after:h-0.5 after:bg-primary" href="#">Inventario</a>
+<a class="text-[#617589] hover:text-primary dark:text-gray-400 dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Vendedores</a>
+<a class="text-[#617589] hover:text-primary dark:text-gray-400 dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Configuración</a>
+</nav>
+<div class="flex items-center gap-3 pl-4 border-l border-[#e5e7eb] dark:border-[#2a3441]">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-semibold leading-none">Admin User</p>
+<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Super Admin</p>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-white dark:border-[#2a3441] shadow-sm" data-alt="Admin user profile picture showing a professional headshot" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBg3KY7Hl3d0rGHJG1JoGStGneYfvtSrhelYIhWVI-RxcMOxmz6q56LIRlmvCz4zasvXIssDXzVtRPhaCkQRj-TEAGoeCxwx29E7zqnnFU-Kj70ifloHWzoHNRIytDulk-x0F78eSj8PmNtP_3nhz1DSGiYZb3nOqugZkrGTG59YpdyMgnD63GyaTkHJAht40pSNFTxD8GNgdtmHqmhht2lShd_dKm2c9FTDfJTHO3xIbh2M9WjOD6DXWqDheEinczbZMJQqvmQmZOV");'></div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Sidebar Filters -->
+<aside class="w-72 bg-white dark:bg-[#101922] border-r border-[#e5e7eb] dark:border-[#2a3441] flex flex-col overflow-y-auto shrink-0 hidden lg:flex">
+<div class="p-5 border-b border-[#e5e7eb] dark:border-[#2a3441] flex justify-between items-center">
+<h3 class="font-bold text-lg">Filtros</h3>
+<button class="text-sm text-primary hover:text-primary-dark font-medium">Limpiar todo</button>
+</div>
+<div class="p-5 flex flex-col gap-6">
+<!-- Search Filter -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-[#111418] dark:text-white">Buscar Boleto</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 material-symbols-outlined text-[20px]">search</span>
+<input class="w-full pl-10 pr-3 py-2 bg-[#f0f2f4] dark:bg-[#1e2936] border-none rounded-lg text-sm focus:ring-2 focus:ring-primary dark:text-white placeholder:text-gray-500" placeholder="# de boleto..." type="text"/>
+</div>
+</div>
+<!-- Status Filter -->
+<div class="flex flex-col gap-3">
+<label class="text-sm font-semibold text-[#111418] dark:text-white">Estatus</label>
+<div class="space-y-2">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="rounded border-gray-300 text-primary focus:ring-primary w-4 h-4 bg-[#f0f2f4] dark:bg-[#1e2936] dark:border-[#2a3441]" type="checkbox"/>
+<span class="text-sm text-gray-600 dark:text-gray-300 group-hover:text-primary transition-colors">Disponible</span>
+<span class="ml-auto text-xs text-gray-400 bg-gray-100 dark:bg-[#1e2936] px-2 py-0.5 rounded-full">842</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-gray-300 text-primary focus:ring-primary w-4 h-4 bg-[#f0f2f4] dark:bg-[#1e2936] dark:border-[#2a3441]" type="checkbox"/>
+<span class="text-sm text-gray-600 dark:text-gray-300 group-hover:text-primary transition-colors">Vendido</span>
+<span class="ml-auto text-xs text-gray-400 bg-gray-100 dark:bg-[#1e2936] px-2 py-0.5 rounded-full">3,204</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-gray-300 text-primary focus:ring-primary w-4 h-4 bg-[#f0f2f4] dark:bg-[#1e2936] dark:border-[#2a3441]" type="checkbox"/>
+<span class="text-sm text-gray-600 dark:text-gray-300 group-hover:text-primary transition-colors">Perdido</span>
+<span class="ml-auto text-xs text-gray-400 bg-gray-100 dark:bg-[#1e2936] px-2 py-0.5 rounded-full">12</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-gray-300 text-primary focus:ring-primary w-4 h-4 bg-[#f0f2f4] dark:bg-[#1e2936] dark:border-[#2a3441]" type="checkbox"/>
+<span class="text-sm text-gray-600 dark:text-gray-300 group-hover:text-primary transition-colors">Faltante</span>
+<span class="ml-auto text-xs text-gray-400 bg-gray-100 dark:bg-[#1e2936] px-2 py-0.5 rounded-full">5</span>
+</label>
+</div>
+</div>
+<!-- Event Filter -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-[#111418] dark:text-white">Evento</label>
+<select class="w-full py-2 pl-3 pr-8 bg-[#f0f2f4] dark:bg-[#1e2936] border-none rounded-lg text-sm focus:ring-2 focus:ring-primary dark:text-white appearance-none cursor-pointer bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%207l5%205%205-5%22%20stroke%3D%22%239CA3AF%22%20stroke-width%3D%222%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[length:1.25rem_1.25rem] bg-[right_0.5rem_center] bg-no-repeat">
+<option>Todos los eventos</option>
+<option>Concierto Verano 2024</option>
+<option>Feria Nacional</option>
+<option>Gala Benéfica</option>
+</select>
+</div>
+<!-- Vendor Filter -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-[#111418] dark:text-white">Vendedor</label>
+<select class="w-full py-2 pl-3 pr-8 bg-[#f0f2f4] dark:bg-[#1e2936] border-none rounded-lg text-sm focus:ring-2 focus:ring-primary dark:text-white appearance-none cursor-pointer bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%207l5%205%205-5%22%20stroke%3D%22%239CA3AF%22%20stroke-width%3D%222%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[length:1.25rem_1.25rem] bg-[right_0.5rem_center] bg-no-repeat">
+<option>Todos los vendedores</option>
+<option>Juan Pérez</option>
+<option>Maria Rodriguez</option>
+<option>Carlos Gomez</option>
+</select>
+</div>
+<!-- Date Range -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-[#111418] dark:text-white">Fecha de Asignación</label>
+<input class="w-full py-2 pl-3 pr-3 bg-[#f0f2f4] dark:bg-[#1e2936] border-none rounded-lg text-sm focus:ring-2 focus:ring-primary dark:text-white text-gray-500" type="date"/>
+</div>
+</div>
+<div class="mt-auto p-5 border-t border-[#e5e7eb] dark:border-[#2a3441]">
+<button class="w-full bg-primary hover:bg-primary-dark text-white font-bold py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2">
+                    Aplicar Filtros
+                </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col bg-background-light dark:bg-background-dark overflow-hidden relative">
+<!-- Page Header -->
+<div class="px-6 sm:px-10 py-6 border-b border-[#e5e7eb] dark:border-[#2a3441] bg-white dark:bg-[#101922]">
+<div class="max-w-[1400px] mx-auto w-full">
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 mb-4 text-sm">
+<a class="text-[#617589] dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">Dashboard</a>
+<span class="text-[#617589] dark:text-gray-400 text-xs material-symbols-outlined">chevron_right</span>
+<span class="text-[#111418] dark:text-white font-medium">Inventario Global</span>
+</div>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="flex flex-col gap-1">
+<h1 class="text-[#111418] dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">Inventario Global</h1>
+<p class="text-[#617589] dark:text-gray-400 text-base font-normal">Gestione el estado y la asignación de todos los boletos físicos.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center h-10 px-4 bg-white dark:bg-[#1e2936] border border-[#e5e7eb] dark:border-[#2a3441] hover:bg-gray-50 dark:hover:bg-[#2a3441] text-[#111418] dark:text-white rounded-lg text-sm font-bold transition-colors gap-2">
+<span class="material-symbols-outlined text-[20px]">download</span>
+<span>Exportar CSV</span>
+</button>
+<button class="flex items-center justify-center h-10 px-4 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-bold transition-colors gap-2 shadow-sm shadow-primary/30">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Agregar Boletos</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bulk Actions Toolbar (Conditional style mock) -->
+<div class="hidden absolute top-4 left-1/2 -translate-x-1/2 z-30 bg-[#101922] text-white px-4 py-2 rounded-full shadow-lg items-center gap-4 animate-fade-in-down">
+<span class="text-sm font-medium">3 seleccionados</span>
+<div class="h-4 w-[1px] bg-gray-600"></div>
+<button class="text-xs font-bold hover:text-primary transition-colors uppercase tracking-wide">Marcar Perdido</button>
+<button class="text-xs font-bold hover:text-primary transition-colors uppercase tracking-wide">Reasignar</button>
+</div>
+<!-- Table Content -->
+<div class="flex-1 overflow-auto p-6 sm:px-10">
+<div class="max-w-[1400px] mx-auto w-full bg-white dark:bg-[#101922] rounded-xl border border-[#e5e7eb] dark:border-[#2a3441] shadow-sm flex flex-col">
+<!-- Table Header -->
+<div class="grid grid-cols-[50px_1.5fr_1fr_1.5fr_1.5fr_80px] gap-4 px-6 py-3 border-b border-[#e5e7eb] dark:border-[#2a3441] bg-[#f9fafb] dark:bg-[#16202a] text-xs font-semibold uppercase tracking-wider text-[#617589] dark:text-gray-400 items-center sticky top-0 z-10">
+<div class="flex items-center">
+<input class="rounded border-gray-300 text-primary focus:ring-primary bg-white dark:bg-[#1e2936] dark:border-[#2a3441] w-4 h-4" type="checkbox"/>
+</div>
+<div>Ticket #</div>
+<div>Estatus</div>
+<div>Evento</div>
+<div>Vendedor Asignado</div>
+<div class="text-right">Acciones</div>
+</div>
+<!-- Table Rows -->
+<div class="flex flex-col divide-y divide-[#e5e7eb] dark:divide-[#2a3441]">
+<!-- Row 1 -->
+<div class="group grid grid-cols-[50px_1.5fr_1fr_1.5fr_1.5fr_80px] gap-4 px-6 py-4 items-center hover:bg-[#f9fafb] dark:hover:bg-[#16202a] transition-colors">
+<div class="flex items-center">
+<input class="rounded border-gray-300 text-primary focus:ring-primary bg-white dark:bg-[#1e2936] dark:border-[#2a3441] w-4 h-4" type="checkbox"/>
+</div>
+<div class="font-mono text-sm font-medium text-[#111418] dark:text-white">WND-2024-001</div>
+<div>
+<span class="inline-flex items-center rounded-full bg-emerald-50 dark:bg-emerald-900/30 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-400 ring-1 ring-inset ring-emerald-600/20 dark:ring-emerald-500/30">
+                                    Disponible
+                                </span>
+</div>
+<div class="text-sm text-[#111418] dark:text-white">Concierto Verano 2024</div>
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-gray-200 dark:bg-gray-700 bg-cover bg-center" data-alt="Portrait of vendor Juan Perez" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC1b5O52suegijW2npTEaC4nZlTNjHe1mFvj4Fhoxb03tSe6tH4rS4_rNmxa4f5Jg7g5SYODw5bPZFW-cGB3rvjx_aT1Hcl_fHICEm5V8WwUYZq9JK--yPqVau2QoUkSw_MxdEti-qa4rt4U_iyoAfjUAEPWP5DOARR31llPxzjCTVGvXzkvR82yWm8CMZMt5liPxBDx-dxkPDbXn8yoZnzLoTa2-VBmRs76WAnB05VUKH7XJwKTc9Tq-6t_eRliNaYMcckE8r1-cE4');"></div>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-[#111418] dark:text-white">Juan Pérez</span>
+<span class="text-xs text-[#617589] dark:text-gray-400">ID: 8821</span>
+</div>
+</div>
+<div class="flex justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-gray-400 hover:text-primary p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="group grid grid-cols-[50px_1.5fr_1fr_1.5fr_1.5fr_80px] gap-4 px-6 py-4 items-center hover:bg-[#f9fafb] dark:hover:bg-[#16202a] transition-colors">
+<div class="flex items-center">
+<input class="rounded border-gray-300 text-primary focus:ring-primary bg-white dark:bg-[#1e2936] dark:border-[#2a3441] w-4 h-4" type="checkbox"/>
+</div>
+<div class="font-mono text-sm font-medium text-[#111418] dark:text-white">WND-2024-042</div>
+<div>
+<span class="inline-flex items-center rounded-full bg-gray-100 dark:bg-gray-700/50 px-2.5 py-1 text-xs font-medium text-gray-600 dark:text-gray-300 ring-1 ring-inset ring-gray-500/10 dark:ring-gray-500/30">
+                                    Vendido
+                                </span>
+</div>
+<div class="text-sm text-[#111418] dark:text-white">Concierto Verano 2024</div>
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-gray-200 dark:bg-gray-700 bg-cover bg-center" data-alt="Portrait of vendor Maria Rodriguez" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDlYV7c7V5__emD4aa8lZc6efDm-w3HJ31HjKGO7WblT4fWH8ZxuYnX8F4GZitq886zQJDCNhy3o2hBP-WOytTUQuxz-4CTEgq0POMvCY2FYEA0LXziIKNszZgJb1iGJ5QH5MDZo6ZZwXnYIRLDt7hhxoGlaUxrzKk6OMkV9wAd-9S2Lq4cGb4tgncmQhgyMlztnxSgz4j9RDA2irpIlrsGmo4vS5xz_-mU2rY2T4Iix-RR7NMXnq4xv-3m52ICGy2tpuVWxIeqzXch');"></div>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-[#111418] dark:text-white">Maria Rodriguez</span>
+<span class="text-xs text-[#617589] dark:text-gray-400">ID: 4402</span>
+</div>
+</div>
+<div class="flex justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-gray-400 hover:text-primary p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="group grid grid-cols-[50px_1.5fr_1fr_1.5fr_1.5fr_80px] gap-4 px-6 py-4 items-center bg-red-50/30 dark:bg-red-900/10 hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors">
+<div class="flex items-center">
+<input class="rounded border-gray-300 text-primary focus:ring-primary bg-white dark:bg-[#1e2936] dark:border-[#2a3441] w-4 h-4" type="checkbox"/>
+</div>
+<div class="font-mono text-sm font-medium text-[#111418] dark:text-white">WND-2024-099</div>
+<div>
+<span class="inline-flex items-center rounded-full bg-red-50 dark:bg-red-900/30 px-2.5 py-1 text-xs font-medium text-red-700 dark:text-red-400 ring-1 ring-inset ring-red-600/10 dark:ring-red-500/30">
+                                    Perdido
+                                </span>
+</div>
+<div class="text-sm text-[#111418] dark:text-white">Feria Nacional</div>
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-gray-200 dark:bg-gray-700 bg-cover bg-center" data-alt="Portrait of vendor Carlos Gomez" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDoyWecT6HqVIbzWDEihJeCmoVdQhjdlzuyJ3OGar0wL4ds7Up3X_1TtdzolfCHVdHEF99DhxsC9VsOZNjHRfjbLFNbB5m9IFwOsscUXlbg9O7Jzl4XCOSP4-BAGAm3aLcABXe9LcUcmm1xmxLbHOsC4Vrffn0zxv4HGIwP6pedH4Jh3GJ45DFoiZ1yKZiKfUfvO6YcluBlMvF_9S_fclzUBiJdHFLkuu0h9BK72xURBT-KmGTgFpStOyCnCMeXafDGNUZ2TffXy0VN');"></div>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-[#111418] dark:text-white">Carlos Gomez</span>
+<span class="text-xs text-[#617589] dark:text-gray-400">ID: 9912</span>
+</div>
+</div>
+<div class="flex justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-gray-400 hover:text-primary p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Row 4 -->
+<div class="group grid grid-cols-[50px_1.5fr_1fr_1.5fr_1.5fr_80px] gap-4 px-6 py-4 items-center hover:bg-[#f9fafb] dark:hover:bg-[#16202a] transition-colors">
+<div class="flex items-center">
+<input class="rounded border-gray-300 text-primary focus:ring-primary bg-white dark:bg-[#1e2936] dark:border-[#2a3441] w-4 h-4" type="checkbox"/>
+</div>
+<div class="font-mono text-sm font-medium text-[#111418] dark:text-white">WND-2024-105</div>
+<div>
+<span class="inline-flex items-center rounded-full bg-orange-50 dark:bg-orange-900/30 px-2.5 py-1 text-xs font-medium text-orange-700 dark:text-orange-400 ring-1 ring-inset ring-orange-600/20 dark:ring-orange-500/30">
+                                    Faltante
+                                </span>
+</div>
+<div class="text-sm text-[#111418] dark:text-white">Gala Benéfica</div>
+<div class="flex items-center gap-3">
+<div class="size-8 flex items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 text-xs font-bold">
+                                    LW
+                                </div>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-[#111418] dark:text-white">Luisa Walker</span>
+<span class="text-xs text-[#617589] dark:text-gray-400">ID: 1022</span>
+</div>
+</div>
+<div class="flex justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-gray-400 hover:text-primary p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Row 5 -->
+<div class="group grid grid-cols-[50px_1.5fr_1fr_1.5fr_1.5fr_80px] gap-4 px-6 py-4 items-center hover:bg-[#f9fafb] dark:hover:bg-[#16202a] transition-colors bg-primary/5 dark:bg-primary/10">
+<div class="flex items-center">
+<input checked="" class="rounded border-gray-300 text-primary focus:ring-primary bg-white dark:bg-[#1e2936] dark:border-[#2a3441] w-4 h-4" type="checkbox"/>
+</div>
+<div class="font-mono text-sm font-medium text-[#111418] dark:text-white">WND-2024-156</div>
+<div>
+<span class="inline-flex items-center rounded-full bg-emerald-50 dark:bg-emerald-900/30 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-400 ring-1 ring-inset ring-emerald-600/20 dark:ring-emerald-500/30">
+                                    Disponible
+                                </span>
+</div>
+<div class="text-sm text-[#111418] dark:text-white">Concierto Verano 2024</div>
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-gray-200 dark:bg-gray-700 bg-cover bg-center" data-alt="Portrait of vendor Juan Perez" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA4zfUPkn6lUqeMl8NGvmM56kWY9TA89X3h2mUDWUSR7oTT6AabimP1vMUEl4DBVW3lk6bdvMa4zAR2_EA6ULf5BWupFr235-IFFRJBks3VYdZ95vMo4rNauok5a8W1I66QQtm_ik59Kmyt3ytlNLusyPDWht-0Dpd4_gj-BORoAh2pN_WIyr_xUOU-eCIXoK9PAciRzOigRJswBMPGq8K4rX-4coJYMucw-NCotlnfDrfzuD4sMBYxH2_1S1XjCzUX-5wFqNUb88_D');"></div>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-[#111418] dark:text-white">Juan Pérez</span>
+<span class="text-xs text-[#617589] dark:text-gray-400">ID: 8821</span>
+</div>
+</div>
+<div class="flex justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-gray-400 hover:text-primary p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="max-w-[1400px] mx-auto w-full flex items-center justify-between py-6">
+<p class="text-sm text-[#617589] dark:text-gray-400">
+                        Mostrando <span class="font-medium text-[#111418] dark:text-white">1</span> a <span class="font-medium text-[#111418] dark:text-white">10</span> de <span class="font-medium text-[#111418] dark:text-white">4,057</span> resultados
+                    </p>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1 text-sm font-medium text-[#617589] dark:text-gray-400 hover:text-primary disabled:opacity-50" disabled="">Anterior</button>
+<div class="flex items-center gap-1">
+<button class="size-8 flex items-center justify-center rounded text-sm font-medium bg-primary text-white">1</button>
+<button class="size-8 flex items-center justify-center rounded text-sm font-medium text-[#617589] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1e2936]">2</button>
+<button class="size-8 flex items-center justify-center rounded text-sm font-medium text-[#617589] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1e2936]">3</button>
+<span class="px-1 text-[#617589] dark:text-gray-400">...</span>
+<button class="size-8 flex items-center justify-center rounded text-sm font-medium text-[#617589] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1e2936]">40</button>
+</div>
+<button class="px-3 py-1 text-sm font-medium text-[#617589] dark:text-gray-400 hover:text-primary">Siguiente</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
