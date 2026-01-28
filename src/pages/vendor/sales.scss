@@ -1,0 +1,9 @@
+@import '../../base/scss/variables';
+
+.btn-add-combo {
+    @extend .shadow-sm;
+
+    &:hover {
+        @extend .shadow;
+    }
+}

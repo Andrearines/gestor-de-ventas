@@ -1,0 +1,17 @@
+@import '../../../base/scss/variables';
+
+.bg-blue-50 {
+    background-color: lighten($info, 40%);
+}
+
+.text-blue-600 {
+    color: $info;
+}
+
+.text-blue-900 {
+    color: darken($info, 20%);
+}
+
+.border-blue-100 {
+    border-color: lighten($info, 30%);
+}

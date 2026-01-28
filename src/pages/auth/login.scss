@@ -1,0 +1,15 @@
+@import '../../base/scss/variables';
+
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at top left, lighten($primary, 40%), $background-light);
+
+    .login-card {
+        @extend .shadow-xl;
+        border-radius: $radius-xl;
+        background-color: $white;
+    }
+}

@@ -1,0 +1,10 @@
+@import '../../../base/scss/variables';
+
+.btn-primary {
+    @extend .shadow-lg;
+    background-color: $primary;
+
+    &:hover {
+        background-color: $primary-dark;
+    }
+}
