@@ -9,17 +9,49 @@
     justify-content: space-between;
     padding: 0 v.$s-8;
     flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 
-    .navbar-title {
+    .navbar-left {
         display: flex;
-        align-items: center;
-        gap: v.$s-4;
+        flex-direction: column;
+        gap: v.$s-1;
 
-        h2 {
-            font-size: v.$text-lg;
-            font-weight: 600;
-            color: v.$gray-800;
-            margin: 0;
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: v.$s-2;
+            font-size: v.$text-xs;
+            color: v.$gray-500;
+
+            .breadcrumb-separator {
+                color: v.$gray-300;
+            }
+
+            .breadcrumb-link {
+                color: v.$gray-500;
+                text-decoration: none;
+                transition: color 0.2s;
+
+                &:hover {
+                    color: v.$primary;
+                }
+            }
+
+            .breadcrumb-current {
+                color: v.$primary;
+                font-weight: 600;
+            }
+        }
+
+        .navbar-title {
+            h2 {
+                font-size: v.$text-lg;
+                font-weight: 700;
+                color: v.$gray-900;
+                margin: 0;
+            }
         }
     }
 
@@ -28,16 +60,97 @@
         align-items: center;
         gap: v.$s-4;
 
+        .search-bar {
+            display: none;
+            align-items: center;
+            gap: v.$s-2;
+            background-color: v.$gray-50;
+            padding: v.$s-2 v.$s-4;
+            border-radius: v.$radius-lg;
+            border: 1px solid v.$gray-200;
+            transition: all 0.2s;
+
+            @media (min-width: 768px) {
+                display: flex;
+            }
+
+            i {
+                color: v.$gray-400;
+                font-size: v.$text-sm;
+            }
+
+            .search-input {
+                border: none;
+                background: transparent;
+                outline: none;
+                font-size: v.$text-sm;
+                color: v.$gray-900;
+                width: 200px;
+
+                &::placeholder {
+                    color: v.$gray-400;
+                }
+            }
+
+            &:focus-within {
+                border-color: v.$primary;
+                background-color: v.$white;
+            }
+        }
+
         .tool-btn {
             background: none;
             border: none;
             cursor: pointer;
             color: v.$gray-500;
             transition: color 0.2s;
-            font-size: 1rem;
+            font-size: 1.125rem;
+            padding: v.$s-2;
+            border-radius: v.$radius-md;
+            position: relative;
 
             &:hover {
                 color: v.$gray-700;
+                background-color: v.$gray-50;
+            }
+
+            &.notification-btn {
+                .notification-badge {
+                    position: absolute;
+                    top: 4px;
+                    right: 4px;
+                    background-color: v.$error;
+                    color: v.$white;
+                    font-size: 10px;
+                    font-weight: 700;
+                    padding: 2px 5px;
+                    border-radius: v.$radius-full;
+                    min-width: 18px;
+                    text-align: center;
+                }
+            }
+        }
+
+        .user-avatar {
+            .avatar-circle {
+                width: 2rem;
+                height: 2rem;
+                border-radius: v.$radius-full;
+                background-color: v.$primary;
+                color: v.$white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: v.$text-xs;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.2s;
+                border: 2px solid v.$gray-100;
+
+                &:hover {
+                    transform: scale(1.05);
+                    border-color: v.$primary;
+                }
             }
         }
     }

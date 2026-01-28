@@ -414,3 +414,172 @@
         background: v.$gray-400;
     }
 }
+
+// Activity Section
+.activity-section {
+    margin-top: v.$s-8;
+
+    .activity-card {
+        background-color: v.$white;
+        border: 1px solid v.$gray-100;
+        border-radius: v.$radius-2xl;
+        box-shadow: v.$shadow-sm;
+        overflow: hidden;
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: v.$s-6;
+            border-bottom: 1px solid v.$gray-100;
+
+            h3 {
+                font-size: v.$text-lg;
+                font-weight: 700;
+                color: v.$gray-900;
+                margin: 0;
+            }
+
+            .view-all-link {
+                font-size: v.$text-sm;
+                font-weight: 600;
+                color: v.$primary;
+                text-decoration: none;
+
+                &:hover {
+                    color: v.$primary-dark;
+                }
+            }
+        }
+
+        .activity-table-container {
+            overflow-x: auto;
+
+            .activity-table {
+                width: 100%;
+                border-collapse: collapse;
+
+                thead {
+                    background-color: v.$gray-50;
+
+                    tr th {
+                        padding: v.$s-3 v.$s-6;
+                        text-align: left;
+                        font-size: v.$text-xs;
+                        font-weight: 600;
+                        color: v.$gray-500;
+                        text-transform: uppercase;
+                        letter-spacing: 0.05em;
+                    }
+                }
+
+                tbody {
+                    tr {
+                        border-bottom: 1px solid v.$gray-100;
+                        transition: background-color 0.2s;
+
+                        &:hover {
+                            background-color: v.$gray-50;
+                        }
+
+                        td {
+                            padding: v.$s-4 v.$s-6;
+                            font-size: v.$text-sm;
+                            color: v.$gray-600;
+
+                            .activity-info {
+                                display: flex;
+                                align-items: center;
+                                gap: v.$s-3;
+
+                                .activity-icon {
+                                    width: 2.5rem;
+                                    height: 2.5rem;
+                                    border-radius: v.$radius-lg;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+
+                                    &.activity-icon-ticket {
+                                        background-color: rgba(v.$primary, 0.1);
+                                        color: v.$primary;
+                                    }
+
+                                    &.activity-icon-combo {
+                                        background-color: #ffedd5;
+                                        color: #ea580c;
+                                    }
+
+                                    &.activity-icon-event {
+                                        background-color: #f3e8ff;
+                                        color: #9333ea;
+                                    }
+                                }
+
+                                .activity-title {
+                                    font-weight: 600;
+                                    color: v.$gray-900;
+                                    margin: 0;
+                                }
+
+                                .activity-subtitle {
+                                    font-size: v.$text-xs;
+                                    color: v.$gray-400;
+                                    margin: 0;
+                                }
+                            }
+
+                            &.text-muted {
+                                color: v.$gray-400;
+                            }
+
+                            &.font-semibold {
+                                font-weight: 600;
+                                color: v.$gray-900;
+                            }
+
+                            .status-badge {
+                                display: inline-flex;
+                                align-items: center;
+                                padding: v.$s-1-5 v.$s-3;
+                                border-radius: v.$radius-full;
+                                font-size: v.$text-xs;
+                                font-weight: 600;
+
+                                &.status-completed {
+                                    background-color: #dcfce7;
+                                    color: #15803d;
+                                }
+
+                                &.status-pending {
+                                    background-color: #dbeafe;
+                                    color: #1e40af;
+                                }
+
+                                &.status-failed {
+                                    background-color: #fee2e2;
+                                    color: #991b1b;
+                                }
+                            }
+
+                            .action-btn {
+                                background: none;
+                                border: none;
+                                color: v.$gray-400;
+                                cursor: pointer;
+                                padding: v.$s-2;
+                                border-radius: v.$radius-md;
+                                transition: all 0.2s;
+
+                                &:hover {
+                                    background-color: v.$gray-100;
+                                    color: v.$gray-700;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

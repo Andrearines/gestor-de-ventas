@@ -8,24 +8,36 @@ class AdminController
 {
     public static function index(Router $router)
     {
-        // Datos manuales de ejemplo (KPIs)
-        $kpis = [
+        // Variables placeholder para el dashboard
+        $stats = [
             'ventas_totales' => 124500,
-            'boletos_vendidos' => 3420,
-            'ingresos_hoy' => 1250.50,
-            'eventos_activos' => 5
+            'boletos_activos' => 3420,
+            'combos_vendidos' => 850,
+            'eventos_activos' => 12,
+            'total_eventos' => 24,
+            'top_sellers' => [
+                ['name' => 'Ricardo Luna', 'initials' => 'RL', 'total' => '$12,450'],
+                ['name' => 'Marta Martínez', 'initials' => 'MM', 'total' => '$8,960'],
+                ['name' => 'Andrés Sosa', 'initials' => 'AS', 'total' => '$7,410'],
+                ['name' => 'Carlos Pérez', 'initials' => 'CP', 'total' => '$5,230'],
+            ],
+            'recent_activity' => [
+                ['type' => 'ticket', 'title' => 'Compra de Boleto #10234', 'event' => 'Concierto Coldplay', 'user' => 'Juan Perez', 'time' => 'Hace 5 min', 'amount' => '$1,200.00', 'status' => 'completed'],
+                ['type' => 'combo', 'title' => 'Compra de Combo #5521', 'event' => 'Combo Pareja', 'user' => 'Maria Garcia', 'time' => 'Hace 23 min', 'amount' => '$450.00', 'status' => 'completed'],
+                ['type' => 'event', 'title' => 'Actualización de Evento', 'event' => 'Festival de Jazz 2024', 'user' => 'Carlos Ruiz', 'time' => 'Hace 1 hora', 'amount' => '-', 'status' => 'pending'],
+            ]
         ];
 
-        // Datos para gráficos (simulados)
-        $data = [
-            'labels' => ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
-            'sales' => [12000, 19000, 3000, 5000, 2000, 3000]
+        $breadcrumbs = [
+            ['label' => 'Admin'],
+            ['label' => 'Dashboard']
         ];
 
         $router->view('admin/dashboard.php', [
-            'titulo' => 'Dashboard Administrador',
-            'kpis' => $kpis,
-            'data' => $data
+            'titulo' => 'Dashboard',
+            'currentPage' => 'dashboard',
+            'stats' => $stats,
+            'breadcrumbs' => $breadcrumbs
         ], 'admin');
     }
 

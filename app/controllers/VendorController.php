@@ -8,15 +8,28 @@ class VendorController
 {
     public static function index(Router $router)
     {
-        $stats = [
-            'mis_ventas' => 4500,
-            'boletos_pendientes' => 15,
-            'reservas_activas' => 5
+        // Variables placeholder para el dashboard de vendedor
+        $vendor_stats = [
+            'asignados' => 100,
+            'vendidos' => 45,
+            'disponibles' => 55,
+            'recent_sales' => [
+                ['ticket' => '#045', 'customer' => 'Maria Gonzalez', 'event' => "Wendy's Fest", 'date' => '12 Oct, 14:30', 'amount' => '$350.00'],
+                ['ticket' => '#044', 'customer' => 'Juan Perez', 'event' => "Wendy's Fest", 'date' => '12 Oct, 13:15', 'amount' => '$350.00'],
+                ['ticket' => '#043', 'customer' => 'Ana Soto', 'event' => "Wendy's Fest", 'date' => '11 Oct, 18:45', 'amount' => '$350.00'],
+            ]
+        ];
+
+        $breadcrumbs = [
+            ['label' => 'Vendor'],
+            ['label' => 'Dashboard']
         ];
 
         $router->view('vendor/dashboard.php', [
-            'titulo' => 'Dashboard Vendedor',
-            'stats' => $stats
+            'titulo' => 'Mi Dashboard',
+            'currentPage' => 'dashboard',
+            'vendor_stats' => $vendor_stats,
+            'breadcrumbs' => $breadcrumbs
         ], 'vendor');
     }
 
@@ -35,10 +48,17 @@ class VendorController
             ['id' => 103, 'numero' => 1003],
         ];
 
+        $breadcrumbs = [
+            ['label' => 'Vendor', 'url' => '/vendor/dashboard'],
+            ['label' => 'Ventas']
+        ];
+
         $router->view('vendor/sales.php', [
             'titulo' => 'Registro de Ventas',
+            'currentPage' => 'sales',
             'combos' => $combos,
-            'boletos' => $boletos_asignados
+            'boletos' => $boletos_asignados,
+            'breadcrumbs' => $breadcrumbs
         ], 'vendor');
     }
 }

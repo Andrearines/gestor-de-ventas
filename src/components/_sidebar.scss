@@ -8,6 +8,9 @@
     border-right: 1px solid v.$gray-200;
     display: flex;
     flex-direction: column;
+    height: 100vh;
+    position: sticky;
+    top: 0;
 
     .sidebar-header {
         padding: v.$s-6;
@@ -17,6 +20,35 @@
             display: flex;
             align-items: center;
             gap: v.$s-3;
+
+            .brand-icon {
+                width: 2.5rem;
+                height: 2.5rem;
+                background: linear-gradient(135deg, v.$primary 0%, v.$primary-dark 100%);
+                border-radius: v.$radius-lg;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: v.$white;
+                font-size: v.$text-lg;
+            }
+
+            .brand-text {
+                h1 {
+                    font-size: v.$text-base;
+                    font-weight: 700;
+                    margin: 0;
+                    line-height: 1.2;
+                    color: v.$gray-900;
+                }
+
+                p {
+                    font-size: v.$text-xs;
+                    color: v.$gray-500;
+                    margin: 0;
+                    margin-top: 2px;
+                }
+            }
 
             i {
                 color: v.$primary;
@@ -36,7 +68,22 @@
         padding: v.$s-4;
         display: flex;
         flex-direction: column;
-        gap: v.$s-2;
+        gap: v.$s-1;
+        overflow-y: auto;
+
+        .nav-divider {
+            margin-top: v.$s-4;
+            margin-bottom: v.$s-2;
+            padding: 0 v.$s-3;
+
+            .nav-section-title {
+                font-size: 10px;
+                font-weight: 700;
+                color: v.$gray-400;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+        }
 
         .nav-link {
             display: flex;
@@ -45,16 +92,18 @@
             padding: v.$s-3;
             border-radius: v.$radius-lg;
             color: v.$gray-600;
-            transition: background-color 0.2s, color 0.2s;
+            transition: all 0.2s;
             text-decoration: none;
 
             i {
-                width: 1.5rem; // w-6
+                width: 1.25rem;
                 text-align: center;
+                font-size: v.$text-base;
             }
 
             .font-medium {
                 font-weight: 500;
+                font-size: v.$text-sm;
             }
 
             &:hover {
@@ -86,26 +135,29 @@
             background-color: v.$gray-50;
 
             .avatar {
-                width: 2.5rem; // w-10
-                height: 2.5rem; // h-10
+                width: 2.5rem;
+                height: 2.5rem;
                 border-radius: v.$radius-full;
                 background-color: v.$primary;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 color: v.$white;
+                font-size: v.$text-sm;
             }
 
             .user-info {
                 overflow: hidden;
+                flex: 1;
 
                 p {
                     font-size: v.$text-sm;
-                    font-weight: 700;
+                    font-weight: 600;
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     margin: 0;
+                    color: v.$gray-900;
                 }
 
                 .logout-link {
@@ -134,4 +186,10 @@
             }
         }
     }
+}
+
+// Vendor sidebar variant
+.sidebar-vendor {
+    // Inherits all styles from .sidebar
+    // Can add specific overrides here if needed
 }

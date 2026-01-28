@@ -1,26 +1,29 @@
 <?php
 require_once __DIR__ . '/../config/app.php';
 
-use controllers\PagesController;
+use controllers\AdminController;
+use controllers\EventController;
+use controllers\VendorController;
+use controllers\AuthController;
 use MVC\Router;
 
 $r = new Router;
 
 // Auth
-$r->get("/auth/login", [\controllers\AuthController::class, 'login']);
-$r->post("/auth/login", [\controllers\AuthController::class, 'login']);
-$r->get("/auth/logout", [\controllers\AuthController::class, 'logout']);
+$r->get("/auth/login", [AuthController::class, 'login']);
+$r->post("/auth/login", [AuthController::class, 'login']);
+$r->get("/auth/logout", [AuthController::class, 'logout']);
 
 // Admin
-$r->get("/admin/dashboard", [\controllers\AdminController::class, 'index']); //,['admin']);
-$r->get("/admin/events", [\controllers\EventController::class, 'index'], ['admin']);
-$r->get("/admin/events/create", [\controllers\EventController::class, 'create'], ['admin']);
-$r->get("/admin/events/detail", [\controllers\EventController::class, 'detail'], ['admin']);
-$r->get("/admin/tickets", [\controllers\AdminController::class, 'tickets'], ['admin']);
+$r->get("/admin/dashboard", [AdminController::class, 'index']);
+$r->get("/admin/events", [EventController::class, 'index']);
+$r->get("/admin/events/create", [EventController::class, 'create']);
+$r->get("/admin/events/detail", [EventController::class, 'detail']);
+$r->get("/admin/tickets", [AdminController::class, 'tickets']);
 
 // Vendor
-$r->get("/vendor/dashboard", [\controllers\VendorController::class, 'index'], ['vendedor']);
-$r->get("/vendor/sales", [\controllers\VendorController::class, 'sales'], ['vendedor']);
+$r->get("/vendor/dashboard", [VendorController::class, 'index']);
+$r->get("/vendor/sales", [VendorController::class, 'sales']);
 
 
 $r->Rutas();
