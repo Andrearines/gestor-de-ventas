@@ -1,3 +1,4 @@
+// Base styles only - individual pages compile separately via gulp
 @forward 'base/scss/normalize';
 @forward 'base/scss/variables';
 @forward 'base/scss/mixins';
@@ -5,9 +6,14 @@
 @forward 'base/scss/use';
 @forward 'base/scss/button';
 @forward 'base/scss/UI';
+@forward 'components/sidebar';
+@forward 'components/navbar';
+@forward 'layout/admin';
 
-
-
-
-
-
+// Page-specific styles
+@forward 'pages/auth/login';
+@forward 'pages/admin/dashboard';
+@forward 'pages/admin/events/index';
+@forward 'pages/admin/tickets/inventory';
+@forward 'pages/vendor/dashboard';
+@forward 'pages/vendor/sales';

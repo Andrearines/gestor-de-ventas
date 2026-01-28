@@ -1,0 +1,35 @@
+@use 'variables' as v;
+
+// Sombreados
+.shadow-sm {
+    box-shadow: v.$shadow-subtle;
+}
+
+.shadow {
+    box-shadow: v.$shadow-normal;
+}
+
+.shadow-md {
+    box-shadow: v.$shadow-normal;
+}
+
+.shadow-lg {
+    box-shadow: v.$shadow-lg;
+}
+
+.shadow-xl {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+// Bordes
+.rounded-md {
+    border-radius: v.$radius-md;
+}
+
+.rounded-lg {
+    border-radius: v.$radius-lg;
+}
+
+.rounded-xl {
+    border-radius: v.$radius-xl;
+}

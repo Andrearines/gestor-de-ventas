@@ -10,7 +10,7 @@ class AuthController
     {
         // Datos manuales para la vista
         $alertas = [];
-        
+
         $router->view('auth/login.php', [
             'titulo' => 'Iniciar Sesión',
             'alertas' => $alertas

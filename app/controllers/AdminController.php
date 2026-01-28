@@ -9,16 +9,23 @@ class AdminController
     public static function index(Router $router)
     {
         // Datos manuales de ejemplo (KPIs)
-        $stats = [
+        $kpis = [
             'ventas_totales' => 124500,
-            'boletos_activos' => 3420,
-            'combos_vendidos' => 850,
-            'crecimiento_ventas' => 12.5
+            'boletos_vendidos' => 3420,
+            'ingresos_hoy' => 1250.50,
+            'eventos_activos' => 5
+        ];
+
+        // Datos para gráficos (simulados)
+        $data = [
+            'labels' => ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+            'sales' => [12000, 19000, 3000, 5000, 2000, 3000]
         ];
 
         $router->view('admin/dashboard.php', [
             'titulo' => 'Dashboard Administrador',
-            'stats' => $stats
+            'kpis' => $kpis,
+            'data' => $data
         ], 'admin');
     }
 

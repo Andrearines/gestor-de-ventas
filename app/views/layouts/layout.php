@@ -11,7 +11,19 @@ require_once __DIR__ . '../../../../config/Environment.php';
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Global Styles -->
     <link rel="stylesheet" href="../build/css/app.css">
+
+    <!-- Page-specific Styles -->
+    <?php
+    if (isset($css) && is_array($css)) {
+        foreach ($css as $stylesheet) {
+            echo "<link rel='stylesheet' href='../build/css/{$stylesheet}.css'>";
+        }
+    }
+    ?>
+
     <title> <?php echo Environment::get('APP_NAME') ?> | <?php echo $titulo ?></title>
 </head>
 

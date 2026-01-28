@@ -15,10 +15,9 @@
     <link rel="stylesheet" href="/build/css/app.css">
 </head>
 
-<body class="bg-gray-50">
-    <main class="auth-container">
-        <?php echo $contenedor; ?>
-    </main>
+<body class="login-layout">
+    <?php echo $contenedor; ?>
+
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/build/js/base/js/sweetalert-config.js"></script>

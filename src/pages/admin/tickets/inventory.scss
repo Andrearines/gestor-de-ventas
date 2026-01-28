@@ -1,17 +1,18 @@
-@import '../../../base/scss/variables';
+@use 'sass:color';
+@use '../../../base/scss/variables' as v;
 
 .bg-blue-50 {
-    background-color: lighten($info, 40%);
+    background-color: color.scale(v.$info, $lightness: 40%);
 }
 
 .text-blue-600 {
-    color: $info;
+    color: v.$info;
 }
 
 .text-blue-900 {
-    color: darken($info, 20%);
+    color: color.scale(v.$info, $lightness: -20%);
 }
 
 .border-blue-100 {
-    border-color: lighten($info, 30%);
+    border-color: color.scale(v.$info, $lightness: 30%);
 }

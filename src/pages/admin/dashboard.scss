@@ -1,22 +1,416 @@
-@import '../../base/scss/variables';
+@use '../../base/scss/variables' as v;
+@use '../../base/scss/mixins' as m;
 
-.admin-layout {
-    font-family: $primary-font;
+.dashboard-container {
+    padding: v.$s-6;
+    background-color: v.$gray-50;
+    min-height: 100vh;
+    font-family: v.$primary-font;
 
-    .sidebar {
-        @extend .shadow-sm;
-        z-index: 50;
+    @include m.tablet {
+        padding: v.$s-10;
+        min-height: calc(100vh - 80px); // Ajuste por sidebar/topbar
+    }
+}
+
+.dashboard-header {
+    display: flex;
+    flex-direction: column;
+    gap: v.$s-4;
+    margin-bottom: v.$s-8;
+
+    @include m.tablet {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
     }
 
-    .card-kpi {
-        @extend .shadow-sm;
-        border: 1px solid $border-light;
-        border-radius: $radius-xl;
-        padding: $s-6;
-        transition: transform 0.2s;
+    .header-title {
+        h1 {
+            font-size: v.$text-3xl;
+            font-weight: 900;
+            color: v.$gray-900;
+            letter-spacing: -0.025em;
+            margin: 0;
+        }
+
+        p {
+            color: v.$gray-500;
+            margin-top: v.$s-1;
+            font-size: v.$text-base;
+        }
+    }
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: v.$s-3;
+
+        .status-badge {
+            font-size: v.$text-xs;
+            font-weight: 700;
+            background-color: #dcfce7; // Green 100
+            color: #15803d; // Green 700
+            padding: v.$s-1-5 v.$s-3;
+            border-radius: v.$radius-lg;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: v.$s-2;
+
+            .pulse-dot {
+                width: 0.5rem;
+                height: 0.5rem;
+                background-color: #22c55e; // Green 500
+                border-radius: 50%;
+                display: inline-block;
+                // Animation would go here keyframes
+            }
+        }
+
+        .btn-filter {
+            background-color: v.$white;
+            border: 1px solid v.$gray-200;
+            color: v.$gray-600;
+            font-size: v.$text-sm;
+            font-weight: 700;
+            padding: v.$s-2-5 v.$s-4;
+            border-radius: v.$radius-xl;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: v.$s-2;
+            box-shadow: v.$shadow-sm;
+
+            &:hover {
+                color: v.$primary;
+                border-color: v.$primary;
+            }
+        }
+    }
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: v.$s-6;
+    margin-bottom: v.$s-8;
+
+    @include m.tablet {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include m.desktop {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .kpi-card {
+        background-color: v.$white;
+        border: 1px solid v.$gray-100;
+        border-radius: v.$radius-2xl;
+        padding: v.$s-6;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s;
+        box-shadow: v.$shadow-sm;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 160px;
 
         &:hover {
+            box-shadow: v.$shadow-lg;
             transform: translateY(-2px);
+
+            .card-icon-bg {
+                opacity: 0.1;
+                transform: scale(1.1);
+            }
         }
+
+        .card-icon-bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: v.$s-4;
+            opacity: 0.05;
+            transition: all 0.3s;
+            pointer-events: none;
+
+            i {
+                font-size: 6rem;
+            }
+
+            // Helper classes for colors
+            .text-primary {
+                color: v.$primary;
+            }
+
+            .text-info {
+                color: v.$info;
+            }
+
+            .text-purple {
+                color: #a855f7;
+            }
+
+            .text-warning {
+                color: v.$warning;
+            }
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+
+            .kpi-label {
+                font-size: 11px;
+                font-weight: 700;
+                color: v.$gray-400;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                margin-bottom: v.$s-2;
+            }
+
+            .kpi-value {
+                font-size: v.$text-3xl;
+                font-weight: 900;
+                color: v.$gray-900;
+                margin: 0;
+                line-height: 1.2;
+            }
+
+            .kpi-trend {
+                margin-top: v.$s-4;
+                font-size: v.$text-xs;
+                font-weight: 700;
+                background-color: #f0fdf4; // Green 50
+                color: #16a34a; // Green 600
+                padding: v.$s-1 v.$s-2;
+                border-radius: v.$radius-md;
+                width: fit-content;
+                display: flex;
+                align-items: center;
+                gap: v.$s-1;
+
+                &.positive {
+                    // Styles already default positive
+                }
+            }
+
+            .progress-bar-container {
+                margin-top: v.$s-4;
+                width: 100%;
+                background-color: v.$gray-100;
+                height: 0.375rem; // 1.5 equivalent approx
+                border-radius: 9999px;
+                overflow: hidden;
+
+                .progress-bar {
+                    background-color: #3b82f6; // Blue 500
+                    height: 100%;
+                    border-radius: 9999px;
+                }
+            }
+
+            .kpi-subtitle {
+                margin-top: v.$s-4;
+                font-size: v.$text-xs;
+                color: v.$gray-400;
+                font-weight: 500;
+            }
+
+            .kpi-avatars {
+                margin-top: v.$s-4;
+                display: flex;
+
+                .avatar {
+                    width: 2rem;
+                    height: 2rem;
+                    border-radius: 50%;
+                    background-color: v.$gray-200;
+                    border: 2px solid v.$white;
+                    margin-left: -0.5rem;
+
+                    &:first-child {
+                        margin-left: 0;
+                    }
+
+                    &.more {
+                        background-color: v.$gray-400;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 10px;
+                        color: v.$white;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.charts-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: v.$s-6;
+
+    @include m.desktop {
+        grid-template-columns: 2fr 1fr;
+    }
+
+    .chart-card {
+        background-color: v.$white;
+        padding: v.$s-6;
+        border-radius: v.$radius-2xl;
+        box-shadow: v.$shadow-sm;
+        border: 1px solid v.$gray-100;
+        display: flex;
+        flex-direction: column;
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: v.$s-6;
+
+            h3 {
+                font-size: v.$text-lg;
+                font-weight: 700;
+                color: v.$gray-900;
+                margin: 0;
+            }
+
+            p {
+                font-size: v.$text-sm;
+                color: v.$gray-400;
+                margin: 0;
+            }
+
+            .chart-filter {
+                background-color: v.$gray-50;
+                border: none;
+                font-size: v.$text-xs;
+                font-weight: 700;
+                color: v.$gray-600;
+                border-radius: v.$radius-lg;
+                padding: v.$s-2 v.$s-3;
+                cursor: pointer;
+                outline: none;
+
+                &:focus {
+                    box-shadow: 0 0 0 2px rgba(v.$primary, 0.2);
+                }
+            }
+        }
+
+        .card-title {
+            font-size: v.$text-lg;
+            font-weight: 700;
+            color: v.$gray-900;
+            margin-bottom: v.$s-6;
+        }
+
+        .chart-container {
+            height: 16rem;
+            background-color: v.$gray-50;
+            border-radius: v.$radius-xl;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed v.$gray-100;
+        }
+
+        // List Styles
+        .sellers-list {
+            display: flex;
+            flex-direction: column;
+            gap: v.$s-4;
+            flex: 1;
+            overflow-y: auto;
+
+            .seller-item {
+                display: flex;
+                align-items: center;
+                gap: v.$s-3;
+                padding: v.$s-3;
+                border-radius: v.$radius-xl;
+                cursor: pointer;
+                transition: background-color 0.2s;
+
+                &:hover {
+                    background-color: v.$gray-50;
+                }
+
+                .seller-avatar {
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    border-radius: 50%;
+                    background-color: rgba(v.$primary, 0.1);
+                    color: v.$primary;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: 700;
+                    font-size: v.$text-sm;
+
+                    &.secondary {
+                        background-color: #ffedd5; // Orange 100
+                        color: #ea580c; // Orange 600
+                    }
+                }
+
+                .seller-info {
+                    flex: 1;
+
+                    h4 {
+                        font-size: v.$text-sm;
+                        font-weight: 700;
+                        color: v.$gray-900;
+                        margin: 0;
+                    }
+
+                    p {
+                        font-size: v.$text-xs;
+                        color: v.$gray-400;
+                        margin: 0;
+                    }
+                }
+
+                .seller-total {
+                    font-size: v.$text-sm;
+                    font-weight: 700;
+                    color: v.$gray-900;
+                }
+            }
+        }
+    }
+}
+
+.custom-scrollbar {
+
+    // Utility class reused or redefined
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: v.$gray-300;
+        border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: v.$gray-400;
     }
 }

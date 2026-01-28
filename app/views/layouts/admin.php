@@ -15,14 +15,14 @@
     <link rel="stylesheet" href="/build/css/app.css">
 </head>
 
-<body class="admin-layout flex h-screen overflow-hidden">
+<body class="admin-layout">
 
     <?php \components\ComponentManager::make('sidebar')->echo(); ?>
 
-    <div class="flex-1 flex flex-col overflow-hidden">
+    <div class="admin-wrapper">
         <?php \components\ComponentManager::make('navbar', ['titulo' => $titulo])->echo(); ?>
 
-        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+        <main class="admin-content">
             <?php echo $contenedor; ?>
         </main>
     </div>

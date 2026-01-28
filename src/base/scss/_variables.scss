@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 // Fuentes (Google Fonts: Inter)
 $primary-font: 'Inter', sans-serif;
 $font-body: 'Inter', sans-serif;
@@ -10,8 +12,8 @@ $desktop: 1024px;
 
 // Colores Primarios (Extraídos de Stitch)
 $primary: #2b8cee;
-$primary-light: lighten($primary, 15%);
-$primary-dark: darken($primary, 10%);
+$primary-light: color.scale($primary, $lightness: 15%);
+$primary-dark: color.scale($primary, $lightness: -10%);
 
 // Colores de Estado
 $success: #10b981;
@@ -81,17 +83,25 @@ $radius-default: 0.25rem;
 $radius-md: 0.375rem;
 $radius-lg: 0.5rem;
 $radius-xl: 0.75rem;
+$radius-2xl: 1rem;
 $radius-full: 9999px;
 
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 $shadow-subtle: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 $shadow-normal: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 $shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
 $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+$shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 
 // Escala de Espaciado (Sizing Helpers)
 $s-1: 0.25rem; // 4px
+$s-1-5: 0.375rem; // 6px
 $s-2: 0.5rem; // 8px
+$s-2-5: 0.625rem; // 10px
 $s-3: 0.75rem; // 12px
+$s-3-5: 0.875rem; // 14px
 $s-4: 1rem; // 16px
 $s-5: 1.25rem; // 20px
 $s-6: 1.5rem; // 24px
@@ -100,6 +110,7 @@ $s-10: 2.5rem; // 40px
 $s-12: 3rem; // 48px
 $s-16: 4rem; // 64px
 $s-20: 5rem; // 80px
+$s-24: 6rem; // 96px
 
 // Espaciado base (Legacy support)
 $space: $s-20;

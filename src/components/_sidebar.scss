@@ -1,0 +1,137 @@
+@use 'sass:color';
+@use '../base/scss/variables' as v;
+@use '../base/scss/mixins' as m;
+
+.sidebar {
+    width: 16rem; // w-64
+    background-color: v.$white;
+    border-right: 1px solid v.$gray-200;
+    display: flex;
+    flex-direction: column;
+
+    .sidebar-header {
+        padding: v.$s-6;
+        border-bottom: 1px solid v.$gray-200;
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: v.$s-3;
+
+            i {
+                color: v.$primary;
+                font-size: v.$text-2xl;
+            }
+
+            h1 {
+                font-size: v.$text-xl;
+                font-weight: 700;
+                margin: 0;
+            }
+        }
+    }
+
+    .sidebar-nav {
+        flex: 1;
+        padding: v.$s-4;
+        display: flex;
+        flex-direction: column;
+        gap: v.$s-2;
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: v.$s-3;
+            padding: v.$s-3;
+            border-radius: v.$radius-lg;
+            color: v.$gray-600;
+            transition: background-color 0.2s, color 0.2s;
+            text-decoration: none;
+
+            i {
+                width: 1.5rem; // w-6
+                text-align: center;
+            }
+
+            .font-medium {
+                font-weight: 500;
+            }
+
+            &:hover {
+                background-color: v.$gray-50;
+                color: v.$gray-800;
+            }
+
+            &.active {
+                background-color: v.$primary;
+                color: v.$white;
+
+                &:hover {
+                    background-color: v.$primary-dark;
+                }
+            }
+        }
+    }
+
+    .sidebar-footer {
+        padding: v.$s-4;
+        border-top: 1px solid v.$gray-200;
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: v.$s-3;
+            padding: v.$s-3;
+            border-radius: v.$radius-lg;
+            background-color: v.$gray-50;
+
+            .avatar {
+                width: 2.5rem; // w-10
+                height: 2.5rem; // h-10
+                border-radius: v.$radius-full;
+                background-color: v.$primary;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: v.$white;
+            }
+
+            .user-info {
+                overflow: hidden;
+
+                p {
+                    font-size: v.$text-sm;
+                    font-weight: 700;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    margin: 0;
+                }
+
+                .logout-link {
+                    font-size: v.$text-xs;
+                    color: v.$error;
+                    text-decoration: none;
+
+                    &:hover {
+                        color: color.scale(v.$error, $lightness: -10%);
+                    }
+                }
+            }
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: v.$s-3;
+            padding: v.$s-3;
+            color: v.$error;
+            text-decoration: none;
+            border-radius: v.$radius-lg;
+
+            &:hover {
+                background-color: color.scale(v.$error, $lightness: 45%);
+            }
+        }
+    }
+}

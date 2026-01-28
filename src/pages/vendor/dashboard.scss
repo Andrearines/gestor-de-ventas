@@ -1,6 +1,6 @@
-@import '../../base/scss/variables';
+@use '../../base/scss/variables' as v;
 
 .vendor-layout {
-    font-family: $primary-font;
-    background-color: $background-light;
+    font-family: v.$primary-font;
+    background-color: v.$background-light;
 }

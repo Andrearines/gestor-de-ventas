@@ -1,59 +1,93 @@
-<div class="min-h-screen flex items-center justify-center p-4">
-    <!-- Componente oficial de alertas -->
-    <?php \components\ComponentManager::make('alert/alertas', ['alertas' => $alertas ?? []])->echo(); ?>
+<div class="h-screen w-full flex overflow-hidden bg-white">
+    <!-- Componente oficial de alertas (Flotante) -->
+    <?php \components\ComponentManager::make('alert/alertas', ['alertas' => $alertas ?? ["hola"]])->echo(); ?>
 
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
-        <div class="p-8">
-            <div class="text-center mb-10">
-                <div
-                    class="inline-flex items-center justify-center w-20 h-20 bg-primary/10 rounded-2xl text-primary mb-6">
-                    <i class="fa-solid fa-burger text-4xl"></i>
+    <div class="login-layout">
+        <!-- Visual Branding Section (Left) -->
+        <div class="login-visual">
+            <div class="visual-content">
+                <div class="brand-badge">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>Gestor de Ventas</span>
                 </div>
-                <h1 class="text-3xl font-bold text-gray-900">Bienvenido</h1>
-                <p class="text-gray-500 mt-2">Ingresa tus credenciales para continuar</p>
+
+                <div class="hero-text">
+                    <h1>Gestión Inteligente para<br>Tus Eventos</h1>
+                    <p>Administra ventas, controla inventarios y visualiza métricas en tiempo real con nuestra
+                        plataforma premium.</p>
+                </div>
+
+                <!-- Testimonial/Trust Indicator -->
+                <div class="trust-indicator">
+                    <div class="avatars">
+                        <div class="avatar" style="background-image: url('https://i.pravatar.cc/100?img=33');"></div>
+                        <div class="avatar" style="background-image: url('https://i.pravatar.cc/100?img=47');"></div>
+                        <div class="avatar" style="background-image: url('https://i.pravatar.cc/100?img=12');"></div>
+                    </div>
+                    <div class="trust-text">
+                        <div class="stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p>Confiado por +500 organizaciones</p>
+                    </div>
+                </div>
             </div>
 
-            <form action="/auth/login" method="POST" class="space-y-6">
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Correo Electrónico</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                        <input type="email" id="email" name="email" required
-                            class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                            placeholder="tu@correo.com">
-                    </div>
-                </div>
-
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                        <input type="password" id="password" name="password" required
-                            class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                            placeholder="••••••••">
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between text-sm">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary">
-                        <span class="text-gray-600">Recordarme</span>
-                    </label>
-                    <a href="#" class="font-medium text-primary hover:text-primary-dark transition-colors">¿Olvidaste tu
-                        contraseña?</a>
-                </div>
-
-                <button type="submit"
-                    class="w-full py-4 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:bg-primary-dark transform active:scale-[0.98] transition-all">
-                    Iniciar Sesión
-                </button>
-            </form>
+            <!-- Background Pattern/Overlay -->
+            <div class="visual-overlay"></div>
         </div>
 
-        <div class="p-6 bg-gray-50 border-t border-gray-100 text-center">
-            <p class="text-sm text-gray-600">
-                ¿No tienes cuenta? <span class="text-primary font-medium">Contacta al administrador</span>
-            </p>
+        <!-- Login Form Section (Right) -->
+        <div class="login-form-wrapper">
+            <div class="login-container">
+                <div class="form-header">
+                    <div class="logo-icon">
+                        <i class="fa-solid fa-fingerprint"></i>
+                    </div>
+                    <h2>Bienvenido de nuevo</h2>
+                    <p>Ingresa tus credenciales para acceder al panel.</p>
+                </div>
+
+                <form method="POST" action="/" class="auth-form">
+
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fa-regular fa-envelope"></i>
+                            <input type="email" id="email" name="email" required placeholder="nombre@ejemplo.com">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fa-regular fa-lock"></i>
+                            <input type="password" id="password" name="password" required placeholder="••••••••">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember" name="remember">
+                            <label for="remember">Recordar dispositivo</label>
+                        </div>
+                        <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                    </div>
+
+                    <button type="submit" class="btn-login">
+                        Iniciar Sesión
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <div class="form-footer">
+                    <p>¿No tienes una cuenta? <a href="#">Contactar soporte</a></p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
