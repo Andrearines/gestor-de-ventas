@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: gestor_ventas_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: gestor-de-ventas
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: banana
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./db/Untitled.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  mysql_data:
