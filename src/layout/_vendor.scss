@@ -1,0 +1,29 @@
+@use 'sass:color';
+@use '../base/scss/variables' as v;
+@use '../base/scss/mixins' as m;
+
+.vendor-layout {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    background-color: v.$gray-50;
+
+    .vendor-wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .vendor-content {
+        flex: 1;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background-color: v.$gray-50;
+        padding: v.$s-6;
+
+        @include m.tablet {
+            padding: v.$s-8;
+        }
+    }
+}

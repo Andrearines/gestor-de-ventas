@@ -64,30 +64,34 @@ class VendorController
 
     public static function reservations(Router $router)
     {
+        // Datos manuales para el modal
+        $combos = [
+            ['id' => 1, 'nombre' => "Dave's Single® Combo", 'precio' => 8.50],
+            ['id' => 2, 'nombre' => "10 Pc. Chicken Nuggets Combo", 'precio' => 7.25],
+            ['id' => 3, 'nombre' => "Spicy Chicken Sandwich Combo", 'precio' => 9.00],
+        ];
+
         // Datos manuales de reservas
         $reservations = [
             [
                 'id' => 1,
                 'cliente' => 'Carlos Mendez',
-                'boletos' => 4,
+                'combos' => "2x Dave's Single",
                 'evento' => "Wendy's Fest",
-                'expira' => '24 Oct, 18:00',
                 'status' => 'pendiente'
             ],
             [
                 'id' => 2,
                 'cliente' => 'Elena Rodriguez',
-                'boletos' => 2,
+                'combos' => "1x Spicy Chicken",
                 'evento' => "Concierto Rock",
-                'expira' => '25 Oct, 12:00',
                 'status' => 'confirmada'
             ],
             [
                 'id' => 3,
                 'cliente' => 'Roberto Goméz',
-                'boletos' => 6,
+                'combos' => "3x 10 Pc. Nuggets",
                 'evento' => "Wendy's Fest",
-                'expira' => '23 Oct, 10:00',
                 'status' => 'expirada'
             ]
         ];
@@ -101,6 +105,7 @@ class VendorController
             'titulo' => 'Mis Reservas',
             'currentPage' => 'reservations',
             'reservations' => $reservations,
+            'combos' => $combos,
             'breadcrumbs' => $breadcrumbs
         ], 'vendor');
     }

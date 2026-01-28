@@ -1,4 +1,5 @@
 @use '../base/scss/variables' as v;
+@use '../base/scss/mixins' as m;
 
 .navbar {
     height: 4rem; // h-16
@@ -11,7 +12,30 @@
     flex-shrink: 0;
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 100; // Aumentar z-index
+
+    .navbar-mobile-toggle {
+        display: flex;
+        width: 2.5rem;
+        height: 2.5rem;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        color: v.$gray-600;
+        cursor: pointer;
+        border-radius: v.$radius-md;
+        transition: all 0.2s;
+        margin-right: v.$s-2;
+
+        &:hover {
+            background-color: v.$gray-100;
+            color: v.$primary;
+        }
+
+        @include m.tablet {
+            display: none;
+        }
+    }
 
     .navbar-left {
         display: flex;

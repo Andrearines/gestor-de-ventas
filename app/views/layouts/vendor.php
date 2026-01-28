@@ -15,16 +15,14 @@
     <link rel="stylesheet" href="/build/css/app.css">
 </head>
 
-<body class="vendor-layout flex h-screen overflow-hidden">
-    
+<body class="vendor-layout">
+
     <?php \components\ComponentManager::make('sidebar_vendor')->echo(); ?>
 
-    <div class="flex-1 flex flex-col overflow-hidden">
-        <header class="h-16 bg-white border-b border-gray-200 flex items-center px-8 shrink-0">
-            <h2 class="text-lg font-semibold"><?php echo $titulo; ?></h2>
-        </header>
+    <div class="vendor-wrapper">
+        <?php \components\ComponentManager::make('navbar', ['titulo' => $titulo])->echo(); ?>
 
-        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
+        <main class="vendor-content">
             <?php echo $contenedor; ?>
         </main>
     </div>
@@ -37,6 +35,11 @@
         }
     }
     ?>
+    <script>
+        function toggleSidebar() {
+            document.querySelector('.vendor-layout').classList.toggle('sidebar-active');
+        }
+    </script>
 </body>
 
 </html>

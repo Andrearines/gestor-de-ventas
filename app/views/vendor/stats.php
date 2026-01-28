@@ -4,7 +4,7 @@
         <p>Análisis detallado de tu desempeño.</p>
     </div>
 
-    <div class="stats-grid">
+    <div class="kpi-grid">
         <div class="stat-card">
             <h3>Total Ventas</h3>
             <p class="value">$1,245.00</p>
@@ -35,38 +35,3 @@
         </div>
     </div>
 </div>
-
-<style>
-    .vendor-stats-container {
-        padding: 2rem;
-    }
-
-    .header {
-        margin-bottom: 2rem;
-    }
-
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
-    }
-
-    .stat-card {
-        background: white;
-        padding: 1.5rem;
-        border-radius: 1rem;
-        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    }
-
-    .stat-card h3 {
-        color: #6b7280;
-        font-size: 0.875rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .stat-card .value {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: #111827;
-    }
-</style>

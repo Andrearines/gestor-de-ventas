@@ -2,7 +2,9 @@
 @use '../../base/scss/mixins' as m;
 
 .vendor-stats-container {
-    padding: v.$s-6;
+    padding: v.$s-4;
+    background-color: v.$gray-50;
+    min-height: 100vh;
 
     .header {
         margin-bottom: v.$s-8;
@@ -20,11 +22,20 @@
         }
     }
 
-    .stats-grid {
+    .kpi-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: v.$s-6;
-        margin-bottom: v.$s-8;
+        grid-template-columns: 1fr;
+        gap: v.$s-4;
+        margin-bottom: v.$s-6;
+
+        @include m.tablet {
+            grid-template-columns: repeat(2, 1fr);
+            gap: v.$s-6;
+        }
+
+        @include m.desktop {
+            grid-template-columns: repeat(4, 1fr);
+        }
     }
 
     .stat-card {

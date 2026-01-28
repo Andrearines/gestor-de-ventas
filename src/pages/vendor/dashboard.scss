@@ -2,7 +2,7 @@
 @use '../../base/scss/mixins' as m;
 
 .vendor-dashboard-container {
-    padding: v.$s-6;
+    padding: v.$s-4;
     background-color: v.$gray-50;
     min-height: 100vh;
     font-family: v.$primary-font;
@@ -230,10 +230,9 @@
         box-shadow: v.$shadow-sm;
 
         .sale-item {
-            display: grid;
-            grid-template-columns: 2fr 1.5fr 1fr 1fr;
-            gap: v.$s-4;
-            padding: v.$s-4 v.$s-6;
+            grid-template-columns: 1fr;
+            gap: v.$s-2;
+            padding: v.$s-4;
             border-bottom: 1px solid v.$gray-100;
             transition: background-color 0.2s;
 
@@ -247,6 +246,8 @@
 
             @include m.tablet {
                 grid-template-columns: 2fr 1.5fr 1.5fr 1fr;
+                gap: v.$s-4;
+                padding: v.$s-4 v.$s-6;
             }
 
             .sale-ticket {

@@ -4,10 +4,18 @@
 
 .pos-layout {
     display: flex;
-    height: 100vh;
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
     background-color: v.$gray-50;
     font-family: v.$primary-font;
-    overflow: hidden;
+    overflow-y: auto;
+
+    @include m.desktop {
+        flex-direction: row;
+        height: 100vh;
+        overflow: hidden;
+    }
 
     .pos-main {
         flex: 1;
@@ -18,12 +26,20 @@
 
         .pos-header {
             background-color: v.$white;
-            padding: v.$s-6;
+            padding: v.$s-4;
             box-shadow: v.$shadow-sm;
             z-index: 10;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: v.$s-4;
+            align-items: flex-start;
+
+            @include m.tablet {
+                padding: v.$s-6;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
 
             .header-info {
                 h1 {
@@ -42,8 +58,12 @@
             }
 
             .header-search {
-                width: 24rem; // w-96
+                width: 100%;
                 position: relative;
+
+                @include m.tablet {
+                    width: 24rem; // w-96
+                }
 
                 .search-input-wrapper {
                     position: relative;
@@ -145,11 +165,18 @@
         .products-grid {
             flex: 1;
             overflow-y: auto;
-            padding: v.$s-6;
+            @include m.custom-scrollbar;
+            padding: v.$s-4;
             background-color: v.$gray-50;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: v.$s-6;
+            grid-template-columns: 1fr;
+            gap: v.$s-4;
+
+            @include m.tablet {
+                grid-template-columns: repeat(2, 1fr);
+                padding: v.$s-6;
+                gap: v.$s-6;
+            }
 
             @include m.desktop {
                 grid-template-columns: repeat(3, 1fr);
@@ -236,6 +263,7 @@
                         margin: 0;
                         display: -webkit-box;
                         -webkit-line-clamp: 2;
+                        line-clamp: 2; // Fixed lint
                         -webkit-box-orient: vertical;
                         overflow: hidden;
                     }
@@ -279,13 +307,19 @@
     }
 
     .pos-sidebar {
-        width: 24rem; // w-96
+        width: 100%;
         background-color: v.$white;
-        box-shadow: -4px 0 15px rgba(0, 0, 0, 0.05);
+        border-top: 1px solid v.$gray-100;
         display: flex;
         flex-direction: column;
-        border-left: 1px solid v.$gray-100;
         z-index: 20;
+
+        @include m.desktop {
+            width: 24rem; // w-96
+            border-left: 1px solid v.$gray-100;
+            border-top: none;
+            box-shadow: -4px 0 15px rgba(0, 0, 0, 0.05);
+        }
 
         .cart-header {
             padding: v.$s-6;
@@ -313,6 +347,14 @@
             display: flex;
             flex-direction: column;
             gap: v.$s-4;
+            min-height: 200px;
+            max-height: 400px; // Limitar altura para forzar scroll
+
+            @include m.custom-scrollbar;
+
+            @include m.desktop {
+                max-height: none; // En PC puede crecer o usar flex: 1
+            }
 
             .cart-empty {
                 height: 100%;
@@ -452,7 +494,7 @@
                     box-shadow: 0 10px 20px -5px rgba(v.$primary, 0.4);
 
                     &:hover {
-                        background-color: darken(v.$primary, 5%);
+                        background-color: color.scale(v.$primary, $lightness: -10%);
                         transform: translateY(-2px);
                     }
                 }

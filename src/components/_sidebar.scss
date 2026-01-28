@@ -8,9 +8,21 @@
     border-right: 1px solid v.$gray-200;
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    position: sticky;
+    position: fixed;
+    left: 0;
     top: 0;
+    height: 100vh;
+    transform: translateX(-100%);
+    z-index: 1000;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: v.$shadow-xl;
+
+    @include m.tablet {
+        position: sticky;
+        transform: translateX(0);
+        box-shadow: none;
+        width: 16rem; // Restablecer ancho si es necesario
+    }
 
     .sidebar-header {
         padding: v.$s-6;
@@ -190,6 +202,30 @@
 
 // Vendor sidebar variant
 .sidebar-vendor {
-    // Inherits all styles from .sidebar
-    // Can add specific overrides here if needed
+    border-right: 1px solid v.$gray-100;
+}
+
+// Global responsive behavior for active sidebar
+.sidebar-active {
+    .sidebar {
+        transform: translateX(0);
+
+        @include m.tablet {
+            // No action needed here usually, but just in case
+        }
+    }
+
+    // Modal overlay on content when sidebar is active
+    .vendor-wrapper::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(2px);
+        z-index: 900;
+
+        @include m.tablet {
+            display: none;
+        }
+    }
 }

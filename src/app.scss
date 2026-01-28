@@ -9,6 +9,7 @@
 @forward 'components/sidebar';
 @forward 'components/navbar';
 @forward 'layout/admin';
+@forward 'layout/vendor';
 
 // Page-specific styles
 @forward 'pages/auth/login';

@@ -1,4 +1,7 @@
 <header class="navbar">
+    <div class="navbar-mobile-toggle" onclick="toggleSidebar()">
+        <i class="fa-solid fa-bars"></i>
+    </div>
     <div class="navbar-left">
         <div class="breadcrumb">
             <?php if (isset($breadcrumbs) && is_array($breadcrumbs)): ?>

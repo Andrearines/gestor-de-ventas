@@ -2,7 +2,11 @@
 @use '../../base/scss/mixins' as m;
 
 .vendor-export-container {
-    padding: v.$s-6;
+    padding: v.$s-4;
+
+    @include m.tablet {
+        padding: v.$s-10;
+    }
 
     .header {
         margin-bottom: v.$s-8;
@@ -22,19 +26,34 @@
 
     .export-options {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: v.$s-6;
+        grid-template-columns: 1fr;
+        gap: v.$s-4;
+
+        @include m.tablet {
+            grid-template-columns: repeat(2, 1fr);
+            gap: v.$s-6;
+        }
     }
 
     .export-card {
         background: v.$white;
-        padding: v.$s-8;
+        padding: v.$s-6;
         border-radius: v.$radius-2xl;
         box-shadow: v.$shadow-sm;
         border: 1px solid v.$gray-100;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: v.$s-6;
+        text-align: center;
+        gap: v.$s-4;
+
+        @include m.tablet {
+            padding: v.$s-8;
+            flex-direction: row;
+            align-items: center;
+            text-align: left;
+            gap: v.$s-6;
+        }
 
         .icon-bg {
             width: 64px;

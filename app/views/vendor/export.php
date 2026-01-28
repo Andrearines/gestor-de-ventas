@@ -32,36 +32,4 @@
         </div>
     </div>
 </div>
-
-<style>
-    .vendor-export-container {
-        padding: 2rem;
-    }
-
-    .header {
-        margin-bottom: 2rem;
-    }
-
-    .export-options {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
-    }
-
-    .card {
-        background: white;
-        padding: 1.5rem;
-        border-radius: 1rem;
-        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
-    }
-
-    .btn-primary {
-        background: #2b8cee;
-        color: white;
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        margin-top: 1rem;
-    }
-</style>
+</div>
