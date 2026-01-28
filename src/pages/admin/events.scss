@@ -1,0 +1,616 @@
+@use '../../base/scss/variables' as v;
+@use '../../base/scss/mixins' as m;
+
+// Events Container
+.events-container,
+.create-event-container {
+    padding: v.$s-6;
+    background-color: v.$gray-50;
+    min-height: 100vh;
+
+    @include m.tablet {
+        padding: v.$s-10;
+    }
+}
+
+// Header
+.events-header,
+.create-event-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: v.$s-8;
+    flex-wrap: wrap;
+    gap: v.$s-4;
+
+    .header-title {
+        display: flex;
+        align-items: center;
+        gap: v.$s-4;
+
+        .back-link {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: v.$radius-lg;
+            background-color: v.$white;
+            border: 1px solid v.$gray-200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: v.$gray-600;
+            text-decoration: none;
+            transition: all 0.2s;
+
+            &:hover {
+                background-color: v.$gray-50;
+                border-color: v.$primary;
+                color: v.$primary;
+            }
+        }
+
+        h1 {
+            font-size: v.$text-3xl;
+            font-weight: 700;
+            color: v.$gray-900;
+            margin: 0;
+        }
+
+        p {
+            font-size: v.$text-base;
+            color: v.$gray-500;
+            margin: 0;
+        }
+    }
+
+    .header-actions {
+        display: flex;
+        gap: v.$s-3;
+    }
+}
+
+// Filtros
+.filters-panel {
+    background-color: v.$white;
+    border: 1px solid v.$gray-100;
+    border-radius: v.$radius-2xl;
+    padding: v.$s-6;
+    margin-bottom: v.$s-6;
+    box-shadow: v.$shadow-sm;
+
+    .filters-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: v.$s-4;
+
+        @include m.tablet {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .filter-group {
+            label {
+                display: block;
+                font-size: v.$text-sm;
+                font-weight: 600;
+                color: v.$gray-700;
+                margin-bottom: v.$s-2;
+            }
+
+            input,
+            select {
+                width: 100%;
+                padding: v.$s-2-5 v.$s-3;
+                border: 1px solid v.$gray-200;
+                border-radius: v.$radius-lg;
+                font-size: v.$text-sm;
+                transition: all 0.2s;
+
+                &:focus {
+                    outline: none;
+                    border-color: v.$primary;
+                    box-shadow: 0 0 0 3px rgba(v.$primary, 0.1);
+                }
+            }
+        }
+    }
+}
+
+// Stats
+.events-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: v.$s-4;
+    margin-bottom: v.$s-8;
+
+    @include m.tablet {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .stat-card {
+        background-color: v.$white;
+        border-radius: v.$radius-2xl;
+        padding: v.$s-6;
+        display: flex;
+        align-items: center;
+        gap: v.$s-4;
+        border: 1px solid v.$gray-100;
+        box-shadow: v.$shadow-sm;
+
+        .stat-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: v.$radius-lg;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: v.$text-xl;
+        }
+
+        &.stat-card-primary .stat-icon {
+            background-color: rgba(v.$primary, 0.1);
+            color: v.$primary;
+        }
+
+        &.stat-card-success .stat-icon {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+
+        &.stat-card-warning .stat-icon {
+            background-color: #ffedd5;
+            color: #ea580c;
+        }
+
+        .stat-content {
+            .stat-label {
+                font-size: v.$text-sm;
+                font-weight: 600;
+                color: v.$gray-500;
+                margin: 0 0 v.$s-1 0;
+            }
+
+            .stat-value {
+                font-size: v.$text-3xl;
+                font-weight: 900;
+                color: v.$gray-900;
+                margin: 0;
+            }
+        }
+    }
+}
+
+// Tabla de eventos
+.events-table-container {
+    background-color: v.$white;
+    border: 1px solid v.$gray-100;
+    border-radius: v.$radius-2xl;
+    overflow: hidden;
+    box-shadow: v.$shadow-sm;
+
+    .events-table {
+        width: 100%;
+        border-collapse: collapse;
+
+        thead {
+            background-color: v.$gray-50;
+
+            tr th {
+                padding: v.$s-4 v.$s-6;
+                text-align: left;
+                font-size: v.$text-xs;
+                font-weight: 700;
+                color: v.$gray-500;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+        }
+
+        tbody {
+            tr {
+                border-bottom: 1px solid v.$gray-100;
+                transition: background-color 0.2s;
+
+                &:hover {
+                    background-color: v.$gray-50;
+                }
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                td {
+                    padding: v.$s-4 v.$s-6;
+                    font-size: v.$text-sm;
+                    color: v.$gray-600;
+
+                    .event-info {
+                        display: flex;
+                        align-items: center;
+                        gap: v.$s-3;
+
+                        .event-icon {
+                            width: 2.5rem;
+                            height: 2.5rem;
+                            border-radius: v.$radius-lg;
+                            background-color: rgba(v.$primary, 0.1);
+                            color: v.$primary;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+
+                        .event-name {
+                            font-weight: 700;
+                            color: v.$gray-900;
+                            margin: 0;
+                        }
+
+                        .event-category {
+                            font-size: v.$text-xs;
+                            color: v.$gray-400;
+                            margin: 0;
+                        }
+                    }
+
+                    .event-date {
+                        font-weight: 600;
+                        color: v.$gray-900;
+                        margin: 0;
+                    }
+
+                    .event-time {
+                        font-size: v.$text-xs;
+                        color: v.$gray-400;
+                        margin: 0;
+                    }
+
+                    .progress-info {
+                        span {
+                            font-weight: 600;
+                            color: v.$gray-900;
+                        }
+
+                        .progress-bar {
+                            width: 100%;
+                            height: 6px;
+                            background-color: v.$gray-200;
+                            border-radius: v.$radius-full;
+                            margin-top: v.$s-2;
+                            overflow: hidden;
+
+                            .progress-fill {
+                                height: 100%;
+                                background: linear-gradient(90deg, v.$primary 0%, v.$primary-dark 100%);
+                                border-radius: v.$radius-full;
+                                transition: width 0.3s;
+                            }
+                        }
+                    }
+
+                    .action-buttons {
+                        display: flex;
+                        gap: v.$s-2;
+
+                        .btn-icon {
+                            width: 2rem;
+                            height: 2rem;
+                            border-radius: v.$radius-md;
+                            background-color: v.$gray-50;
+                            border: none;
+                            color: v.$gray-600;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            cursor: pointer;
+                            transition: all 0.2s;
+
+                            &:hover {
+                                background-color: v.$primary;
+                                color: v.$white;
+                            }
+
+                            &.btn-danger:hover {
+                                background-color: v.$error;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Modal
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+
+    .modal-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+        position: relative;
+        background-color: v.$white;
+        border-radius: v.$radius-2xl;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: v.$shadow-2xl;
+        animation: modalSlideIn 0.3s ease-out;
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: v.$s-6;
+            border-bottom: 1px solid v.$gray-100;
+
+            h3 {
+                font-size: v.$text-xl;
+                font-weight: 700;
+                color: v.$gray-900;
+                margin: 0;
+            }
+
+            .modal-close {
+                width: 2rem;
+                height: 2rem;
+                border-radius: v.$radius-md;
+                background: none;
+                border: none;
+                color: v.$gray-400;
+                cursor: pointer;
+                transition: all 0.2s;
+
+                &:hover {
+                    background-color: v.$gray-100;
+                    color: v.$gray-700;
+                }
+            }
+        }
+
+        .modal-body {
+            padding: v.$s-6;
+
+            p {
+                margin: 0 0 v.$s-3 0;
+                color: v.$gray-600;
+            }
+
+            .text-warning {
+                color: #ea580c;
+                font-size: v.$text-sm;
+            }
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: v.$s-3;
+            padding: v.$s-6;
+            border-top: 1px solid v.$gray-100;
+            justify-content: flex-end;
+        }
+    }
+}
+
+// Formulario de evento
+.event-form {
+    .form-section {
+        background-color: v.$white;
+        border: 1px solid v.$gray-100;
+        border-radius: v.$radius-2xl;
+        padding: v.$s-6;
+        margin-bottom: v.$s-6;
+        box-shadow: v.$shadow-sm;
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: v.$s-3;
+            font-size: v.$text-xl;
+            font-weight: 700;
+            color: v.$gray-900;
+            margin: 0 0 v.$s-6 0;
+            padding-bottom: v.$s-4;
+            border-bottom: 1px solid v.$gray-100;
+
+            i {
+                color: v.$primary;
+            }
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: v.$s-4;
+
+            @include m.tablet {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .full-width {
+                grid-column: 1 / -1;
+            }
+        }
+
+        .form-group {
+            label {
+                display: block;
+                font-size: v.$text-sm;
+                font-weight: 600;
+                color: v.$gray-700;
+                margin-bottom: v.$s-2;
+            }
+
+            input,
+            select,
+            textarea {
+                width: 100%;
+                padding: v.$s-3;
+                border: 1px solid v.$gray-200;
+                border-radius: v.$radius-lg;
+                font-size: v.$text-sm;
+                transition: all 0.2s;
+
+                &:focus {
+                    outline: none;
+                    border-color: v.$primary;
+                    box-shadow: 0 0 0 3px rgba(v.$primary, 0.1);
+                }
+            }
+
+            textarea {
+                resize: vertical;
+                font-family: inherit;
+            }
+
+            .input-group {
+                position: relative;
+                display: flex;
+                align-items: center;
+
+                .input-prefix {
+                    position: absolute;
+                    left: v.$s-3;
+                    color: v.$gray-400;
+                    font-weight: 600;
+                }
+
+                input {
+                    padding-left: v.$s-8;
+                }
+            }
+
+            .checkbox-group {
+                display: flex;
+                align-items: center;
+                gap: v.$s-2;
+
+                input[type="checkbox"] {
+                    width: auto;
+                    cursor: pointer;
+                }
+
+                label {
+                    margin: 0;
+                    cursor: pointer;
+                }
+            }
+
+            .form-error {
+                display: block;
+                color: v.$error;
+                font-size: v.$text-xs;
+                margin-top: v.$s-1;
+            }
+
+            &.has-error {
+
+                input,
+                select,
+                textarea {
+                    border-color: v.$error;
+                }
+            }
+        }
+    }
+
+    .form-actions {
+        display: flex;
+        gap: v.$s-3;
+        justify-content: flex-end;
+    }
+}
+
+// Botones
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: v.$s-2;
+    padding: v.$s-3 v.$s-6;
+    border-radius: v.$radius-lg;
+    font-size: v.$text-sm;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &.btn-primary {
+        background-color: v.$primary;
+        color: v.$white;
+
+        &:hover {
+            background-color: v.$primary-dark;
+        }
+
+        &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    }
+
+    &.btn-secondary {
+        background-color: v.$white;
+        color: v.$gray-700;
+        border: 1px solid v.$gray-200;
+
+        &:hover {
+            background-color: v.$gray-50;
+        }
+    }
+
+    &.btn-danger {
+        background-color: v.$error;
+        color: v.$white;
+
+        &:hover {
+            background-color: #dc2626;
+        }
+    }
+}
+
+.btn-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: v.$s-2;
+    padding: v.$s-3 v.$s-4;
+    background-color: v.$white;
+    border: 1px solid v.$gray-200;
+    border-radius: v.$radius-lg;
+    font-size: v.$text-sm;
+    font-weight: 600;
+    color: v.$gray-700;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        background-color: v.$gray-50;
+        border-color: v.$primary;
+        color: v.$primary;
+    }
+}

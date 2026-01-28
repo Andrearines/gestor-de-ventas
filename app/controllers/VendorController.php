@@ -61,4 +61,96 @@ class VendorController
             'breadcrumbs' => $breadcrumbs
         ], 'vendor');
     }
+
+    public static function reservations(Router $router)
+    {
+        // Datos manuales de reservas
+        $reservations = [
+            [
+                'id' => 1,
+                'cliente' => 'Carlos Mendez',
+                'boletos' => 4,
+                'evento' => "Wendy's Fest",
+                'expira' => '24 Oct, 18:00',
+                'status' => 'pendiente'
+            ],
+            [
+                'id' => 2,
+                'cliente' => 'Elena Rodriguez',
+                'boletos' => 2,
+                'evento' => "Concierto Rock",
+                'expira' => '25 Oct, 12:00',
+                'status' => 'confirmada'
+            ],
+            [
+                'id' => 3,
+                'cliente' => 'Roberto Goméz',
+                'boletos' => 6,
+                'evento' => "Wendy's Fest",
+                'expira' => '23 Oct, 10:00',
+                'status' => 'expirada'
+            ]
+        ];
+
+        $breadcrumbs = [
+            ['label' => 'Vendor', 'url' => '/vendor/dashboard'],
+            ['label' => 'Reservas']
+        ];
+
+        $router->view('vendor/reservations.php', [
+            'titulo' => 'Mis Reservas',
+            'currentPage' => 'reservations',
+            'reservations' => $reservations,
+            'breadcrumbs' => $breadcrumbs
+        ], 'vendor');
+    }
+
+    public static function tickets(Router $router)
+    {
+        // Datos manuales de boletos asignados al vendedor
+        $tickets = [
+            ['id' => 1, 'numero' => 1001, 'evento' => 'Escuela Norte', 'status' => 'disponible'],
+            ['id' => 2, 'numero' => 1002, 'evento' => 'Escuela Norte', 'status' => 'vendido'],
+        ];
+
+        $breadcrumbs = [
+            ['label' => 'Vendor', 'url' => '/vendor/dashboard'],
+            ['label' => 'Mis Boletos']
+        ];
+
+        $router->view('vendor/tickets.php', [
+            'titulo' => 'Mis Boletos Asignados',
+            'currentPage' => 'tickets',
+            'tickets' => $tickets,
+            'breadcrumbs' => $breadcrumbs
+        ], 'vendor');
+    }
+
+    public static function stats(Router $router)
+    {
+        $breadcrumbs = [
+            ['label' => 'Vendor', 'url' => '/vendor/dashboard'],
+            ['label' => 'Estadísticas']
+        ];
+
+        $router->view('vendor/stats.php', [
+            'titulo' => 'Mis Estadísticas',
+            'currentPage' => 'stats',
+            'breadcrumbs' => $breadcrumbs
+        ], 'vendor');
+    }
+
+    public static function export(Router $router)
+    {
+        $breadcrumbs = [
+            ['label' => 'Vendor', 'url' => '/vendor/dashboard'],
+            ['label' => 'Exportar']
+        ];
+
+        $router->view('vendor/export.php', [
+            'titulo' => 'Exportar Datos',
+            'currentPage' => 'export',
+            'breadcrumbs' => $breadcrumbs
+        ], 'vendor');
+    }
 }

@@ -1,0 +1,269 @@
+@use '../../base/scss/variables' as v;
+@use '../../base/scss/mixins' as m;
+
+.teams-container {
+    padding: v.$s-6;
+    background-color: v.$gray-50;
+    min-height: 100vh;
+
+    @include m.tablet {
+        padding: v.$s-10;
+    }
+}
+
+.teams-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: v.$s-8;
+
+    .header-title {
+        h1 {
+            font-size: v.$text-3xl;
+            font-weight: 700;
+            color: v.$gray-900;
+            margin: 0;
+        }
+
+        p {
+            font-size: v.$text-base;
+            color: v.$gray-500;
+            margin: 0;
+        }
+    }
+}
+
+.teams-overview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: v.$s-6;
+    margin-bottom: v.$s-8;
+    background: v.$primary;
+    padding: v.$s-8;
+    border-radius: v.$radius-2xl;
+    color: v.$white;
+    box-shadow: v.$shadow-lg;
+
+    .overview-item {
+        text-align: center;
+
+        .label {
+            display: block;
+            font-size: v.$text-xs;
+            font-weight: 700;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .value {
+            font-size: v.$text-2xl;
+            font-weight: 900;
+        }
+    }
+}
+
+.table-card {
+    background: v.$white;
+    border: 1px solid v.$gray-100;
+    border-radius: v.$radius-2xl;
+    box-shadow: v.$shadow-sm;
+    overflow: hidden;
+
+    .card-header {
+        padding: v.$s-6;
+        border-bottom: 1px solid v.$gray-100;
+
+        h3 {
+            font-size: v.$text-lg;
+            font-weight: 700;
+            color: v.$gray-900;
+            margin: 0;
+        }
+    }
+}
+
+.teams-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead {
+        background: v.$gray-50;
+
+        th {
+            padding: v.$s-4 v.$s-6;
+            text-align: left;
+            font-size: v.$text-xs;
+            font-weight: 700;
+            color: v.$gray-500;
+            text-transform: uppercase;
+        }
+    }
+
+    tbody {
+        tr {
+            border-bottom: 1px solid v.$gray-100;
+
+            &:hover {
+                background: v.$gray-50;
+            }
+
+            td {
+                padding: v.$s-4 v.$s-6;
+                font-size: v.$text-sm;
+                color: v.$gray-700;
+
+                .team-cell {
+                    display: flex;
+                    align-items: center;
+                    gap: v.$s-3;
+
+                    .team-avatar {
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 8px;
+                        background: rgba(v.$primary, 0.1);
+                        color: v.$primary;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: 900;
+                        font-size: 0.75rem;
+                        text-transform: uppercase;
+                    }
+
+                    .team-name {
+                        font-weight: 700;
+                        color: v.$gray-900;
+                    }
+                }
+
+                .members-badge {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 5px;
+                    background: v.$gray-100;
+                    padding: 4px 8px;
+                    border-radius: 6px;
+                    font-weight: 600;
+                    font-size: 0.75rem;
+
+                    i {
+                        font-size: 0.7rem;
+                        color: v.$gray-400;
+                    }
+                }
+
+                .amount {
+                    font-weight: 900;
+                    color: v.$gray-900;
+                }
+
+                .bonus {
+                    font-weight: 700;
+                    color: #15803d;
+                    font-size: 0.75rem;
+                }
+
+                .status-pill {
+                    padding: 4px 10px;
+                    border-radius: 20px;
+                    font-size: 10px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+
+                    &.status-activo {
+                        background: #dcfce7;
+                        color: #15803d;
+                    }
+
+                    &.status-en_pausa {
+                        background: #fff7ed;
+                        color: #9a3412;
+                    }
+                }
+
+                .action-group {
+                    display: flex;
+                    gap: v.$s-2;
+                    justify-content: flex-end;
+
+                    .icon-btn {
+                        background: none;
+                        border: none;
+                        font-size: 1.1rem;
+                        color: v.$gray-400;
+                        cursor: pointer;
+                        transition: all 0.2s;
+
+                        &:hover {
+                            color: v.$primary;
+                        }
+
+                        &.danger:hover {
+                            color: v.$error;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Estilos adicionales para formularios
+.form-help {
+    font-size: v.$text-xs;
+    color: v.$gray-500;
+    margin-top: v.$s-1;
+    font-style: italic;
+}
+
+.members-selection-list {
+    max-height: 250px;
+    overflow-y: auto;
+    background: v.$gray-50;
+    border: 1px solid v.$gray-200;
+    border-radius: v.$radius-lg;
+    padding: v.$s-2;
+    display: flex;
+    flex-direction: column;
+    gap: v.$s-1;
+
+    @include m.custom-scrollbar;
+
+    .member-checkbox-item {
+        display: flex;
+        align-items: center;
+        gap: v.$s-3;
+        padding: v.$s-2 v.$s-3;
+        background: v.$white;
+        border-radius: v.$radius-md;
+        border: 1px solid transparent;
+        transition: all 0.2s;
+
+        &:hover {
+            border-color: v.$primary;
+            background: rgba(v.$primary, 0.02);
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            flex-shrink: 0; // Evita que se deforme
+            margin: 0;
+        }
+
+        label {
+            flex: 1;
+            cursor: pointer;
+            font-size: v.$text-sm;
+            font-weight: 500;
+            color: v.$gray-700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            min-height: 18px;
+        }
+    }
+}

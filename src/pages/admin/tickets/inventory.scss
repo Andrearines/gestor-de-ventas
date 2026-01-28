@@ -1,18 +1,348 @@
 @use 'sass:color';
 @use '../../../base/scss/variables' as v;
+@use '../../../base/scss/mixins' as m;
 
-.bg-blue-50 {
-    background-color: color.scale(v.$info, $lightness: 40%);
+.inventory-container {
+    padding: v.$s-6;
+    background-color: v.$gray-50;
+    min-height: 100vh;
+
+    @include m.tablet {
+        padding: v.$s-10;
+    }
 }
 
-.text-blue-600 {
-    color: v.$info;
+.inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: v.$s-8;
+
+    .header-title {
+        h1 {
+            font-size: v.$text-3xl;
+            font-weight: 700;
+            color: v.$gray-900;
+            margin: 0;
+        }
+
+        p {
+            font-size: v.$text-base;
+            color: v.$gray-500;
+            margin: 0;
+        }
+    }
+
+    .header-actions {
+        display: flex;
+        gap: v.$s-3;
+    }
 }
 
-.text-blue-900 {
-    color: color.scale(v.$info, $lightness: -20%);
+.inventory-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: v.$s-4;
+    margin-bottom: v.$s-8;
+
+    @include m.tablet {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stat-card {
+        background: v.$white;
+        border: 1px solid v.$gray-100;
+        border-radius: v.$radius-2xl;
+        padding: v.$s-6;
+        display: flex;
+        align-items: center;
+        gap: v.$s-4;
+        box-shadow: v.$shadow-sm;
+
+        .stat-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: v.$radius-lg;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: v.$text-xl;
+        }
+
+        &.stat-total .stat-icon {
+            background: rgba(v.$primary, 0.1);
+            color: v.$primary;
+        }
+
+        &.stat-sold .stat-icon {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        &.stat-available .stat-icon {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        &.stat-lost .stat-icon {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .stat-info {
+            .stat-label {
+                font-size: v.$text-xs;
+                font-weight: 700;
+                color: v.$gray-500;
+                text-transform: uppercase;
+                margin: 0;
+            }
+
+            .stat-value {
+                font-size: v.$text-2xl;
+                font-weight: 900;
+                color: v.$gray-900;
+                margin: 0;
+            }
+        }
+    }
 }
 
-.border-blue-100 {
-    border-color: color.scale(v.$info, $lightness: 30%);
+.table-card {
+    background: v.$white;
+    border: 1px solid v.$gray-100;
+    border-radius: v.$radius-2xl;
+    box-shadow: v.$shadow-sm;
+    overflow: hidden;
+
+    .card-header {
+        padding: v.$s-6;
+        border-bottom: 1px solid v.$gray-100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .card-title {
+            font-size: v.$text-lg;
+            font-weight: 700;
+            color: v.$gray-900;
+            margin: 0;
+        }
+
+        .search-box {
+            position: relative;
+
+            i {
+                position: absolute;
+                left: v.$s-3;
+                top: 50%;
+                transform: translateY(-50%);
+                color: v.$gray-400;
+                font-size: 0.875rem;
+            }
+
+            input {
+                padding: v.$s-2 v.$s-3 v.$s-2 v.$s-8;
+                border: 1px solid v.$gray-200;
+                border-radius: v.$radius-lg;
+                font-size: v.$text-sm;
+                width: 250px;
+                outline: none;
+                transition: all 0.2s;
+
+                &:focus {
+                    border-color: v.$primary;
+                    box-shadow: 0 0 0 3px rgba(v.$primary, 0.1);
+                }
+            }
+        }
+    }
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead {
+        background: v.$gray-50;
+
+        th {
+            padding: v.$s-4 v.$s-6;
+            text-align: left;
+            font-size: v.$text-xs;
+            font-weight: 700;
+            color: v.$gray-500;
+            text-transform: uppercase;
+        }
+    }
+
+    tbody {
+        tr {
+            border-bottom: 1px solid v.$gray-100;
+
+            &:hover {
+                background: v.$gray-50;
+            }
+
+            td {
+                padding: v.$s-4 v.$s-6;
+                font-size: v.$text-sm;
+                color: v.$gray-700;
+
+                .ticket-number {
+                    font-family: monospace;
+                    font-weight: 700;
+                    color: v.$primary;
+                }
+
+                .user-cell {
+                    display: flex;
+                    align-items: center;
+                    gap: v.$s-2;
+
+                    .avatar-sm {
+                        width: 24px;
+                        height: 24px;
+                        border-radius: 50%;
+                        background: v.$gray-200;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 0.65rem;
+                        font-weight: 700;
+                    }
+                }
+
+                .status-badge {
+                    padding: 4px 10px;
+                    border-radius: 20px;
+                    font-size: 10px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+
+                    &.status-vendido {
+                        background: #dcfce7;
+                        color: #15803d;
+                    }
+
+                    &.status-asignado {
+                        background: #dbeafe;
+                        color: #1e40af;
+                    }
+
+                    &.status-disponible {
+                        background: v.$gray-100;
+                        color: v.$gray-600;
+                    }
+
+                    &.status-perdido {
+                        background: #fee2e2;
+                        color: #991b1b;
+                    }
+                }
+
+                .action-btn {
+                    background: none;
+                    border: none;
+                    color: v.$gray-400;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: v.$primary;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+
+    .modal-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+        position: relative;
+        background: v.$white;
+        border-radius: v.$radius-2xl;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: v.$shadow-xl;
+        overflow: hidden;
+
+        .modal-header {
+            padding: v.$s-6;
+            border-bottom: 1px solid v.$gray-100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            h3 {
+                font-size: v.$text-xl;
+                font-weight: 700;
+                margin: 0;
+            }
+
+            .modal-close {
+                background: none;
+                border: none;
+                font-size: 1.25rem;
+                color: v.$gray-400;
+                cursor: pointer;
+            }
+        }
+
+        .modal-body {
+            padding: v.$s-6;
+
+            .form-group {
+                margin-bottom: v.$s-4;
+
+                label {
+                    display: block;
+                    font-size: 0.875rem;
+                    font-weight: 600;
+                    margin-bottom: 0.5rem;
+                }
+
+                select,
+                input {
+                    width: 100%;
+                    padding: v.$s-2-5;
+                    border: 1px solid v.$gray-200;
+                    border-radius: v.$radius-lg;
+                }
+            }
+
+            .form-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: v.$s-4;
+            }
+        }
+
+        .modal-footer {
+            padding: v.$s-6;
+            border-top: 1px solid v.$gray-100;
+            display: flex;
+            justify-content: flex-end;
+            gap: v.$s-3;
+        }
+    }
 }

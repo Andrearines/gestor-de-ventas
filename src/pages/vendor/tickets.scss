@@ -1,0 +1,122 @@
+@use '../../base/scss/variables' as v;
+@use '../../base/scss/mixins' as m;
+
+.vendor-tickets-container {
+    padding: v.$s-6;
+
+    .header {
+        margin-bottom: v.$s-8;
+
+        h1 {
+            font-size: v.$text-3xl;
+            font-weight: 800;
+            color: v.$gray-900;
+            letter-spacing: -0.025em;
+        }
+
+        p {
+            color: v.$gray-500;
+            margin-top: v.$s-1;
+        }
+    }
+
+    .table-card {
+        background: v.$white;
+        border-radius: v.$radius-2xl;
+        padding: v.$s-6;
+        box-shadow: v.$shadow-sm;
+        border: 1px solid v.$gray-100;
+        overflow-x: auto;
+    }
+
+    .admin-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+
+        th {
+            text-align: left;
+            padding: v.$s-4;
+            background: v.$gray-50;
+            color: v.$gray-600;
+            font-size: v.$text-xs;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid v.$gray-100;
+
+            &:first-child {
+                border-top-left-radius: v.$radius-lg;
+            }
+
+            &:last-child {
+                border-top-right-radius: v.$radius-lg;
+            }
+        }
+
+        td {
+            padding: v.$s-4;
+            color: v.$gray-700;
+            border-bottom: 1px solid v.$gray-50;
+            font-size: v.$text-sm;
+            white-space: nowrap;
+
+            .ticket-number {
+                font-weight: 700;
+                color: v.$primary;
+            }
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: v.$gray-50;
+        }
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: v.$s-1 v.$s-3;
+        border-radius: v.$radius-full;
+        font-size: v.$text-xs;
+        font-weight: 700;
+        gap: v.$s-1-5;
+
+        &::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        &.status-disponible {
+            background: rgba(34, 197, 94, 0.1);
+            color: #166534;
+
+            &::before {
+                background: currentColor;
+            }
+        }
+
+        &.status-vendido {
+            background: rgba(59, 130, 246, 0.1);
+            color: #1e40af;
+
+            &::before {
+                background: currentColor;
+            }
+        }
+
+        &.status-asignado {
+            background: rgba(245, 158, 11, 0.1);
+            color: #b45309;
+
+            &::before {
+                background: currentColor;
+            }
+        }
+    }
+}

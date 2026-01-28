@@ -1,0 +1,80 @@
+@use '../../base/scss/variables' as v;
+@use '../../base/scss/mixins' as m;
+
+.vendor-export-container {
+    padding: v.$s-6;
+
+    .header {
+        margin-bottom: v.$s-8;
+
+        h1 {
+            font-size: v.$text-3xl;
+            font-weight: 800;
+            color: v.$gray-900;
+            letter-spacing: -0.025em;
+        }
+
+        p {
+            color: v.$gray-500;
+            margin-top: v.$s-1;
+        }
+    }
+
+    .export-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: v.$s-6;
+    }
+
+    .export-card {
+        background: v.$white;
+        padding: v.$s-8;
+        border-radius: v.$radius-2xl;
+        box-shadow: v.$shadow-sm;
+        border: 1px solid v.$gray-100;
+        display: flex;
+        align-items: center;
+        gap: v.$s-6;
+
+        .icon-bg {
+            width: 64px;
+            height: 64px;
+            background: v.$gray-50;
+            border-radius: v.$radius-xl;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: v.$text-2xl;
+            color: v.$primary;
+        }
+
+        .content {
+            flex: 1;
+
+            h3 {
+                font-size: v.$text-lg;
+                font-weight: 800;
+                color: v.$gray-900;
+                margin-bottom: v.$s-1;
+            }
+
+            p {
+                font-size: v.$text-sm;
+                color: v.$gray-500;
+                margin-bottom: v.$s-4;
+            }
+        }
+
+        .btn-download {
+            @include m.button-variant(v.$primary, v.$white);
+            padding: v.$s-2 v.$s-4;
+            font-size: v.$text-xs;
+            display: inline-flex;
+            align-items: center;
+            gap: v.$s-2;
+            text-decoration: none;
+            border-radius: v.$radius-lg;
+            font-weight: 700;
+        }
+    }
+}

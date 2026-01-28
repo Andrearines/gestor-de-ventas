@@ -1,99 +1,210 @@
-<div class="max-w-4xl mx-auto space-y-8">
-    <div class="flex items-center gap-4">
-        <a href="/admin/events" class="p-2 text-gray-400 hover:text-gray-900 transition-colors">
-            <i class="fa-solid fa-arrow-left text-xl"></i>
-        </a>
-        <div>
-            <h1 class="text-2xl font-bold text-gray-900">Crear Nuevo Evento</h1>
-            <p class="text-gray-500">Completa el formulario para registrar un nuevo evento de recaudación.</p>
+<div class="create-event-container">
+    <!-- Header -->
+    <div class="create-event-header">
+        <div class="header-title">
+            <a href="/admin/events" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <div>
+                <h1><?php echo isset($event) ? 'Editar Evento' : 'Crear Nuevo Evento'; ?></h1>
+                <p>Completa la información del evento benéfico</p>
+            </div>
         </div>
     </div>
 
-    <form class="space-y-8">
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-            <div class="p-8 space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Nombre del Evento</label>
-                        <input type="text" placeholder="Ej. Recaudación Escuela Norte"
-                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none transition-all">
-                    </div>
+    <!-- Formulario -->
+    <form id="eventForm" class="event-form" onsubmit="handleSubmit(event)">
+        <!-- Información Básica -->
+        <div class="form-section">
+            <h2 class="section-title">
+                <i class="fa-solid fa-circle-info"></i>
+                Información Básica
+            </h2>
 
-                    <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Código Único (Automático)</label>
-                        <div class="flex gap-2">
-                            <input type="text" readonly value="WND-2024-XXXX"
-                                class="flex-1 px-4 py-3 bg-gray-100 border border-gray-200 rounded-xl font-mono text-gray-500">
-                            <button type="button"
-                                class="px-4 py-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 text-primary transition-colors">
-                                <i class="fa-solid fa-arrows-rotate"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Escuela / Institución</label>
-                        <select
-                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none transition-all">
-                            <option value="">Selecciona una opción</option>
-                            <option value="1">Escuela Primaria Norte</option>
-                            <option value="2">Instituto Central</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Fecha de Inicio</label>
-                        <input type="date"
-                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none transition-all">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Fecha de Finalización</label>
-                        <input type="date"
-                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary outline-none transition-all">
-                    </div>
-                </div>
-
-                <div class="border-t border-gray-100 pt-6">
-                    <h3 class="text-lg font-bold text-gray-900 mb-4">Combos y Precios del Evento</h3>
-                    <div class="border border-gray-200 rounded-xl overflow-hidden">
-                        <table class="w-full text-left">
-                            <thead class="bg-gray-50 border-b border-gray-200">
-                                <tr>
-                                    <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Combo</th>
-                                    <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Precio Base</th>
-                                    <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Precio Evento</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-100">
-                                <tr>
-                                    <td class="px-6 py-4 font-medium">Dave's Single Combo</td>
-                                    <td class="px-6 py-4 text-gray-500">$8.50</td>
-                                    <td class="px-6 py-4">
-                                        <div class="relative max-w-[120px]">
-                                            <span
-                                                class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-bold">$</span>
-                                            <input type="number" step="0.01" value="8.50"
-                                                class="w-full pl-7 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary outline-none">
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label for="nombre">Nombre del Evento *</label>
+                    <input type="text" id="nombre" name="nombre" value="<?php echo $event['nombre'] ?? ''; ?>"
+                        placeholder="Ej: Festival Benéfico 2024" required>
+                    <span class="form-error" id="nombre-error"></span>
                 </div>
             </div>
+        </div>
 
-            <div class="p-8 bg-gray-50 border-t border-gray-100 flex justify-end gap-4">
-                <button type="button"
-                    class="px-6 py-2.5 rounded-xl font-bold text-gray-600 hover:bg-gray-200 transition-all">
-                    Cancelar
-                </button>
-                <button type="submit"
-                    class="px-10 py-2.5 bg-primary text-white rounded-xl font-bold hover:bg-primary-dark shadow-lg shadow-primary/20 transition-all">
-                    Crear Evento
-                </button>
+        <!-- Fecha y Ubicación -->
+        <div class="form-section">
+            <h2 class="section-title">
+                <i class="fa-solid fa-calendar-days"></i>
+                Fecha y Ubicación
+            </h2>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="fecha">Fecha del Evento *</label>
+                    <input type="date" id="fecha" name="fecha" value="<?php echo $event['fecha'] ?? ''; ?>" required>
+                    <span class="form-error" id="fecha-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="hora">Hora *</label>
+                    <input type="time" id="hora" name="hora" value="<?php echo $event['hora'] ?? ''; ?>" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="ubicacion">Ubicación *</label>
+                    <input type="text" id="ubicacion" name="ubicacion" value="<?php echo $event['ubicacion'] ?? ''; ?>"
+                        placeholder="Ej: Estadio Nacional, Ciudad" required>
+                    <span class="form-error" id="ubicacion-error"></span>
+                </div>
+
             </div>
+        </div>
+
+        <!-- Boletos -->
+        <div class="form-section">
+            <h2 class="section-title">
+                <i class="fa-solid fa-ticket"></i>
+                Configuración de Boletos
+            </h2>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="total_boletos">Total de Boletos *</label>
+                    <input type="number" id="total_boletos" name="total_boletos"
+                        value="<?php echo $event['total_boletos'] ?? ''; ?>" min="1" placeholder="100" required>
+                    <span class="form-error" id="total_boletos-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="precio_boleto">Precio por Boleto *</label>
+                    <div class="input-group">
+                        <span class="input-prefix">$</span>
+                        <input type="number" id="precio_boleto" name="precio_boleto"
+                            value="<?php echo $event['precio_boleto'] ?? ''; ?>" min="0" step="0.01" placeholder="0.00"
+                            required>
+                    </div>
+                    <span class="form-error" id="precio_boleto-error"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="form-actions">
+            <a href="/admin/events" class="btn btn-secondary">
+                <i class="fa-solid fa-xmark"></i>
+                Cancelar
+            </a>
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-check"></i>
+                <?php echo isset($event) ? 'Actualizar Evento' : 'Crear Evento'; ?>
+            </button>
         </div>
     </form>
 </div>
+
+<script>
+    // Validación del formulario
+    function handleSubmit(e) {
+        e.preventDefault();
+
+        // Limpiar errores previos
+        document.querySelectorAll('.form-error').forEach(el => el.textContent = '');
+        document.querySelectorAll('.form-group').forEach(el => el.classList.remove('has-error'));
+
+        let isValid = true;
+
+        // Validar nombre
+        const nombre = document.getElementById('nombre');
+        if (nombre.value.trim().length < 3) {
+            showError('nombre', 'El nombre debe tener al menos 3 caracteres');
+            isValid = false;
+        }
+
+        // Validar fecha (no puede ser en el pasado)
+        const fecha = document.getElementById('fecha');
+        const selectedDate = new Date(fecha.value);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (selectedDate < today) {
+            showError('fecha', 'La fecha no puede ser en el pasado');
+            isValid = false;
+        }
+
+        // Validar total de boletos
+        const totalBoletos = document.getElementById('total_boletos');
+        if (parseInt(totalBoletos.value) < 1) {
+            showError('total_boletos', 'Debe haber al menos 1 boleto');
+            isValid = false;
+        }
+
+        // Validar precio
+        const precio = document.getElementById('precio_boleto');
+        if (parseFloat(precio.value) < 0) {
+            showError('precio_boleto', 'El precio no puede ser negativo');
+            isValid = false;
+        }
+
+        if (isValid) {
+            // Enviar formulario
+            submitForm();
+        }
+    }
+
+    function showError(fieldId, message) {
+        const errorEl = document.getElementById(`${fieldId}-error`);
+        const fieldEl = document.getElementById(fieldId);
+
+        errorEl.textContent = message;
+        fieldEl.closest('.form-group').classList.add('has-error');
+    }
+
+    function submitForm() {
+        const form = document.getElementById('eventForm');
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+
+        // Mostrar loading
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Guardando...';
+
+        // Simular envío (aquí iría la llamada AJAX real)
+        fetch('/admin/events/store', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    // Redirigir con mensaje de éxito
+                    window.location.href = '/admin/events?created=1';
+                } else {
+                    alert('Error al guardar el evento');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al guardar el evento');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            });
+    }
+
+    // Auto-completar hora actual si está vacía
+    document.addEventListener('DOMContentLoaded', function () {
+        const horaInput = document.getElementById('hora');
+        if (!horaInput.value) {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            horaInput.value = `${hours}:${minutes}`;
+        }
+    });
+</script>

@@ -13,7 +13,14 @@
 // Page-specific styles
 @forward 'pages/auth/login';
 @forward 'pages/admin/dashboard';
-@forward 'pages/admin/events/index';
+@forward 'pages/admin/events';
 @forward 'pages/admin/tickets/inventory';
+@forward 'pages/admin/combos';
+@forward 'pages/admin/teams';
+@forward 'pages/admin/audit';
 @forward 'pages/vendor/dashboard';
 @forward 'pages/vendor/sales';
+@forward 'pages/vendor/reservations';
+@forward 'pages/vendor/tickets';
+@forward 'pages/vendor/stats';
+@forward 'pages/vendor/export';

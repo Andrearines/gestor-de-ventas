@@ -1,0 +1,105 @@
+@use '../../base/scss/variables' as v;
+@use '../../base/scss/mixins' as m;
+
+.vendor-stats-container {
+    padding: v.$s-6;
+
+    .header {
+        margin-bottom: v.$s-8;
+
+        h1 {
+            font-size: v.$text-3xl;
+            font-weight: 800;
+            color: v.$gray-900;
+            letter-spacing: -0.025em;
+        }
+
+        p {
+            color: v.$gray-500;
+            margin-top: v.$s-1;
+        }
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: v.$s-6;
+        margin-bottom: v.$s-8;
+    }
+
+    .stat-card {
+        background: v.$white;
+        padding: v.$s-8;
+        border-radius: v.$radius-2xl;
+        box-shadow: v.$shadow-sm;
+        border: 1px solid v.$gray-100;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s ease, shadow 0.2s ease;
+
+        &:hover {
+            transform: translateY(-4px);
+            box-shadow: v.$shadow-md;
+        }
+
+        h3 {
+            color: v.$gray-500;
+            font-size: v.$text-sm;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: v.$s-2;
+        }
+
+        .value {
+            font-size: v.$text-3xl;
+            font-weight: 800;
+            color: v.$gray-900;
+            margin-top: auto;
+        }
+
+        .stat-trend {
+            margin-top: v.$s-4;
+            font-size: v.$text-xs;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: v.$s-1;
+
+            &.positive {
+                color: v.$success;
+            }
+
+            &.negative {
+                color: v.$error;
+            }
+        }
+    }
+
+    .performance-graph {
+        background: v.$white;
+        padding: v.$s-8;
+        border-radius: v.$radius-2xl;
+        box-shadow: v.$shadow-sm;
+        border: 1px solid v.$gray-100;
+
+        h2 {
+            font-size: v.$text-lg;
+            font-weight: 800;
+            color: v.$gray-900;
+            margin-bottom: v.$s-6;
+        }
+
+        .chart-placeholder {
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: v.$gray-50;
+            border-radius: v.$radius-xl;
+            border: 2px dashed v.$gray-200;
+            color: v.$gray-400;
+            font-style: italic;
+        }
+    }
+}

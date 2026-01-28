@@ -92,7 +92,25 @@
                 </button>
             </div>
             <div class="chart-container">
-                <p style="color: #9ca3af; font-style: italic;">Gráfico de barras (Chart.js)</p>
+                <?php
+                $top_sellers = $stats['top_sellers'] ?? [
+                    ['name' => 'Ricardo Luna', 'initials' => 'RL', 'total' => '$12,450'],
+                    ['name' => 'Marta Martínez', 'initials' => 'MM', 'total' => '$8,960'],
+                    ['name' => 'Andrés Sosa', 'initials' => 'AS', 'total' => '$7,410'],
+                    ['name' => 'Carlos Pérez', 'initials' => 'CP', 'total' => '$5,230'],
+                ];
+
+                $chartId = 'salesChart';
+                $labels = array_map(function ($seller) {
+                    return $seller['name']; }, $top_sellers);
+                $data = array_map(function ($seller) {
+                    return (float) str_replace(['$', ','], '', $seller['total']);
+                }, $top_sellers);
+                $label = 'Ventas ($)';
+                ?>
+                <div class="chart-wrapper" style="height: 300px;">
+                    <?php include __DIR__ . '/components/bar_chart.php'; ?>
+                </div>
             </div>
         </div>
 
@@ -103,12 +121,6 @@
             </div>
             <div class="sellers-list custom-scrollbar">
                 <?php
-                $top_sellers = $stats['top_sellers'] ?? [
-                    ['name' => 'Ricardo Luna', 'initials' => 'RL', 'total' => '$12,450'],
-                    ['name' => 'Marta Martínez', 'initials' => 'MM', 'total' => '$8,960'],
-                    ['name' => 'Andrés Sosa', 'initials' => 'AS', 'total' => '$7,410'],
-                    ['name' => 'Carlos Pérez', 'initials' => 'CP', 'total' => '$5,230'],
-                ];
                 foreach ($top_sellers as $index => $seller):
                     ?>
                     <div class="seller-item">

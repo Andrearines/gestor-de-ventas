@@ -50,10 +50,7 @@
             <i class="fa-solid fa-shield-halved"></i>
             <span class="font-medium">Auditoría</span>
         </a>
-        <a href="/admin/settings" class="nav-link <?php echo ($currentPage ?? '') === 'settings' ? 'active' : ''; ?>">
-            <i class="fa-solid fa-gear"></i>
-            <span class="font-medium">Ajustes</span>
-        </a>
+
     </nav>
 
     <div class="sidebar-footer">

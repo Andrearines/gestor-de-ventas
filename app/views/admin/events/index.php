@@ -1,126 +1,298 @@
 <div class="events-container">
-    <!-- Breadcrumbs & Header -->
+    <!-- Header con alertas -->
     <div class="events-header">
-        <div class="header-left">
-            <nav class="breadcrumbs">
-                <a href="/admin/dashboard">Dashboard</a>
-                <span class="separator">/</span>
-                <span class="current">Eventos</span>
-            </nav>
+        <div class="header-title">
             <h1>Gestión de Eventos</h1>
+            <p>Administra todos los eventos benéficos</p>
         </div>
-        <a href="/admin/events/create" class="btn-primary-action">
-            <i class="fa-solid fa-plus"></i>
-            Nuevo Evento
-        </a>
+        <div class="header-actions">
+            <button class="btn-filter" onclick="toggleFilters()">
+                <i class="fa-solid fa-filter"></i>
+                Filtros
+            </button>
+            <a href="/admin/events/create" class="btn btn-primary">
+                <i class="fa-solid fa-plus"></i>
+                Nuevo Evento
+            </a>
+        </div>
     </div>
 
-    <!-- Toolbar -->
-    <div class="toolbar-section">
-        <!-- Search -->
-        <div class="search-wrapper">
-            <div class="search-icon">
-                <i class="fa-solid fa-search"></i>
+    <!-- Alertas -->
+    <?php if (isset($alert)): ?>
+        <div class="alert alert-<?php echo $alert['type']; ?> alert-dismissible" role="alert">
+            <div class="alert-icon">
+                <i class="fa-solid fa-<?php echo $alert['type'] === 'success' ? 'circle-check' : 'circle-info'; ?>"></i>
             </div>
-            <input type="text" id="eventSearch" class="search-input" placeholder="Buscar evento por nombre, lugar...">
+            <div class="alert-content">
+                <h4 class="alert-title"><?php echo $alert['title']; ?></h4>
+                <p class="alert-message"><?php echo $alert['message']; ?></p>
+            </div>
+            <button type="button" class="alert-close" onclick="this.parentElement.remove()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
+    <?php endif; ?>
 
-        <!-- Filters -->
-        <div class="filters-wrapper">
-            <button class="filter-btn active">Todos</button>
-            <button class="filter-btn">Activos</button>
-            <button class="filter-btn">Borradores</button>
-            <button class="filter-btn">Finalizados</button>
+    <!-- Filtros (ocultos por defecto) -->
+    <div class="filters-panel" id="filtersPanel" style="display: none;">
+        <div class="filters-grid">
+            <div class="filter-group">
+                <label>Estado</label>
+                <select id="filterStatus" onchange="applyFilters()">
+                    <option value="">Todos</option>
+                    <option value="activo">Activo</option>
+                    <option value="finalizado">Finalizado</option>
+                    <option value="cancelado">Cancelado</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Fecha</label>
+                <input type="date" id="filterDate" onchange="applyFilters()">
+            </div>
+            <div class="filter-group">
+                <label>Búsqueda</label>
+                <input type="text" id="filterSearch" placeholder="Buscar evento..." oninput="applyFilters()">
+            </div>
         </div>
     </div>
 
-    <!-- Table -->
-    <div class="table-card">
-        <div class="table-responsive">
-            <table class="events-table">
-                <thead>
-                    <tr>
-                        <th class="col-event">Evento</th>
-                        <th class="col-date">Fecha & Lugar</th>
-                        <th class="col-tickets text-center">Boletos</th>
-                        <th class="col-status text-center">Status</th>
-                        <th class="col-actions text-center">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($eventos)): ?>
-                        <tr>
-                            <td colspan="5" class="empty-state">
-                                <div class="empty-content">
-                                    <div class="empty-icon">
-                                        <i class="fa-regular fa-calendar-xmark"></i>
-                                    </div>
-                                    <p>No hay eventos registrados aún.</p>
+    <!-- Stats rápidos -->
+    <div class="events-stats">
+        <div class="stat-card stat-card-primary">
+            <div class="stat-icon">
+                <i class="fa-solid fa-calendar-check"></i>
+            </div>
+            <div class="stat-content">
+                <p class="stat-label">Eventos Activos</p>
+                <h3 class="stat-value"><?php echo $stats['activos'] ?? 0; ?></h3>
+            </div>
+        </div>
+        <div class="stat-card stat-card-success">
+            <div class="stat-icon">
+                <i class="fa-solid fa-ticket"></i>
+            </div>
+            <div class="stat-content">
+                <p class="stat-label">Boletos Vendidos</p>
+                <h3 class="stat-value"><?php echo number_format($stats['boletos_vendidos'] ?? 0); ?></h3>
+            </div>
+        </div>
+        <div class="stat-card stat-card-warning">
+            <div class="stat-icon">
+                <i class="fa-solid fa-dollar-sign"></i>
+            </div>
+            <div class="stat-content">
+                <p class="stat-label">Ingresos Totales</p>
+                <h3 class="stat-value">$<?php echo number_format($stats['ingresos'] ?? 0, 2); ?></h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de eventos -->
+    <div class="events-table-container">
+        <table class="events-table" id="eventsTable">
+            <thead>
+                <tr>
+                    <th>Evento</th>
+                    <th>Fecha</th>
+                    <th>Ubicación</th>
+                    <th>Boletos</th>
+                    <th>Vendidos</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $events = $events ?? [];
+                foreach ($events as $event):
+                    ?>
+                    <tr data-status="<?php echo $event['status']; ?>" data-date="<?php echo $event['fecha']; ?>">
+                        <td>
+                            <div class="event-info">
+                                <div class="event-icon">
+                                    <i class="fa-solid fa-calendar-days"></i>
                                 </div>
-                            </td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($eventos as $evento): ?>
-                            <tr class="event-row">
-                                <td class="col-event">
-                                    <div class="event-info">
-                                        <span class="event-name"><?php echo $evento->nombre; ?></span>
-                                        <span class="event-id">ID:
-                                            #<?php echo str_pad($evento->id, 4, '0', STR_PAD_LEFT); ?></span>
+                                <div>
+                                    <p class="event-name"><?php echo $event['nombre']; ?></p>
+                                    <p class="event-category"><?php echo $event['categoria'] ?? 'General'; ?></p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="event-date"><?php echo date('d M, Y', strtotime($event['fecha'])); ?></p>
+                            <p class="event-time"><?php echo $event['hora'] ?? '00:00'; ?></p>
+                        </td>
+                        <td><?php echo $event['ubicacion']; ?></td>
+                        <td><?php echo number_format($event['total_boletos']); ?></td>
+                        <td>
+                            <div class="progress-info">
+                                <span><?php echo number_format($event['boletos_vendidos']); ?></span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"
+                                        style="width: <?php echo ($event['boletos_vendidos'] / $event['total_boletos'] * 100); ?>%">
                                     </div>
-                                </td>
-                                <td class="col-date">
-                                    <div class="date-info">
-                                        <div class="date-item">
-                                            <i class="fa-regular fa-calendar"></i>
-                                            <?php echo $evento->fecha; ?>
-                                        </div>
-                                        <div class="location-item">
-                                            <i class="fa-solid fa-location-dot"></i>
-                                            Hotel Chulavista
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="col-tickets">
-                                    <div class="ticket-stats">
-                                        <span class="ticket-count">120</span>
-                                        <span class="ticket-label">Vendidos</span>
-                                    </div>
-                                </td>
-                                <td class="col-status text-center">
-                                    <span class="status-badge active">
-                                        <span class="dot"></span>
-                                        Activo
-                                    </span>
-                                </td>
-                                <td class="col-actions text-center">
-                                    <div class="action-buttons">
-                                        <button class="btn-icon" title="Ver Detalles">
-                                            <i class="fa-regular fa-eye"></i>
-                                        </button>
-                                        <button class="btn-icon edit" title="Editar">
-                                            <i class="fa-solid fa-pen"></i>
-                                        </button>
-                                        <button class="btn-icon delete" title="Eliminar">
-                                            <i class="fa-regular fa-trash-can"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="status-badge status-<?php echo $event['status']; ?>">
+                                <?php
+                                $statusLabels = [
+                                    'activo' => 'Activo',
+                                    'finalizado' => 'Finalizado',
+                                    'cancelado' => 'Cancelado'
+                                ];
+                                echo $statusLabels[$event['status']] ?? $event['status'];
+                                ?>
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon" onclick="viewEvent(<?php echo $event['id']; ?>)"
+                                    title="Ver detalles">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                                <button class="btn-icon" onclick="editEvent(<?php echo $event['id']; ?>)" title="Editar">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <button class="btn-icon btn-danger"
+                                    onclick="confirmDelete(<?php echo $event['id']; ?>, '<?php echo $event['nombre']; ?>')"
+                                    title="Eliminar">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal de confirmación de eliminación -->
+<div class="modal" id="deleteModal" style="display: none;">
+    <div class="modal-overlay" onclick="closeDeleteModal()"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Confirmar Eliminación</h3>
+            <button class="modal-close" onclick="closeDeleteModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
-        <!-- Pagination -->
-        <div class="pagination-section">
-            <span class="pagination-info">Mostrando 1-10 de 12 eventos</span>
-            <div class="pagination-controls">
-                <button class="btn-page" disabled>Anterior</button>
-                <button class="btn-page hoverable">Siguiente</button>
-            </div>
+        <div class="modal-body">
+            <p>¿Estás seguro de que deseas eliminar el evento <strong id="eventNameToDelete"></strong>?</p>
+            <p class="text-warning">Esta acción no se puede deshacer.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeDeleteModal()">Cancelar</button>
+            <button class="btn btn-danger" onclick="deleteEvent()">Eliminar</button>
         </div>
     </div>
 </div>
 
-<script src="/build/js/events/index.js"></script>
+<script>
+    // Variables globales
+    let eventIdToDelete = null;
+
+    // Toggle filtros
+    function toggleFilters() {
+        const panel = document.getElementById('filtersPanel');
+        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Aplicar filtros
+    function applyFilters() {
+        const status = document.getElementById('filterStatus').value.toLowerCase();
+        const date = document.getElementById('filterDate').value;
+        const search = document.getElementById('filterSearch').value.toLowerCase();
+        const rows = document.querySelectorAll('#eventsTable tbody tr');
+
+        rows.forEach(row => {
+            const rowStatus = row.dataset.status.toLowerCase();
+            const rowDate = row.dataset.date;
+            const rowText = row.textContent.toLowerCase();
+
+            const matchStatus = !status || rowStatus === status;
+            const matchDate = !date || rowDate === date;
+            const matchSearch = !search || rowText.includes(search);
+
+            row.style.display = matchStatus && matchDate && matchSearch ? '' : 'none';
+        });
+    }
+
+    // Ver evento
+    function viewEvent(id) {
+        window.location.href = `/admin/events/view/${id}`;
+    }
+
+    // Editar evento
+    function editEvent(id) {
+        window.location.href = `/admin/events/edit/${id}`;
+    }
+
+    // Confirmar eliminación
+    function confirmDelete(id, name) {
+        eventIdToDelete = id;
+        document.getElementById('eventNameToDelete').textContent = name;
+        document.getElementById('deleteModal').style.display = 'flex';
+    }
+
+    // Cerrar modal
+    function closeDeleteModal() {
+        eventIdToDelete = null;
+        document.getElementById('deleteModal').style.display = 'none';
+    }
+
+    // Eliminar evento
+    function deleteEvent() {
+        if (!eventIdToDelete) return;
+
+        // Aquí iría la llamada AJAX al backend
+        fetch(`/admin/events/delete/${eventIdToDelete}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Recargar página con mensaje de éxito
+                    window.location.href = '/admin/events?deleted=1';
+                } else {
+                    alert('Error al eliminar el evento');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al eliminar el evento');
+            });
+
+        closeDeleteModal();
+    }
+
+    // Auto-ocultar alertas después de 5 segundos
+    document.addEventListener('DOMContentLoaded', function () {
+        const alerts = document.querySelectorAll('.alert-dismissible');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                alert.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => alert.remove(), 300);
+            }, 5000);
+        });
+    });
+</script>
+
+<style>
+    @keyframes slideOut {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        to {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+    }
+</style>
