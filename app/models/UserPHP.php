@@ -4,34 +4,23 @@ namespace models;
 
 class UserPHP extends Main
 {
-    public static $table = "users";
-
-    public static $columnDB = ["id", "nombre", "apellido", "email", "password", "confirmado", "token", "admin"];
+    public static $table = 'users';
+    static $columnDB = ['id', 'name', 'email', 'password', 'role_id', 'active', 'created_at', 'updated_at'];
 
     public $id;
-    public $admin;
-    public $nombre;
-    public $apellido;
-    public $token;
+    public $name;
     public $email;
-    public $confirmado;
-    public $password_c;
     public $password;
-
+    public $role_id;
+    public $active;
+    public $created_at;
+    public $updated_at;
 
     public function __construct($args = [])
     {
-        $this->id = $this::$db->real_escape_string($args["id"] ?? null);
-        // ✅ CAMBIADO: Usar "nombre" consistentemente (o cambiar a "name" en todas partes)
-        $this->nombre = $this::$db->real_escape_string($args["nombre"] ?? $args["name"] ?? "");
-        $this->apellido = $this::$db->real_escape_string($args["apellido"] ?? "");
-        $this->email = $this::$db->real_escape_string($args["email"] ?? "");
-        $this->confirmado = $this::$db->real_escape_string($args["confirmado"] ?? 0);
-        $this->token = $this::$db->real_escape_string($args["token"] ?? "");
-        $this->password = $this::$db->real_escape_string($args["password"] ?? "");
-        $this->password_c = $this::$db->real_escape_string($args["password_c"] ?? "");
-        $this->admin = $this::$db->real_escape_string($args["admin"] ?? 0); //en session[] denbe ser rol=area que configuro en las rutas
+        parent::__construct($args);
     }
+
 
     public function create_token()
     {
