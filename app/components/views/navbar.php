@@ -25,21 +25,6 @@
     </div>
 
     <div class="navbar-tools">
-        <div class="search-bar">
-            <i class="fa-solid fa-search"></i>
-            <input type="text" placeholder="Buscar..." class="search-input">
-        </div>
-
-        <button class="tool-btn notification-btn">
-            <i class="fa-solid fa-bell"></i>
-            <?php if (isset($notifications_count) && $notifications_count > 0): ?>
-                <span class="notification-badge"><?php echo $notifications_count; ?></span>
-            <?php endif; ?>
-        </button>
-
-        <button class="tool-btn">
-            <i class="fa-solid fa-gear"></i>
-        </button>
 
         <div class="user-avatar">
             <div class="avatar-circle">

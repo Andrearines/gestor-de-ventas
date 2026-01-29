@@ -19,7 +19,7 @@
         </a>
         <a href="/vendor/sales" class="nav-link <?php echo ($currentPage ?? '') === 'sales' ? 'active' : ''; ?>">
             <i class="fa-solid fa-money-bill-wave"></i>
-            <span class="font-medium">Mis Ventas</span>
+            <span class="font-medium">Ventas</span>
         </a>
         <a href="/vendor/reservations"
             class="nav-link <?php echo ($currentPage ?? '') === 'reservations' ? 'active' : ''; ?>">
@@ -39,10 +39,7 @@
             <i class="fa-solid fa-chart-bar"></i>
             <span class="font-medium">Mis Estadísticas</span>
         </a>
-        <a href="/vendor/export" class="nav-link <?php echo ($currentPage ?? '') === 'export' ? 'active' : ''; ?>">
-            <i class="fa-solid fa-download"></i>
-            <span class="font-medium">Exportar</span>
-        </a>
+
     </nav>
 
     <div class="sidebar-footer">

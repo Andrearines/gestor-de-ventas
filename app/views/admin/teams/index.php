@@ -27,10 +27,7 @@
             <span class="label">Vendedores Activos</span>
             <span class="value">84</span>
         </div>
-        <div class="overview-item">
-            <span class="label">Meta Cumplida</span>
-            <span class="value">72%</span>
-        </div>
+
     </div>
 
     <!-- Teams Table -->
@@ -46,8 +43,6 @@
                         <th>Evento Asociado</th>
                         <th>Miembros</th>
                         <th>Ventas Acumuladas</th>
-                        <th>Incentivo</th>
-                        <th>Estado</th>
                         <th class="text-right">Acciones</th>
                     </tr>
                 </thead>
@@ -76,14 +71,6 @@
                             <td><span class="amount">$
                                     <?php echo number_format($team['ventas'], 2); ?>
                                 </span></td>
-                            <td><span class="bonus">+$
-                                    <?php echo number_format($team['incentivo'], 2); ?>
-                                </span></td>
-                            <td>
-                                <span class="status-pill status-<?php echo $team['status']; ?>">
-                                    <?php echo $team['status'] === 'en_pausa' ? 'En Pausa' : 'Activo'; ?>
-                                </span>
-                            </td>
                             <td class="text-right">
                                 <div class="action-group">
                                     <button class="icon-btn" title="Editar"><i

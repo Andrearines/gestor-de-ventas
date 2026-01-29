@@ -19,17 +19,10 @@
                 <i class="fa-solid fa-arrow-up"></i> +5% vs mes pasado
             </span>
         </div>
-        <div class="stat-card">
-            <h3>Comisión Estimada</h3>
-            <p class="value">$124.50</p>
-            <span class="stat-trend">
-                <i class="fa-solid fa-minus"></i> Estable
-            </span>
-        </div>
     </div>
 
     <div class="performance-graph">
-        <h2>Desempeño Semanal</h2>
+        <h2>Desempeño del año</h2>
         <div class="chart-placeholder">
             <i class="fa-solid fa-chart-line"></i> Gráfico de rendimiento (Chart.js)
         </div>
