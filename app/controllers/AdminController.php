@@ -37,7 +37,8 @@ class AdminController
             'titulo' => 'Dashboard',
             'currentPage' => 'dashboard',
             'stats' => $stats,
-            'breadcrumbs' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs,
+            'script' => ['components/charts']
         ], 'admin');
     }
 
@@ -71,7 +72,8 @@ class AdminController
             'currentPage' => 'tickets',
             'tickets' => $tickets,
             'stats' => $stats,
-            'breadcrumbs' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs,
+            'script' => ['pages/admin/tickets/inventory']
         ], 'admin');
     }
 
@@ -118,7 +120,8 @@ class AdminController
             'titulo' => 'Gestión de Combos',
             'currentPage' => 'combos',
             'combos' => $combos,
-            'breadcrumbs' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs,
+            "script" => ["pages/admin/combos/combos"]
         ], 'admin');
     }
 
@@ -190,31 +193,11 @@ class AdminController
             'teams' => $teams,
             'events' => $events,
             'members' => $members,
-            'breadcrumbs' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs,
+            "script" => ["pages/admin/teams/teams"]
         ], 'admin');
     }
-    public static function audit(Router $router)
-    {
-        // Datos manuales de auditoría
-        $logs = [
-            ['id' => 1, 'usuario' => 'Admin Boss', 'accion' => 'Creación de Evento', 'detalle' => 'Wendy\'s Fest 2024', 'fecha' => '28 Oct, 09:00', 'tipo' => 'info'],
-            ['id' => 2, 'usuario' => 'Juan Pérez', 'accion' => 'Venta de Boleto', 'detalle' => 'Boleto #1001 confirmada', 'fecha' => '28 Oct, 10:30', 'tipo' => 'success'],
-            ['id' => 3, 'usuario' => 'Sistema', 'accion' => 'Expiración de Reserva', 'detalle' => 'Reserva #003 expirada automáticamente', 'fecha' => '28 Oct, 12:00', 'tipo' => 'warning'],
-            ['id' => 4, 'usuario' => 'Carlos Ruiz', 'accion' => 'Eliminación', 'detalle' => 'Boleto #5001 marcado como perdido', 'fecha' => '28 Oct, 13:15', 'tipo' => 'danger'],
-        ];
 
-        $breadcrumbs = [
-            ['label' => 'Admin', 'url' => '/admin/dashboard'],
-            ['label' => 'Auditoría']
-        ];
-
-        $router->view('admin/audit/index.php', [
-            'titulo' => 'Auditoría de Sistema',
-            'currentPage' => 'audit',
-            'logs' => $logs,
-            'breadcrumbs' => $breadcrumbs
-        ], 'admin');
-    }
 
     public static function sales(Router $router)
     {
@@ -252,10 +235,9 @@ class AdminController
         ];
 
         $router->view('admin/reservations/index.php', [
-            'titulo' => 'Gestión de Reservas',
-            'currentPage' => 'reservations',
-            'reservations' => $reservations,
-            'breadcrumbs' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs,
+            'script' => ['pages/admin/events/events']
         ], 'admin');
     }
 }
+

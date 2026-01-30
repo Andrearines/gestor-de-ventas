@@ -142,33 +142,3 @@
         </form>
     </div>
 </div>
-
-<script>
-    function filterInventory() {
-        const search = document.getElementById('inventorySearch').value.toLowerCase();
-        const rows = document.querySelectorAll('#inventoryTable tbody tr');
-
-        rows.forEach(row => {
-            const text = row.innerText.toLowerCase();
-            row.style.display = text.includes(search) ? '' : 'none';
-        });
-    }
-
-    function openGenerateModal() {
-        document.getElementById('generateModal').style.display = 'flex';
-    }
-
-    function closeGenerateModal() {
-        document.getElementById('generateModal').style.display = 'none';
-    }
-
-    function handleGenerate(e) {
-        e.preventDefault();
-        alert('Rango generado exitosamente (Simulación)');
-        closeGenerateModal();
-    }
-
-    function exportInventory() {
-        alert('Exportando inventario a Excel... (Simulación)');
-    }
-</script>

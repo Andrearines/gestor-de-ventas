@@ -113,20 +113,34 @@
                                     <i class="fa-solid fa-calendar-days"></i>
                                 </div>
                                 <div>
-                                    <p class="event-name"><?php echo $event['nombre']; ?></p>
-                                    <p class="event-category"><?php echo $event['categoria'] ?? 'General'; ?></p>
+                                    <p class="event-name">
+                                        <?php echo $event['nombre']; ?>
+                                    </p>
+                                    <p class="event-category">
+                                        <?php echo $event['categoria'] ?? 'General'; ?>
+                                    </p>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <p class="event-date"><?php echo date('d M, Y', strtotime($event['fecha'])); ?></p>
-                            <p class="event-time"><?php echo $event['hora'] ?? '00:00'; ?></p>
+                            <p class="event-date">
+                                <?php echo date('d M, Y', strtotime($event['fecha'])); ?>
+                            </p>
+                            <p class="event-time">
+                                <?php echo $event['hora'] ?? '00:00'; ?>
+                            </p>
                         </td>
-                        <td><?php echo $event['ubicacion']; ?></td>
-                        <td><?php echo number_format($event['total_boletos']); ?></td>
+                        <td>
+                            <?php echo $event['ubicacion']; ?>
+                        </td>
+                        <td>
+                            <?php echo number_format($event['total_boletos']); ?>
+                        </td>
                         <td>
                             <div class="progress-info">
-                                <span><?php echo number_format($event['boletos_vendidos']); ?></span>
+                                <span>
+                                    <?php echo number_format($event['boletos_vendidos']); ?>
+                                </span>
                                 <div class="progress-bar">
                                     <div class="progress-fill"
                                         style="width: <?php echo ($event['boletos_vendidos'] / $event['total_boletos'] * 100); ?>%">
@@ -148,10 +162,7 @@
                         </td>
                         <td>
                             <div class="action-buttons">
-                                <button class="btn-icon" onclick="viewEvent(<?php echo $event['id']; ?>)"
-                                    title="Ver detalles">
-                                    <i class="fa-solid fa-eye"></i>
-                                </button>
+
                                 <button class="btn-icon" onclick="editEvent(<?php echo $event['id']; ?>)" title="Editar">
                                     <i class="fa-solid fa-pen"></i>
                                 </button>
@@ -190,98 +201,7 @@
     </div>
 </div>
 
-<script>
-    // Variables globales
-    let eventIdToDelete = null;
 
-    // Toggle filtros
-    function toggleFilters() {
-        const panel = document.getElementById('filtersPanel');
-        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-    }
-
-    // Aplicar filtros
-    function applyFilters() {
-        const status = document.getElementById('filterStatus').value.toLowerCase();
-        const date = document.getElementById('filterDate').value;
-        const search = document.getElementById('filterSearch').value.toLowerCase();
-        const rows = document.querySelectorAll('#eventsTable tbody tr');
-
-        rows.forEach(row => {
-            const rowStatus = row.dataset.status.toLowerCase();
-            const rowDate = row.dataset.date;
-            const rowText = row.textContent.toLowerCase();
-
-            const matchStatus = !status || rowStatus === status;
-            const matchDate = !date || rowDate === date;
-            const matchSearch = !search || rowText.includes(search);
-
-            row.style.display = matchStatus && matchDate && matchSearch ? '' : 'none';
-        });
-    }
-
-    // Ver evento
-    function viewEvent(id) {
-        window.location.href = `/admin/events/view/${id}`;
-    }
-
-    // Editar evento
-    function editEvent(id) {
-        window.location.href = `/admin/events/edit/${id}`;
-    }
-
-    // Confirmar eliminación
-    function confirmDelete(id, name) {
-        eventIdToDelete = id;
-        document.getElementById('eventNameToDelete').textContent = name;
-        document.getElementById('deleteModal').style.display = 'flex';
-    }
-
-    // Cerrar modal
-    function closeDeleteModal() {
-        eventIdToDelete = null;
-        document.getElementById('deleteModal').style.display = 'none';
-    }
-
-    // Eliminar evento
-    function deleteEvent() {
-        if (!eventIdToDelete) return;
-
-        // Aquí iría la llamada AJAX al backend
-        fetch(`/admin/events/delete/${eventIdToDelete}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Recargar página con mensaje de éxito
-                    window.location.href = '/admin/events?deleted=1';
-                } else {
-                    alert('Error al eliminar el evento');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error al eliminar el evento');
-            });
-
-        closeDeleteModal();
-    }
-
-    // Auto-ocultar alertas después de 5 segundos
-    document.addEventListener('DOMContentLoaded', function () {
-        const alerts = document.querySelectorAll('.alert-dismissible');
-        alerts.forEach(alert => {
-            setTimeout(() => {
-                alert.style.animation = 'slideOut 0.3s ease-out';
-                setTimeout(() => alert.remove(), 300);
-            }, 5000);
-        });
-    });
-</script>
 
 <style>
     @keyframes slideOut {

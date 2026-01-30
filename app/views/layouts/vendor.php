@@ -35,11 +35,7 @@
         }
     }
     ?>
-    <script>
-        function toggleSidebar() {
-            document.querySelector('.vendor-layout').classList.toggle('sidebar-active');
-        }
-    </script>
+    <script src="/build/js/layouts/vendor-layout.js"></script>
 </body>
 
 </html>

@@ -46,11 +46,6 @@
             <span class="nav-section-title">Configuración</span>
         </div>
 
-        <a href="/admin/audit" class="nav-link <?php echo ($currentPage ?? '') === 'audit' ? 'active' : ''; ?>">
-            <i class="fa-solid fa-shield-halved"></i>
-            <span class="font-medium">Auditoría</span>
-        </a>
-
     </nav>
 
     <div class="sidebar-footer">

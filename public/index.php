@@ -9,6 +9,9 @@ use MVC\Router;
 
 $r = new Router;
 
+// Pages
+$r->get("/", [controllers\PagesController::class, 'indexView']);
+
 // Auth
 $r->get("/auth/login", [AuthController::class, 'login']);
 $r->post("/auth/login", [AuthController::class, 'login']);
@@ -20,7 +23,6 @@ $r->get("/admin/events", [EventController::class, 'index']);
 $r->get("/admin/events/create", [EventController::class, 'create']);
 $r->get("/admin/events/detail", [EventController::class, 'detail']);
 $r->get("/admin/tickets", [AdminController::class, 'tickets']);
-$r->get("/admin/audit", [AdminController::class, 'audit']);
 $r->get("/admin/combos", [AdminController::class, 'combos']);
 $r->get("/admin/teams", [AdminController::class, 'teams']);
 $r->get("/admin/sales", [AdminController::class, 'sales']);
@@ -32,7 +34,6 @@ $r->get("/vendor/sales", [VendorController::class, 'sales']);
 $r->get("/vendor/reservations", [VendorController::class, 'reservations']);
 $r->get("/vendor/tickets", [VendorController::class, 'tickets']);
 $r->get("/vendor/stats", [VendorController::class, 'stats']);
-$r->get("/vendor/export", [VendorController::class, 'export']);
 
 
 $r->Rutas();

@@ -117,17 +117,3 @@
         </form>
     </div>
 </div>
-
-<script>
-    function openReservationModal() {
-        document.getElementById('reservationModal').style.display = 'flex';
-    }
-    function closeReservationModal() {
-        document.getElementById('reservationModal').style.display = 'none';
-    }
-    function handleResSubmit(e) {
-        e.preventDefault();
-        alert('Reserva creada exitosamente (Simulación)');
-        closeReservationModal();
-    }
-</script>

@@ -73,7 +73,8 @@ class EventController
             'events' => $events,
             'stats' => $stats,
             'alert' => $alert,
-            'breadcrumbs' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs,
+            'script' => ['pages/admin/events/events']
         ], 'admin');
     }
 

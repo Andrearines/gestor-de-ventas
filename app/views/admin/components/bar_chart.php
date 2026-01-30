@@ -11,72 +11,9 @@
 ?>
 
 <div class="bar-chart-component">
-    <canvas id="<?php echo $chartId; ?>"></canvas>
+    <canvas id="<?php echo $chartId; ?>" data-chart-type="bar" data-chart-labels='<?php echo json_encode($labels); ?>'
+        data-chart-data='<?php echo json_encode($data); ?>' data-chart-label="<?php echo $label; ?>"></canvas>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const ctx = document.getElementById('<?php echo $chartId; ?>').getContext('2d');
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: <?php echo json_encode($labels); ?>,
-            datasets: [{
-                label: '<?php echo $label; ?>',
-                data: <?php echo json_encode($data); ?>,
-                backgroundColor: 'rgba(43, 140, 238, 0.2)',
-                borderColor: 'rgb(43, 140, 238)',
-                borderWidth: 2,
-                borderRadius: 8,
-                borderSkipped: false,
-                }]
-            },
-        options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false
-            },
-            tooltip: {
-                backgroundColor: '#1f2937',
-                padding: 12,
-                cornerRadius: 8,
-                displayColors: false
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-                grid: {
-                    display: true,
-                    drawBorder: false,
-                    color: '#f3f4f6'
-                },
-                ticks: {
-                    color: '#9ca3af',
-                    font: {
-                        size: 11
-                    }
-                }
-            },
-            x: {
-                grid: {
-                    display: false
-                },
-                ticks: {
-                    color: '#9ca3af',
-                    font: {
-                        size: 11
-                    }
-                }
-            }
-        }
-    }
-        });
-    });
-</script>
 
 <style>
     .bar-chart-component {

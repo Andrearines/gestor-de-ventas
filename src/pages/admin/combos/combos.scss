@@ -1,0 +1,235 @@
+@use '../../../base/scss/variables' as v;
+@use '../../../base/scss/mixins' as m;
+
+.combos-container {
+    padding: v.$s-6;
+    background-color: v.$gray-50;
+    min-height: 100vh;
+
+    @include m.tablet {
+        padding: v.$s-10;
+    }
+}
+
+.combos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: v.$s-8;
+
+    .header-title {
+        h1 {
+            font-size: v.$text-3xl;
+            font-weight: 700;
+            color: v.$gray-900;
+            margin: 0;
+        }
+
+        p {
+            font-size: v.$text-base;
+            color: v.$gray-500;
+            margin: 0;
+        }
+    }
+}
+
+.combos-stats {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: v.$s-4;
+    margin-bottom: v.$s-8;
+
+    @include m.tablet {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .stat-card {
+        background: v.$white;
+        border: 1px solid v.$gray-100;
+        border-radius: v.$radius-2xl;
+        padding: v.$s-6;
+        display: flex;
+        align-items: center;
+        gap: v.$s-4;
+        box-shadow: v.$shadow-sm;
+
+        .stat-icon {
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: v.$radius-xl;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+
+            &.primary {
+                background: rgba(v.$primary, 0.1);
+                color: v.$primary;
+            }
+
+            &.success {
+                background: #dcfce7;
+                color: #15803d;
+            }
+
+            &.warning {
+                background: #fff7ed;
+                color: #9a3412;
+            }
+        }
+
+        .stat-content {
+            .label {
+                font-size: v.$text-xs;
+                font-weight: 700;
+                color: v.$gray-500;
+                text-transform: uppercase;
+            }
+
+            .value {
+                font-size: v.$text-2xl;
+                font-weight: 900;
+                color: v.$gray-900;
+                margin: 0;
+            }
+        }
+    }
+}
+
+.combos-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: v.$s-6;
+
+    @include m.tablet {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include m.desktop {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .combo-card {
+        background: v.$white;
+        border: 1px solid v.$gray-100;
+        border-radius: v.$radius-2xl;
+        padding: v.$s-6;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        box-shadow: v.$shadow-sm;
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: v.$shadow-lg;
+            border-color: v.$primary;
+        }
+
+        &.inactive {
+            opacity: 0.7;
+            background: v.$gray-50;
+
+            .status-indicator .dot {
+                background: v.$gray-400;
+            }
+        }
+
+        .card-options {
+            position: absolute;
+            top: v.$s-4;
+            right: v.$s-4;
+
+            .btn-icon {
+                background: none;
+                border: none;
+                color: v.$gray-400;
+                cursor: pointer;
+
+                &:hover {
+                    color: v.$gray-600;
+                }
+            }
+        }
+
+        .combo-icon {
+            width: 3rem;
+            height: 3rem;
+            background: v.$gray-50;
+            color: v.$primary;
+            border-radius: v.$radius-lg;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: v.$s-4;
+        }
+
+        .combo-info {
+            flex: 1;
+            margin-bottom: v.$s-6;
+
+            .combo-name {
+                font-size: v.$text-lg;
+                font-weight: 700;
+                color: v.$gray-900;
+                margin: 0 0 v.$s-1 0;
+            }
+
+            .combo-desc {
+                font-size: v.$text-sm;
+                color: v.$gray-500;
+                line-height: 1.5;
+                margin-bottom: v.$s-3;
+            }
+
+            .combo-price {
+                font-size: v.$text-2xl;
+                font-weight: 900;
+                color: v.$primary;
+            }
+        }
+
+        .combo-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: v.$s-4;
+            border-top: 1px solid v.$gray-50;
+
+            .combo-meta {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+
+                .meta-item {
+                    font-size: v.$text-xs;
+                    color: v.$gray-400;
+                    display: flex;
+                    align-items: center;
+                    gap: v.$s-1;
+
+                    i {
+                        font-size: 10px;
+                    }
+                }
+            }
+
+            .status-indicator {
+                font-size: v.$text-xs;
+                font-weight: 700;
+                color: v.$gray-600;
+                display: flex;
+                align-items: center;
+                gap: v.$s-2;
+
+                .dot {
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    background: #22c55e;
+                }
+            }
+        }
+    }
+}

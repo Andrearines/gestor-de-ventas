@@ -58,7 +58,8 @@ class VendorController
             'currentPage' => 'sales',
             'combos' => $combos,
             'boletos' => $boletos_asignados,
-            'breadcrumbs' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs,
+            'script' => ['pages/vendor/sales/sales']
         ], 'vendor');
     }
 
@@ -106,7 +107,8 @@ class VendorController
             'currentPage' => 'reservations',
             'reservations' => $reservations,
             'combos' => $combos,
-            'breadcrumbs' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs,
+            'script' => ['pages/vendor/reservations/reservations']
         ], 'vendor');
     }
 
