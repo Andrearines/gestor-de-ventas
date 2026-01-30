@@ -1,6 +1,4 @@
-<?php
-// Vista de Inicio (Landing Page)
-?>
+
 
 <div class="home-container">
     <section class="hero">

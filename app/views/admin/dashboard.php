@@ -102,7 +102,8 @@
 
                 $chartId = 'salesChart';
                 $labels = array_map(function ($seller) {
-                    return $seller['name']; }, $top_sellers);
+                    return $seller['name'];
+                }, $top_sellers);
                 $data = array_map(function ($seller) {
                     return (float) str_replace(['$', ','], '', $seller['total']);
                 }, $top_sellers);
@@ -138,65 +139,6 @@
         </div>
     </div>
 
-    <!-- Actividad Reciente -->
-    <div class="activity-section">
-        <div class="activity-card">
-            <div class="card-header">
-                <h3>Actividad Reciente</h3>
-                <a href="/admin/activity" class="view-all-link">Ver todo</a>
-            </div>
-            <div class="activity-table-container">
-                <table class="activity-table">
-                    <thead>
-                        <tr>
-                            <th>Transacción</th>
-                            <th>Usuario</th>
-                            <th>Fecha</th>
-                            <th>Monto</th>
-                            <th>Estado</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $recent_activity = $stats['recent_activity'] ?? [
-                            ['type' => 'ticket', 'title' => 'Compra de Boleto #10234', 'event' => 'Concierto Coldplay', 'user' => 'Juan Perez', 'time' => 'Hace 5 min', 'amount' => '$1,200.00', 'status' => 'completed'],
-                            ['type' => 'combo', 'title' => 'Compra de Combo #5521', 'event' => 'Combo Pareja', 'user' => 'Maria Garcia', 'time' => 'Hace 23 min', 'amount' => '$450.00', 'status' => 'completed'],
-                            ['type' => 'event', 'title' => 'Actualización de Evento', 'event' => 'Festival de Jazz 2024', 'user' => 'Carlos Ruiz', 'time' => 'Hace 1 hora', 'amount' => '-', 'status' => 'pending'],
-                        ];
-                        foreach ($recent_activity as $activity):
-                            ?>
-                            <tr>
-                                <td>
-                                    <div class="activity-info">
-                                        <div class="activity-icon activity-icon-<?php echo $activity['type']; ?>">
-                                            <i
-                                                class="fa-solid fa-<?php echo $activity['type'] === 'ticket' ? 'ticket' : ($activity['type'] === 'combo' ? 'burger' : 'calendar'); ?>"></i>
-                                        </div>
-                                        <div>
-                                            <p class="activity-title"><?php echo $activity['title']; ?></p>
-                                            <p class="activity-subtitle"><?php echo $activity['event']; ?></p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td><?php echo $activity['user']; ?></td>
-                                <td class="text-muted"><?php echo $activity['time']; ?></td>
-                                <td class="font-semibold"><?php echo $activity['amount']; ?></td>
-                                <td>
-                                    <span class="status-badge status-<?php echo $activity['status']; ?>">
-                                        <?php echo $activity['status'] === 'completed' ? 'Completado' : 'Pendiente'; ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <button class="action-btn">
-                                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+
+</div>
 </div>

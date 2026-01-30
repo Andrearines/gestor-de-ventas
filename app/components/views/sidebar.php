@@ -42,10 +42,6 @@
             <span class="font-medium">Reservas</span>
         </a>
 
-        <div class="nav-divider">
-            <span class="nav-section-title">Configuración</span>
-        </div>
-
     </nav>
 
     <div class="sidebar-footer">

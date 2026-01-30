@@ -1,3 +1,9 @@
+<?php
+use components\ComponentManager;
+$alertasComponent = new ComponentManager("alert/alertas", ['alertas' => $alert]);
+$alertasComponent->echo();
+
+?>
 <div class="events-container">
     <!-- Header con alertas -->
     <div class="events-header">
@@ -16,23 +22,6 @@
             </a>
         </div>
     </div>
-
-    <!-- Alertas -->
-    <?php if (isset($alert)): ?>
-        <div class="alert alert-<?php echo $alert['type']; ?> alert-dismissible" role="alert">
-            <div class="alert-icon">
-                <i class="fa-solid fa-<?php echo $alert['type'] === 'success' ? 'circle-check' : 'circle-info'; ?>"></i>
-            </div>
-            <div class="alert-content">
-                <h4 class="alert-title"><?php echo $alert['title']; ?></h4>
-                <p class="alert-message"><?php echo $alert['message']; ?></p>
-            </div>
-            <button type="button" class="alert-close" onclick="this.parentElement.remove()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-    <?php endif; ?>
-
     <!-- Filtros (ocultos por defecto) -->
     <div class="filters-panel" id="filtersPanel" style="display: none;">
         <div class="filters-grid">

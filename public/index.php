@@ -21,6 +21,7 @@ $r->get("/auth/logout", [AuthController::class, 'logout']);
 $r->get("/admin/dashboard", [AdminController::class, 'index']);
 $r->get("/admin/events", [EventController::class, 'index']);
 $r->get("/admin/events/create", [EventController::class, 'create']);
+$r->get("/admin/events/edit", [EventController::class, 'edit']);
 $r->get("/admin/events/detail", [EventController::class, 'detail']);
 $r->get("/admin/tickets", [AdminController::class, 'tickets']);
 $r->get("/admin/combos", [AdminController::class, 'combos']);

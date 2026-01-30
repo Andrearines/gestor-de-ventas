@@ -55,11 +55,11 @@ class EventController
         ];
 
         // Verificar si hay alertas
-        $alert = null;
+        $alert = [];
         if (isset($_GET['created'])) {
-            $alert = ['type' => 'success', 'title' => 'Éxito', 'message' => 'El evento ha sido creado correctamente.'];
+            $alert[] = ['tipo' => 'success', 'mensaje' => 'El evento ha sido creado correctamente.'];
         } elseif (isset($_GET['deleted'])) {
-            $alert = ['type' => 'success', 'title' => 'Éxito', 'message' => 'El evento ha sido eliminado correctamente.'];
+            $alert[] = ['tipo' => 'success', 'mensaje' => 'El evento ha sido eliminado correctamente.'];
         }
 
         $breadcrumbs = [
@@ -93,13 +93,38 @@ class EventController
         ], 'admin');
     }
 
-    public static function detail(Router $router)
+    public static function edit(Router $router)
     {
         $id = $_GET['id'] ?? null;
 
-        $router->view('admin/events/detail.php', [
-            'titulo' => 'Detalle del Evento',
-            'id' => $id
+        // Simulamos obtener el evento de la base de datos
+        $event = [
+            'id' => $id,
+            'nombre' => 'Recaudación Escuela Norte',
+            'categoria' => 'Cultural',
+            'fecha' => '2023-10-25',
+            'hora' => '18:00',
+            'ubicacion' => 'Auditorio Municipal',
+            'total_boletos' => 500,
+            'boletos_vendidos' => 350,
+            'precio_boleto' => 50.00,
+            'status' => 'activo'
+        ];
+
+        $breadcrumbs = [
+            ['label' => 'Admin', 'url' => '/admin/dashboard'],
+            ['label' => 'Eventos', 'url' => '/admin/events'],
+            ['label' => 'Editar Evento']
+        ];
+
+        $router->view('admin/events/edit.php', [
+            'titulo' => 'Editar Evento',
+            'currentPage' => 'events',
+            'event' => $event,
+            'breadcrumbs' => $breadcrumbs,
+            'script' => ['pages/admin/events/events']
         ], 'admin');
     }
+
+
 }

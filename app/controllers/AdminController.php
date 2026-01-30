@@ -21,11 +21,6 @@ class AdminController
                 ['name' => 'Andrés Sosa', 'initials' => 'AS', 'total' => '$7,410'],
                 ['name' => 'Carlos Pérez', 'initials' => 'CP', 'total' => '$5,230'],
             ],
-            'recent_activity' => [
-                ['type' => 'ticket', 'title' => 'Compra de Boleto #10234', 'event' => 'Concierto Coldplay', 'user' => 'Juan Perez', 'time' => 'Hace 5 min', 'amount' => '$1,200.00', 'status' => 'completed'],
-                ['type' => 'combo', 'title' => 'Compra de Combo #5521', 'event' => 'Combo Pareja', 'user' => 'Maria Garcia', 'time' => 'Hace 23 min', 'amount' => '$450.00', 'status' => 'completed'],
-                ['type' => 'event', 'title' => 'Actualización de Evento', 'event' => 'Festival de Jazz 2024', 'user' => 'Carlos Ruiz', 'time' => 'Hace 1 hora', 'amount' => '-', 'status' => 'pending'],
-            ]
         ];
 
         $breadcrumbs = [
@@ -86,27 +81,27 @@ class AdminController
                 'nombre' => "Dave's Single® Combo",
                 'descripcion' => 'Hamburguesa de cuarto de libra, papas medianas y refresco.',
                 'precio' => 12.50,
-                'stock' => 500,
+
                 'vendidos' => 120,
-                'status' => 'activo'
+
             ],
             [
                 'id' => 2,
                 'nombre' => "Combo Pareja Wendy's",
                 'descripcion' => '2 Hamburguesas, 2 papas y 2 refrescos grandes.',
                 'precio' => 22.00,
-                'stock' => 300,
+
                 'vendidos' => 85,
-                'status' => 'activo'
+
             ],
             [
                 'id' => 3,
                 'nombre' => "Family Pack Special",
                 'descripcion' => '4 Hamburguesas, nuggets, y bebida familiar.',
                 'precio' => 35.00,
-                'stock' => 100,
+
                 'vendidos' => 15,
-                'status' => 'inactivo'
+
             ]
         ];
 
@@ -135,8 +130,8 @@ class AdminController
                 'evento' => 'Wendy\'s Music Fest',
                 'miembros' => 8,
                 'ventas' => 12500.00,
-                'incentivo' => 250.00,
-                'status' => 'activo'
+
+
             ],
             [
                 'id' => 2,
@@ -144,8 +139,7 @@ class AdminController
                 'evento' => 'Wendy\'s Music Fest',
                 'miembros' => 5,
                 'ventas' => 8960.00,
-                'incentivo' => 150.00,
-                'status' => 'activo'
+
             ],
             [
                 'id' => 3,
@@ -153,8 +147,7 @@ class AdminController
                 'evento' => 'Cena Benéfica 2024',
                 'miembros' => 4,
                 'ventas' => 3200.00,
-                'incentivo' => 50.00,
-                'status' => 'en_pausa'
+
             ]
         ];
 
