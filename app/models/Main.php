@@ -15,7 +15,7 @@ class Main
     private static $cacheEnabled = true;
 
     public $id;
-    public $img;
+
 
     public function __construct($data = [])
     {

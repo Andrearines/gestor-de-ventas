@@ -74,6 +74,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!--js-->
                     <?php foreach ($tickets as $ticket): ?>
                         <tr>
                             <td>

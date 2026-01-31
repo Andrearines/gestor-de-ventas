@@ -36,10 +36,6 @@ function applyFilters() {
     });
 }
 
-// Ver evento
-function viewEvent(id) {
-    window.location.href = `/admin/events/detail?id=${id}`;
-}
 
 // Editar evento
 function editEvent(id) {

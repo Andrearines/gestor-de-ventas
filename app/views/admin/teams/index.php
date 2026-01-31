@@ -47,6 +47,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!--js-->
                     <?php foreach ($teams as $team): ?>
                         <tr>
                             <td>
@@ -150,6 +151,10 @@
         </div>
         <form onsubmit="handleMemberSubmit(event)">
             <div class="modal-body">
+                <div class="form-group">
+                    <label>Nombre de usuario *</label>
+                    <input type="text" id="user" required placeholder="nombre de usuario">
+                </div>
                 <div class="form-group">
                     <label>Nombre del Miembro *</label>
                     <input type="text" id="memberName" required placeholder="Nombre completo">

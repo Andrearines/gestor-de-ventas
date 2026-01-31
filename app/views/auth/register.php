@@ -1,6 +1,6 @@
 <div class="h-screen w-full flex overflow-hidden bg-white">
     <!-- Componente oficial de alertas (Flotante) -->
-    <?php \components\ComponentManager::make('alert/alertas', ['alertas' => $alertas ?? ["hola"]])->echo(); ?>
+    <?php \components\ComponentManager::make('alert/alertas', ['alertas' => $alertas])->echo(); ?>
 
     <div class="login-layout">
         <!-- Visual Branding Section (Left) -->
@@ -48,8 +48,8 @@
                     <div class="logo-icon">
                         <i class="fa-solid fa-fingerprint"></i>
                     </div>
-                    <h2>Bienvenido de nuevo</h2>
-                    <p>Ingresa tus credenciales para acceder al panel.</p>
+                    <h2>Bienvenido</h2>
+                    <p>Ingresa tus credenciales para acceder.</p>
                 </div>
 
                 <form method="POST" class="auth-form">
@@ -58,25 +58,46 @@
                         <label for="email">nombre de usuario</label>
                         <div class="input-wrapper">
                             <i class="input-icon fa-regular fa-envelope"></i>
-                            <input type="text" id="user" name="user" required placeholder="nombre de usuario">
+                            <input type="text" id="user" name="user" placeholder="nombre de usuario"
+                                value="<?php echo $user->user; ?>">
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="email">nombre de usuario</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fa-regular fa-envelope"></i>
+                            <input type="text" id="name" name="name" placeholder="nombre completo"
+                                value="<?php echo $user->name; ?>">
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="password">Contraseña</label>
                         <div class="input-wrapper">
                             <i class="input-icon fa-regular fa-lock"></i>
-                            <input type="password" id="password" name="password" required placeholder="••••••••">
+                            <input type="password" id="password" name="password" placeholder="••••••••"
+                                value="<?php echo $user->password; ?>">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Confirmar Contraseña</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fa-regular fa-lock"></i>
+                            <input type="password" id="password" name="password_c" placeholder="••••••••"
+                                value="<?php echo $user->password_c; ?>">
                         </div>
                     </div>
 
                     <button type="submit" class="btn-login">
-                        Iniciar Sesión
+                        register
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </form>
 
                 <div class="form-footer">
-                    <p>¿No tienes una cuenta? <a href="/auth/register">registrar</a></p>
+                    <p>¿tienes cuenta? <a href="/auth/login">login</a></p>
                 </div>
             </div>
         </div>

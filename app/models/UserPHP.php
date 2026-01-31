@@ -5,16 +5,16 @@ namespace models;
 class UserPHP extends Main
 {
     public static $table = 'users';
-    static $columnDB = ['id', 'name', 'email', 'password', 'role_id', 'active', 'created_at', 'updated_at'];
+    static $columnDB = ['id', 'name', 'user', 'password', 'role_id', 'active'];
 
     public $id;
     public $name;
-    public $email;
+    public $user;
     public $password;
+    public $password_c;
     public $role_id;
     public $active;
-    public $created_at;
-    public $updated_at;
+
 
     public function __construct($args = [])
     {
@@ -33,10 +33,10 @@ class UserPHP extends Main
     {
         static::$errors = [];
 
-        if (!$this->email) {
-            static::$errors["error"][] = "El email es obligatorio";
-        } elseif (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-            static::$errors["error"][] = "El email no es válido";
+        if (!$this->user) {
+            static::$errors["error"][] = "El usuario es obligatorio";
+        } elseif (!filter_var($this->user, FILTER_VALIDATE_EMAIL)) {
+            static::$errors["error"][] = "El usuario no es válido";
         }
         return static::$errors;
     }
@@ -67,10 +67,10 @@ class UserPHP extends Main
     {
         static::$errors = [];
 
-        if (!$this->email || $this->email == "") {
-            static::$errors["error"][] = "El email es obligatorio";
-        } elseif (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-            static::$errors["error"][] = "El email no es válido";
+        if (!$this->user || $this->user == "") {
+            static::$errors["error"][] = "El usuario es obligatorio";
+        } elseif (!filter_var($this->user, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "/^[a-zA-Z0-9_]{6,15}$/")))) {
+            static::$errors["error"][] = "El usuario no es válido";
         }
 
         if (!$this->password || $this->password == "") {
@@ -85,14 +85,14 @@ class UserPHP extends Main
     {
         static::$errors = [];
 
-        if (!$this->nombre || !$this->apellido) {
-            static::$errors["error"][] = "El nombre y apellido es obligatorio";
+        if (!$this->name) {
+            static::$errors["error"][] = "El nombre es obligatorio";
         }
 
-        if (!$this->email) {
-            static::$errors["error"][] = "El email es obligatorio";
-        } elseif (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-            static::$errors["error"][] = "El email no es válido";
+        if (!$this->user) {
+            static::$errors["error"][] = "El usuario es obligatorio";
+        } elseif (!filter_var($this->user, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "/^[a-zA-Z0-9_]{6,15}$/")))) {
+            static::$errors["error"][] = "El usuario no es válido";
         }
 
         if (!$this->password) {
@@ -107,7 +107,7 @@ class UserPHP extends Main
             static::$errors["error"][] = "Las contraseñas no coinciden";
         }
         if ($this->existeUser()) {
-            static::$errors["error"][] = "El email ya está registrado. Por favor, inicia sesión.";
+            static::$errors["error"][] = "El usuario ya está registrado. Por favor, inicia sesión.";
         }
         return static::$errors;
     }
@@ -125,7 +125,7 @@ class UserPHP extends Main
 
     public function ExisteUser()
     {
-        $r = self::findAllBy("email", $this->email, ["email"]);
+        $r = self::findAllBy("user", $this->user, ["user"]);
         if ($r) {
             return true;
         } else {

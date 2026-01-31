@@ -40,6 +40,7 @@
 
     <!-- Combos Grid -->
     <div class="combos-grid">
+        <!--js-->
         <?php foreach ($combos as $combo): ?>
             <div class="combo-card <?php echo $combo['status'] === 'inactivo' ? 'inactive' : ''; ?>">
                 <div class="card-options">

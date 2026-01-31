@@ -15,6 +15,8 @@ $r->get("/", [controllers\PagesController::class, 'indexView']);
 // Auth
 $r->get("/auth/login", [AuthController::class, 'login']);
 $r->post("/auth/login", [AuthController::class, 'login']);
+$r->get("/auth/register", [AuthController::class, "register"]);
+$r->post("/auth/register", [AuthController::class, "register"]);
 $r->get("/auth/logout", [AuthController::class, 'logout']);
 
 // Admin
