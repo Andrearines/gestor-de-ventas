@@ -20,23 +20,23 @@ $r->post("/auth/register", [AuthController::class, "register"]);
 $r->get("/auth/logout", [AuthController::class, 'logout']);
 
 // Admin
-$r->get("/admin/dashboard", [AdminController::class, 'index']);
-$r->get("/admin/events", [EventController::class, 'index']);
-$r->get("/admin/events/create", [EventController::class, 'create']);
-$r->get("/admin/events/edit", [EventController::class, 'edit']);
-$r->get("/admin/events/detail", [EventController::class, 'detail']);
-$r->get("/admin/tickets", [AdminController::class, 'tickets']);
-$r->get("/admin/combos", [AdminController::class, 'combos']);
-$r->get("/admin/teams", [AdminController::class, 'teams']);
-$r->get("/admin/sales", [AdminController::class, 'sales']);
-$r->get("/admin/reservations", [AdminController::class, 'reservations']);
+$r->get("/admin/dashboard", [AdminController::class, 'index'], ["admin"]);
+$r->get("/admin/events", [EventController::class, 'index'], ["admin"]);
+$r->get("/admin/events/create", [EventController::class, 'create'], ["admin"]);
+$r->get("/admin/events/edit", [EventController::class, 'edit'], ["admin"]);
+$r->get("/admin/events/detail", [EventController::class, 'detail'], ["admin"]);
+$r->get("/admin/tickets", [AdminController::class, 'tickets'], ["admin"]);
+$r->get("/admin/combos", [AdminController::class, 'combos'], ["admin"]);
+$r->get("/admin/teams", [AdminController::class, 'teams'], ["admin"]);
+$r->get("/admin/sales", [AdminController::class, 'sales'], ["admin"]);
+$r->get("/admin/reservations", [AdminController::class, 'reservations'], ["admin"]);
 
 // Vendor
-$r->get("/vendor/dashboard", [VendorController::class, 'index']);
-$r->get("/vendor/sales", [VendorController::class, 'sales']);
-$r->get("/vendor/reservations", [VendorController::class, 'reservations']);
-$r->get("/vendor/tickets", [VendorController::class, 'tickets']);
-$r->get("/vendor/stats", [VendorController::class, 'stats']);
+$r->get("/vendor/dashboard", [VendorController::class, 'index'], ["vendor"]);
+$r->get("/vendor/sales", [VendorController::class, 'sales'], ["vendor"]);
+$r->get("/vendor/reservations", [VendorController::class, 'reservations'], ["vendor"]);
+$r->get("/vendor/tickets", [VendorController::class, 'tickets'], ["vendor"]);
+$r->get("/vendor/stats", [VendorController::class, 'stats'], ["vendor"]);
 
 
 $r->Rutas();
