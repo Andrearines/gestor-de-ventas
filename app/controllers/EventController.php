@@ -57,9 +57,9 @@ class EventController
         // Verificar si hay alertas
         $alert = [];
         if (isset($_GET['created'])) {
-            $alert[] = ['tipo' => 'success', 'mensaje' => 'El evento ha sido creado correctamente.'];
+            $alert['success'][] = 'El evento ha sido creado correctamente.';
         } elseif (isset($_GET['deleted'])) {
-            $alert[] = ['tipo' => 'success', 'mensaje' => 'El evento ha sido eliminado correctamente.'];
+            $alert['success'][] = 'El evento ha sido eliminado correctamente.';
         }
 
         $breadcrumbs = [

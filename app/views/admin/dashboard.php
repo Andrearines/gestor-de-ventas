@@ -1,3 +1,5 @@
+<?php \components\ComponentManager::make('alert/alertas', ['alertas' => $alertas])->echo(); ?>
+
 <div class="dashboard-container">
     <!-- Header -->
     <div class="dashboard-header">
@@ -6,10 +8,6 @@
             <p>Aquí tienes un resumen de la actividad reciente y métricas clave.</p>
         </div>
         <div class="header-actions">
-            <button class="btn-filter">
-                <i class="fa-solid fa-download"></i>
-                Exportar
-            </button>
             <a href="/admin/events/create" class="btn btn-primary">
                 <i class="fa-solid fa-plus"></i>
                 Nuevo Evento

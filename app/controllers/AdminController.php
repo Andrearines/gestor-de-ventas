@@ -8,6 +8,13 @@ class AdminController
 {
     public static function index(Router $router)
     {
+
+        if (isset($_GET["register"])) {
+            if ($_GET["register"] == "success") {
+                $alertas["success"][] = "hola de nuevo";
+            }
+        }
+
         // Variables placeholder para el dashboard
         $stats = [
             'ventas_totales' => 124500,
@@ -33,6 +40,7 @@ class AdminController
             'currentPage' => 'dashboard',
             'stats' => $stats,
             'breadcrumbs' => $breadcrumbs,
+            'alertas' => $alertas,
             'script' => ['components/charts']
         ], 'admin');
     }
