@@ -15,4 +15,5 @@ class Restaurant extends Main
     {
         parent::__construct($args);
     }
+
 }

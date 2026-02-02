@@ -15,4 +15,15 @@ class EventRestaurant extends Main
     {
         parent::__construct($args);
     }
+    public function Validate()
+    {
+        self::$errors = [];
+        if (!$this->event_id) {
+            self::$errors["error"][] = "El evento es obligatorio";
+        }
+        if (!$this->restaurant_id) {
+            self::$errors["error"][] = "El restaurante es obligatorio";
+        }
+        return self::$errors;
+    }
 }

@@ -23,6 +23,7 @@ $r->get("/auth/logout", [AuthController::class, 'logout']);
 $r->get("/admin/dashboard", [AdminController::class, 'index'], ["admin"]);
 $r->get("/admin/events", [EventController::class, 'index'], ["admin"]);
 $r->get("/admin/events/create", [EventController::class, 'create'], ["admin"]);
+$r->post("/admin/events/create", [EventController::class, 'create'], ["admin"]);
 $r->get("/admin/events/edit", [EventController::class, 'edit'], ["admin"]);
 $r->get("/admin/events/detail", [EventController::class, 'detail'], ["admin"]);
 $r->get("/admin/tickets", [AdminController::class, 'tickets'], ["admin"]);
