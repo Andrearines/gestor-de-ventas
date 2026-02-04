@@ -21,13 +21,17 @@
     <div class="teams-overview">
         <div class="overview-item">
             <span class="label">Equipos Totales</span>
-            <span class="value">15</span>
+            <span class="value" id="label-equipos">15</span>
         </div>
         <div class="overview-item">
             <span class="label">Vendedores Activos</span>
-            <span class="value">84</span>
+            <span class="value" id="label-vendedores">84</span>
         </div>
 
+        <div class="overview-item">
+            <span class="label">Vendedores inactivos</span>
+            <span class="value" id="lebel-inactivos">84</span>
+        </div>
     </div>
 
     <!-- Teams Table -->
@@ -46,10 +50,11 @@
                         <th class="text-right">Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="teams-list">
                     <!--js-->
                     <?php foreach ($teams as $team): ?>
-                        <tr>
+                        <tr id="team-<?php echo $team['id']; ?>" data-event-id="<?php echo $team['evento_id']; ?>"
+                            data-member-ids="<?php echo isset($team['member_ids']) ? $team['member_ids'] : ''; ?>">
                             <td>
                                 <div class="team-cell">
                                     <div class="team-avatar">
@@ -67,6 +72,7 @@
                                 <div class="members-badge">
                                     <i class="fa-solid fa-users"></i>
                                     <?php echo $team['miembros']; ?>
+                                    <input type="hidden" name="member_ids" value="<?php echo $team['member_ids']; ?>">
                                 </div>
                             </td>
                             <td><span class="amount">$
@@ -74,10 +80,71 @@
                                 </span></td>
                             <td class="text-right">
                                 <div class="action-group">
-                                    <button class="icon-btn" title="Editar"><i
+                                    <button class="icon-btn" title="Editar"
+                                        onclick="openTeamModal(<?php echo $team['id']; ?>)"><i
                                             class="fa-solid fa-pen-to-square"></i></button>
-                                    <button class="icon-btn danger" title="Desactivar"><i
+                                    <button class="icon-btn danger" title="Desactivar"
+                                        onclick="deleteTeam(<?php echo $team['id']; ?>)"><i
                                             class="fa-solid fa-ban"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    <!--miembros-->
+    <div class="table-card">
+        <div class="card-header">
+            <h3>Listado de miembros de Venta</h3>
+        </div>
+        <div class="table-responsive">
+            <table class="teams-table">
+                <thead>
+                    <tr>
+                        <th>nombre</th>
+                        <th>grupo</th>
+                        <th>stado</th>
+                        <th>Ventas Acumuladas</th>
+                        <th class="text-right">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="miembros-list">
+                    <!--js-->
+                    <?php foreach ($users as $user): ?>
+                        <tr id="miembro-<?php echo $user->id; ?>">
+                            <td>
+                                <div class="team-cell">
+                                    <div class="team-avatar">
+                                        <?php echo substr($user->name ?? 'MI', 0, 2); ?>
+                                    </div>
+                                    <span class="team-name">
+                                        <?php echo $user->name ?? 'Sin nombre'; ?>
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <?php echo $user->team_name ?? 'Sin equipo'; ?>
+                            </td>
+                            <td>
+                                <span class="status-badge ">
+                                    <?php echo $user->active == 1 ? 'Activo' : 'Inactivo'; ?>
+                                </span>
+                            </td>
+                            <td><span class="amount">$
+                                    <?php echo number_format($user->total_sales ?? 0, 2); ?>
+                                </span></td>
+                            <td class="text-right">
+                                <div class="action-group">
+                                    <button class="icon-btn" title="Editar"
+                                        onclick="openMemberModal(<?php echo $member->id; ?>)">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                    <button class="icon-btn danger" title="Desactivar">
+                                        <i class="fa-solid fa-ban"></i>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -88,7 +155,7 @@
     </div>
 </div>
 
-<!-- Modal: Registro de Equipo -->
+<!-- Modal: Registro de teams -->
 <div class="modal" id="teamModal" style="display: none;">
     <div class="modal-overlay" onclick="closeTeamModal()"></div>
     <div class="modal-content">
@@ -100,14 +167,14 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Nombre del Equipo *</label>
-                    <input type="text" required placeholder="Ej: Zona Norte Force">
+                    <input type="text" name="nombre" id="teamName" required placeholder="Ej: Zona Norte Force">
                 </div>
                 <div class="form-group">
                     <label>Asociar a Evento *</label>
-                    <select required>
+                    <select name="evento_id" id="teamEvent" required>
                         <option value="">Seleccionar evento...</option>
                         <?php foreach ($events as $event): ?>
-                            <option value="<?php echo $event['id']; ?>"><?php echo $event['nombre']; ?></option>
+                            <option value="<?php echo $event->id; ?>"><?php echo $event->name; ?></option>
                         <?php endforeach; ?>
                     </select>
                     <p class="form-help">Nota: El creador del evento actuará como administrador/líder del equipo.</p>
@@ -116,22 +183,19 @@
                 <div class="form-group">
                     <label>Seleccionar Miembros del Equipo</label>
                     <div class="members-selection-list">
-                        <?php foreach ($members as $member): ?>
+                        <?php foreach ($users as $user): ?>
                             <div class="member-checkbox-item">
-                                <input type="checkbox" id="m-<?php echo $member['id']; ?>" name="members[]"
-                                    value="<?php echo $member['id']; ?>">
-                                <label for="m-<?php echo $member['id']; ?>">
-                                    <span class="member-name"><?php echo $member['nombre']; ?></span>
+                                <input type="checkbox" id="m-<?php echo $user->id; ?>" name="members[]"
+                                    value="<?php echo $user->id; ?>">
+                                <label for="m-<?php echo $user->id; ?>">
+                                    <span class="member-name"><?php echo $user->name; ?></span>
                                 </label>
                             </div>
                         <?php endforeach; ?>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Descripción de Objetivos</label>
-                    <textarea rows="2" placeholder="Describe las metas de este equipo..."></textarea>
-                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeTeamModal()">Cancelar</button>

@@ -42,7 +42,7 @@
                     <select id="restaurant_id" name="restaurant_id" required>
                         <option value="">Seleccione un restaurante</option>
                         <?php foreach ($restaurants as $restaurant): ?>
-                            <option value="<?php echo $restaurant->id; ?>" <?php echo (isset($Event_Restaurant->restaurant_id) && $event->id_restaurante == $restaurant->id) ? 'selected' : ''; ?>>
+                            <option value="<?php echo $restaurant->id; ?>" <?php echo ($Event_Restaurant == $restaurant->id) ? 'selected' : ''; ?>>
                                 <?php echo $restaurant->name; ?>
                             </option>
                         <?php endforeach; ?>

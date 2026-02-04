@@ -6,55 +6,33 @@ use models\Event;
 use models\EventRestaurant;
 use models\Restaurant;
 use models\Ticket;
+use models\Sale;
 
 class EventController
 {
     public static function index(Router $router)
     {
-        // Datos manuales de ejemplo
-        $events = [
-            [
-                'id' => 1,
-                'nombre' => 'Recaudación Escuela Norte',
+        $eventos = Event::all();
+        $events = [];
 
-                'fecha' => '2023-10-25',
+        foreach ($eventos as $evento) {
+            $events[] = [
+                'id' => $evento->id,
+                'nombre' => $evento->name,
+                'fecha' => $evento->end_date,
+                'ubicacion' => $evento->school_name,
+                'total_boletos' => $evento->getTotalTickets(),
+                'boletos_vendidos' => $evento->getSoldTickets(),
+                'status' => ($evento->status == '1' || $evento->status == 'activo') ? 'activo' : 'finalizado'
+            ];
+        }
 
-                'ubicacion' => 'Auditorio Municipal',
-                'total_boletos' => 500,
-                'boletos_vendidos' => 350,
-
-                'status' => 'activo'
-            ],
-            [
-                'id' => 2,
-                'nombre' => 'Festival de Jazz',
-
-                'fecha' => '2023-11-15',
-
-                'ubicacion' => 'Parque Central',
-                'total_boletos' => 1000,
-                'boletos_vendidos' => 850,
-
-                'status' => 'activo'
-            ],
-            [
-                'id' => 3,
-                'nombre' => 'Torneo Benéfico de Fútbol',
-
-                'fecha' => '2023-09-10',
-
-                'ubicacion' => 'Estadio Local',
-                'total_boletos' => 2000,
-                'boletos_vendidos' => 2000,
-
-                'status' => 'finalizado'
-            ]
-        ];
+        $saleStats = Sale::getStats();
 
         $stats = [
-            'activos' => 2,
-            'boletos_vendidos' => 1200,
-            'ingresos' => 119500.00
+            'activos' => count(Event::findAllBy('status', 'activo')) + count(Event::findAllBy('status', '1')),
+            'boletos_vendidos' => $saleStats['boletos_vendidos'],
+            'ingresos' => $saleStats['ingresos']
         ];
 
         // Verificar si hay alertas
@@ -63,7 +41,11 @@ class EventController
             $alert['success'][] = 'El evento ha sido creado correctamente.';
         } elseif (isset($_GET['deleted'])) {
             $alert['success'][] = 'El evento ha sido eliminado correctamente.';
+        } elseif (isset($_GET['updated'])) {
+            $alert['success'][] = 'El evento ha sido actualizado correctamente.';
         }
+
+
 
         $breadcrumbs = [
             ['label' => 'Admin', 'url' => '/admin/dashboard'],
@@ -141,6 +123,7 @@ class EventController
             'currentPage' => 'events',
             'alertas' => $alertas,
             'event' => $event,
+            'Event_Restaurant' => $Event_Restaurant,
             'restaurants' => $restaurants
         ], 'admin');
     }
@@ -149,31 +132,70 @@ class EventController
     {
         $id = $_GET['id'] ?? null;
 
-        // Simulamos obtener el evento de la base de datos
-        $event = [
-            'id' => $id,
-            'nombre' => 'Recaudación Escuela Norte',
-            'categoria' => 'Cultural',
-            'fecha' => '2023-10-25',
-            'hora' => '18:00',
-            'ubicacion' => 'Auditorio Municipal',
-            'total_boletos' => 500,
-            'boletos_vendidos' => 350,
-            'precio_boleto' => 50.00,
-            'status' => 'activo'
-        ];
+        $alertas = [];
+        $restaurants = Restaurant::all();
+        $Event_Restaurant = EventRestaurant::findBy("event_id", $id);
+        $eventTickets = Ticket::findAllBy("event_id", $id);
+        $eventTickets = count($eventTickets);
 
-        $breadcrumbs = [
-            ['label' => 'Admin', 'url' => '/admin/dashboard'],
-            ['label' => 'Eventos', 'url' => '/admin/events'],
-            ['label' => 'Editar Evento']
-        ];
+        if (empty($Event_Restaurant)) {
+            $alertas["error"][] = "seleccione un restaurante";
+        }
+
+        if (empty($eventTickets) || $eventTickets <= 0) {
+            $alertas["error"][] = "numero de voletos no validos";
+        }
+
+        $event = Event::find($id);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $Event_Restaurant = $_POST["restaurant_id"];
+            $eventTickets = $_POST["total_boletos"];
+            $event->sicronizar($_POST);
+            $alertas = $event->Validate();
+
+            if ($_POST["restaurant_id"]) {
+                $restaurant = Restaurant::find($_POST["restaurant_id"]);
+                if (empty($restaurant)) {
+                    $alertas["error"][] = "El restaurante no existe";
+                } else {
+                    $restaurant_id = $_POST["restaurant_id"];
+
+                    if (empty($alertas)) {
+                        $event->update();
+                        $eventRestautant = EventRestaurant::findBy("event_id", $id);
+                        if ($eventRestautant) {
+                            $eventRestautant->restaurant_id = $restaurant_id;
+                            $eventRestautant->update();
+                        } else {
+                            $eventRestautant = new EventRestaurant([
+                                "event_id" => $id,
+                                "restaurant_id" => $restaurant_id
+                            ]);
+                            $eventRestautant->save();
+                        }
+
+                        // Sincronizar los boletos
+                        if (isset($eventTickets) && $eventTickets >= 0) {
+                            Ticket::syncTickets($id, $eventTickets);
+                        }
+
+                        header('Location: /admin/events?updated=1');
+                    }
+                }
+            } else {
+                $alertas["error"][] = "El restaurante no existe";
+            }
+
+        }
 
         $router->view('admin/events/edit.php', [
             'titulo' => 'Editar Evento',
             'currentPage' => 'events',
             'event' => $event,
-            'breadcrumbs' => $breadcrumbs,
+            'alertas' => $alertas,
+            'restaurants' => $restaurants,
+            'Event_Restaurant' => $Event_Restaurant,
+            'eventTickets' => $eventTickets,
             'script' => ['pages/admin/events/events']
         ], 'admin');
     }

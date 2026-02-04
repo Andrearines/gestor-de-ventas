@@ -5,16 +5,7 @@
             <h1>Inventario de Boletos</h1>
             <p>Control individual y auditoría de boletos físicos por evento.</p>
         </div>
-        <div class="header-actions">
-            <button class="btn btn-secondary" onclick="exportInventory()">
-                <i class="fa-solid fa-file-export"></i>
-                Exportar
-            </button>
-            <button class="btn btn-primary" onclick="openGenerateModal()">
-                <i class="fa-solid fa-plus"></i>
-                Generar Rango
-            </button>
-        </div>
+
     </div>
 
     <!-- Stats Grid -->

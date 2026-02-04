@@ -63,23 +63,26 @@ function closeDeleteModal() {
 function deleteEvent() {
     if (!eventIdToDelete) return;
 
-    fetch(`/admin/events/delete/${eventIdToDelete}`, {
-        method: 'DELETE',
+    fetch(`/api/events/delete`, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-        }
+        }, body: JSON.stringify({
+            id: eventIdToDelete
+        })
+
     })
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
+            if (data.success === true) {
                 window.location.href = '/admin/events?deleted=1';
             } else {
-                alert('Error al eliminar el evento');
+                notify("error", data.error);
             }
         })
         .catch(error => {
-            console.error('Error:', error);
-            alert('Error al eliminar el evento');
+
+            notify("error", "Error al eliminar el evento");
         });
 
     closeDeleteModal();

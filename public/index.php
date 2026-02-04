@@ -5,6 +5,7 @@ use controllers\AdminController;
 use controllers\EventController;
 use controllers\VendorController;
 use controllers\AuthController;
+use controllers\API\API;
 use MVC\Router;
 
 $r = new Router;
@@ -25,6 +26,7 @@ $r->get("/admin/events", [EventController::class, 'index'], ["admin"]);
 $r->get("/admin/events/create", [EventController::class, 'create'], ["admin"]);
 $r->post("/admin/events/create", [EventController::class, 'create'], ["admin"]);
 $r->get("/admin/events/edit", [EventController::class, 'edit'], ["admin"]);
+$r->post("/admin/events/edit", [EventController::class, 'edit'], ["admin"]);
 $r->get("/admin/events/detail", [EventController::class, 'detail'], ["admin"]);
 $r->get("/admin/tickets", [AdminController::class, 'tickets'], ["admin"]);
 $r->get("/admin/combos", [AdminController::class, 'combos'], ["admin"]);
@@ -40,4 +42,6 @@ $r->get("/vendor/tickets", [VendorController::class, 'tickets'], ["vendor"]);
 $r->get("/vendor/stats", [VendorController::class, 'stats'], ["vendor"]);
 
 
+//API
+$r->post("/api/events/delete", [API::class, 'deleteEvent'], ["admin"]);
 $r->Rutas();

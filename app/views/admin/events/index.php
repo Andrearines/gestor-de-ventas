@@ -97,6 +97,9 @@ $alertasComponent->echo();
                     ?>
                     <tr data-status="<?php echo $event['status']; ?>" data-date="<?php echo $event['fecha']; ?>">
                         <td>
+                            <?php echo $event['id']; ?>
+                        </td>
+                        <td>
                             <div class="event-info">
                                 <div class="event-icon">
                                     <i class="fa-solid fa-calendar-days"></i>
@@ -115,9 +118,7 @@ $alertasComponent->echo();
                             <p class="event-date">
                                 <?php echo date('d M, Y', strtotime($event['fecha'])); ?>
                             </p>
-                            <p class="event-time">
-                                <?php echo $event['hora'] ?? '00:00'; ?>
-                            </p>
+
                         </td>
                         <td>
                             <?php echo $event['ubicacion']; ?>
@@ -132,7 +133,7 @@ $alertasComponent->echo();
                                 </span>
                                 <div class="progress-bar">
                                     <div class="progress-fill"
-                                        style="width: <?php echo ($event['boletos_vendidos'] / $event['total_boletos'] * 100); ?>%">
+                                        style="width: <?php echo ($event['total_boletos'] > 0) ? ($event['boletos_vendidos'] / $event['total_boletos'] * 100) : 0; ?>%">
                                     </div>
                                 </div>
                             </div>

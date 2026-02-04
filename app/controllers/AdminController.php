@@ -3,7 +3,10 @@
 namespace controllers;
 
 use MVC\Router;
-
+use models\Event;
+use models\UserPHP;
+use models\Team;
+use models\TeamMember;
 class AdminController
 {
     public static function index(Router $router)
@@ -160,27 +163,14 @@ class AdminController
         ];
 
         // Lista de eventos para el modal
-        $events = [
-            ['id' => 1, 'nombre' => 'Wendy\'s Music Fest'],
-            ['id' => 2, 'nombre' => 'Cena Benéfica 2024'],
-            ['id' => 3, 'nombre' => 'Maratón Wendy\'s']
-        ];
+        $events = Event::all();
 
         // Lista de usuarios disponibles para ser miembros
-        $members = [
-            ['id' => 1, 'nombre' => 'Andrés Sosa'],
-            ['id' => 2, 'nombre' => 'Marta Martínez'],
-            ['id' => 3, 'nombre' => 'Carlos Pérez'],
-            ['id' => 4, 'nombre' => 'Sofía López'],
-            ['id' => 5, 'nombre' => 'Juan Rivas'],
-            ['id' => 6, 'nombre' => 'Elena Giraldo'],
-            ['id' => 7, 'nombre' => 'Ricardo Luna'],
-            ['id' => 8, 'nombre' => 'Lucía Ferrán'],
-            ['id' => 9, 'nombre' => 'Mateo Valencia'],
-            ['id' => 10, 'nombre' => 'Daniela Castro'],
-            ['id' => 11, 'nombre' => 'Roberto Gómez'],
-            ['id' => 12, 'nombre' => 'Verónica Salas']
-        ];
+        $data = TeamMember::all();
+        $users = UserPHP::all();
+
+        //ayadir un array con los id de los miembros de cada equipo
+
 
         $breadcrumbs = [
             ['label' => 'Admin', 'url' => '/admin/dashboard'],
@@ -193,7 +183,7 @@ class AdminController
             'currentPage' => 'teams',
             'teams' => $teams,
             'events' => $events,
-            'members' => $members,
+            'users' => $users,
             'breadcrumbs' => $breadcrumbs,
             "script" => ["pages/admin/teams/teams"]
         ], 'admin');

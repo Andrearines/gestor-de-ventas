@@ -45,4 +45,24 @@ class Event extends Main
         return self::$errors;
     }
 
+    public function getTotalTickets()
+    {
+        $query = "SELECT COUNT(*) as total FROM tickets WHERE event_id = ?";
+        // Use direct query since SQL() returns objects of the current class
+        $result = self::$db->prepare($query);
+        $result->bind_param("i", $this->id);
+        $result->execute();
+        $res = $result->get_result()->fetch_assoc();
+        return (int) ($res['total'] ?? 0);
+    }
+
+    public function getSoldTickets()
+    {
+        $query = "SELECT COUNT(*) as total FROM tickets WHERE event_id = ? AND status = 'sold'";
+        $result = self::$db->prepare($query);
+        $result->bind_param("i", $this->id);
+        $result->execute();
+        $res = $result->get_result()->fetch_assoc();
+        return (int) ($res['total'] ?? 0);
+    }
 }
