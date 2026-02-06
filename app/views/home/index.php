@@ -1,12 +1,18 @@
-
-
 <div class="home-container">
     <section class="hero">
         <div class="hero-content">
             <h1>Sistema de Gestión de Ventas Benéficas</h1>
             <p>Organiza, vende y supervisa tus eventos de recaudación de fondos de manera profesional y eficiente.</p>
             <div class="hero-cta">
-                <a href="/auth/login" class="btn btn-primary btn-lg">Entrar al Sistema</a>
+                <a href="<?php echo isset($_SESSION['rol']) ? '/' . $_SESSION['rol'] . '/dashboard' : '/auth/login'; ?>"
+                    class="btn btn-primary btn-lg">
+                    <?php echo isset($_SESSION['rol']) ? 'Dashboard' : 'Entrar' ?>
+                </a>
+                <?php if (isset($_SESSION['rol'])): ?>
+                    <a href="/auth/logout" class="btn btn-primary btn-lg">
+                        Salir
+                    </a>
+                <?php endif; ?>
                 <a href="#features" class="btn btn-outline btn-lg">Saber más</a>
             </div>
         </div>

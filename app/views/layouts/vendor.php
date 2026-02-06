@@ -28,6 +28,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/build/js/base/js/sweetalert-config.js"></script>
     <?php
     if (isset($script)) {
         foreach ($script as $s) {

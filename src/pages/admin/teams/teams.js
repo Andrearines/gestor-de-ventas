@@ -41,8 +41,9 @@ function openMemberModal(id = null) {
 
     if (!id) {
         // Modo creación: ocultar checkbox, mostrar campo de contraseña y hacerlo requerido
-        if (changePasswordCheckbox && changePasswordCheckbox.parentElement) {
-            changePasswordCheckbox.parentElement.parentElement.style.display = 'none';
+        if (changePasswordCheckbox) {
+            const group = changePasswordCheckbox.closest('.form-group');
+            if (group) group.style.display = 'none';
         }
         if (passwordFieldGroup) {
             passwordFieldGroup.style.display = 'block';
@@ -353,7 +354,7 @@ function agregarMiembroAlDOM(memberData) {
     const memberList = document.getElementById('miembros-list');
     const memberElement = document.createElement('tr');
     memberElement.id = 'miembro-' + memberData.id;
-    memberElement.setAttribute('data-username', memberData.username || '');
+    memberElement.setAttribute('data-user', memberData.user || '');
     memberElement.setAttribute('data-team-id', memberData.team_id || '');
 
     memberElement.innerHTML = `
@@ -381,16 +382,37 @@ function agregarMiembroAlDOM(memberData) {
                 <button class="icon-btn" title="Editar" onclick="openMemberModal(${memberData.id})">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </button>
-                <button class="icon-btn danger" title="Desactivar">
+                <button class="icon-btn danger" title="Desactivar" onclick="toggleMemberStatus(${memberData.id}, 0)">
                     <i class="fa-solid fa-ban"></i>
                 </button>
-                <button class="icon-btn danger" title="Eliminar">
+                <button class="icon-btn danger" title="Eliminar" onclick="deleteMember(${memberData.id})">
                     <i class="fa-solid fa-trash"></i>
                 </button>
             </div>
         </td>
     `;
     memberList.appendChild(memberElement);
+
+    // También añadirlo a la lista de selección en el modal de equipos
+    agregarMiembroASeleccionEquipo(memberData);
+}
+
+function agregarMiembroASeleccionEquipo(memberData) {
+    const selectionList = document.querySelector('.members-selection-list');
+    if (!selectionList) return;
+
+    const memberItem = document.createElement('div');
+    memberItem.className = 'member-checkbox-item';
+    memberItem.id = `selection-m-${memberData.id}`;
+
+    memberItem.innerHTML = `
+        <input type="checkbox" id="m-${memberData.id}" name="members[]" value="${memberData.id}">
+        <label for="m-${memberData.id}">
+            <span class="member-name">${memberData.name}</span>
+        </label>
+    `;
+
+    selectionList.appendChild(memberItem);
 }
 
 function actualizarMiembroEnDOM(memberId, memberData) {
@@ -429,6 +451,16 @@ function eliminarMiembroDelDOM(memberId) {
     const memberRow = document.getElementById('miembro-' + memberId);
     if (memberRow) {
         memberRow.remove();
+    }
+
+    // También eliminarlo de la lista de selección en el modal de equipos
+    eliminarMiembroDeSeleccionEquipo(memberId);
+}
+
+function eliminarMiembroDeSeleccionEquipo(memberId) {
+    const selectionItem = document.getElementById(`selection-m-${memberId}`);
+    if (selectionItem) {
+        selectionItem.remove();
     }
 }
 
@@ -560,7 +592,7 @@ function handleMemberCreate(formData) {
                 agregarMiembroAlDOM({
                     id: data.id,
                     name: formData.get('name'),
-                    username: formData.get('username'),
+                    user: formData.get('username'),
                     team_id: formData.get('team_id'),
                     team_name: teamName,
                     active: formData.get('active'),
@@ -602,7 +634,7 @@ function handleMemberUpdate(memberId, formData) {
 
                 actualizarMiembroEnDOM(memberId, {
                     name: formData.get('name'),
-                    username: formData.get('username'),
+                    user: formData.get('username'),
                     team_id: formData.get('team_id'),
                     team_name: teamName,
                     active: formData.get('active')
@@ -642,6 +674,58 @@ function deleteMember(memberId) {
         .catch(error => {
             console.error('Error:', error);
             notify('Error', 'El miembro no se pudo eliminar', 'error', 2000);
+        });
+}
+
+function toggleMemberStatus(memberId, newStatus) {
+    const memberRow = document.getElementById('miembro-' + memberId);
+    if (!memberRow) return;
+
+    const formData = new FormData();
+    formData.append('id', memberId);
+    formData.append('active', newStatus);
+    // Para el update se requieren name y username según la API
+    formData.append('name', memberRow.querySelector('.team-name').textContent.trim());
+    formData.append('username', memberRow.getAttribute('data-user'));
+
+    fetch('/api/members/update', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const statusLabel = newStatus == 1 ? 'activado' : 'desactivado';
+                notify('Éxito', `El miembro ha sido ${statusLabel}`, 'success', 2000);
+
+                // Actualizar UI
+                const statusBadge = memberRow.querySelector('.status-badge');
+                if (statusBadge) {
+                    statusBadge.textContent = newStatus == 1 ? 'Activo' : 'Inactivo';
+                }
+
+                // Cambiar el botón para permitir la acción contraria si fuera necesario
+                const banBtn = memberRow.querySelector('button[title="Desactivar"], button[title="Activar"]');
+                if (banBtn) {
+                    if (newStatus == 0) {
+                        banBtn.title = "Activar";
+                        banBtn.onclick = () => toggleMemberStatus(memberId, 1);
+                        banBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
+                        banBtn.classList.remove('danger');
+                    } else {
+                        banBtn.title = "Desactivar";
+                        banBtn.onclick = () => toggleMemberStatus(memberId, 0);
+                        banBtn.innerHTML = '<i class="fa-solid fa-ban"></i>';
+                        banBtn.classList.add('danger');
+                    }
+                }
+            } else {
+                notify('Error', data.error || 'No se pudo cambiar el estado', 'error', 2000);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            notify('Error', 'No se pudo cambiar el estado', 'error', 2000);
         });
 }
 

@@ -146,10 +146,12 @@
                                         onclick="openMemberModal(<?php echo $user->id; ?>)">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
-                                    <button class="icon-btn danger" title="Desactivar">
+                                    <button class="icon-btn danger" title="Desactivar"
+                                        onclick="toggleMemberStatus(<?php echo $user->id; ?>, 0)">
                                         <i class="fa-solid fa-ban"></i>
                                     </button>
-                                    <button class="icon-btn danger" title="Eliminar">
+                                    <button class="icon-btn danger" title="Eliminar"
+                                        onclick="deleteMember(<?php echo $user->id; ?>)">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </div>
@@ -191,7 +193,7 @@
                     <label>Seleccionar Miembros del Equipo</label>
                     <div class="members-selection-list">
                         <?php foreach ($users as $user): ?>
-                            <div class="member-checkbox-item">
+                            <div class="member-checkbox-item" id="selection-m-<?php echo $user->id; ?>">
                                 <input type="checkbox" id="m-<?php echo $user->id; ?>" name="members[]"
                                     value="<?php echo $user->id; ?>">
                                 <label for="m-<?php echo $user->id; ?>">

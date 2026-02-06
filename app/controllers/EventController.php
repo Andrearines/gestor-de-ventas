@@ -23,7 +23,11 @@ class EventController
                 'ubicacion' => $evento->school_name,
                 'total_boletos' => $evento->getTotalTickets(),
                 'boletos_vendidos' => $evento->getSoldTickets(),
-                'status' => ($evento->status == '1' || $evento->status == 'activo') ? 'activo' : 'finalizado'
+                'status' => match ($evento->status) {
+                    '1', 'activo' => 'activo',
+                    '0', 'inactivo' => 'inactivo',
+                    default => 'inactivo'
+                }
             ];
         }
 
@@ -65,60 +69,55 @@ class EventController
 
     public static function create(Router $router)
     {
-
         $alertas = [];
         $restaurants = Restaurant::all();
         $Event_Restaurant = 0;
         $eventTickets = 0;
 
-       
-
         $event = new Event();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-            if (empty($eventRestaurants)) {
-                $alertas["error"][] = "seleccione un restaurante";
-            }
-    
-            if (empty($eventTickets) || $eventTickets <= 0) {
-                $alertas["error"][] = "numero de voletos no validos";
-            }
-
             $Event_Restaurant = $_POST["restaurant_id"];
-            $eventTickets = $_POST["total_boletos"];
+            $eventTickets = (int) $_POST["total_boletos"];
+
             $event->sicronizar($_POST);
+            Event::clearErrors();
             $alertas = $event->Validate();
 
-            if ($_POST["restaurant_id"]) {
-                $restaurant = Restaurant::find($_POST["restaurant_id"]);
+            if (empty($Event_Restaurant)) {
+                $alertas["error"][] = "Seleccione un restaurante";
+            }
+
+            if ($eventTickets <= 0) {
+                $alertas["error"][] = "Número de boletos no válido";
+            }
+
+            if (empty($alertas)) {
+                $restaurant = Restaurant::find($Event_Restaurant);
                 if (empty($restaurant)) {
                     $alertas["error"][] = "El restaurante no existe";
                 } else {
-                    $restaurant_id = $_POST["restaurant_id"];
-
-                    if (empty($alertas)) {
-                        $event_id = $event->save();
-                        $eventRestautant = new EventRestaurant([
+                    $event_id = $event->save();
+                    if ($event_id) {
+                        $event_id = (int) $event_id; // Asegurar que sea entero
+                        $eventRestaurant = new EventRestaurant([
                             "event_id" => $event_id,
-                            "restaurant_id" => $restaurant_id
+                            "restaurant_id" => $Event_Restaurant,
+                            "assigned_to" => $_SESSION['id']
                         ]);
-                        $alertas = $eventRestautant->Validate();
-                        if (empty($alertas)) {
-                            $eventRestautant->save();
+                        $eventRestaurant->save();
 
-                            // Crear los boletos automáticamente
-                            if (isset($eventTickets) && $eventTickets > 0) {
-                                Ticket::createTickets($event_id, $eventTickets);
-                            }
-
-                            header('Location: /admin/events?created=1');
+                        // Crear los boletos automáticamente
+                        if ($eventTickets > 0) {
+                            Ticket::createTickets($event_id, $eventTickets);
                         }
+
+                        header('Location: /admin/events?created=1');
+                        exit;
+                    } else {
+                        $alertas["error"][] = "Error al guardar el evento";
                     }
                 }
-            } else {
-                $alertas["error"][] = "El restaurante no existe";
             }
-
         }
 
         $router->view('admin/events/create.php', [
@@ -134,61 +133,74 @@ class EventController
     public static function edit(Router $router)
     {
         $id = $_GET['id'] ?? null;
+        if (!$id) {
+            header('Location: /admin/events');
+            exit;
+        }
 
         $alertas = [];
         $restaurants = Restaurant::all();
-        $Event_Restaurant = EventRestaurant::findBy("event_id", $id);
-        $eventTickets = Ticket::findAllBy("event_id", $id);
-        $eventTickets = count($eventTickets);
-
-        if (empty($Event_Restaurant)) {
-            $alertas["error"][] = "seleccione un restaurante";
-        }
-
-        if (empty($eventTickets) || $eventTickets <= 0) {
-            $alertas["error"][] = "numero de voletos no validos";
-        }
-
         $event = Event::find($id);
+
+        if (!$event) {
+            header('Location: /admin/events');
+            exit;
+        }
+
+        // Obtener datos actuales para rellenar el formulario
+        $eventRestaurantRecord = EventRestaurant::findBy("event_id", $id);
+        $Event_Restaurant = $eventRestaurantRecord ? $eventRestaurantRecord->restaurant_id : 0;
+
+        $tickets = Ticket::findAllBy("event_id", $id);
+        $eventTickets = count($tickets);
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $Event_Restaurant = $_POST["restaurant_id"];
-            $eventTickets = $_POST["total_boletos"];
+            $eventTickets = (int) $_POST["total_boletos"];
+
             $event->sicronizar($_POST);
+            Event::clearErrors();
             $alertas = $event->Validate();
 
-            if ($_POST["restaurant_id"]) {
-                $restaurant = Restaurant::find($_POST["restaurant_id"]);
+            if (empty($Event_Restaurant)) {
+                $alertas["error"][] = "Seleccione un restaurante";
+            }
+
+            if ($eventTickets <= 0) {
+                $alertas["error"][] = "Número de boletos no válido";
+            }
+
+            if (empty($alertas)) {
+                $restaurant = Restaurant::find($Event_Restaurant);
                 if (empty($restaurant)) {
                     $alertas["error"][] = "El restaurante no existe";
                 } else {
-                    $restaurant_id = $_POST["restaurant_id"];
-
-                    if (empty($alertas)) {
-                        $event->update();
-                        $eventRestautant = EventRestaurant::findBy("event_id", $id);
-                        if ($eventRestautant) {
-                            $eventRestautant->restaurant_id = $restaurant_id;
-                            $eventRestautant->update();
+                    if ($event->update($id)) {
+                        // Actualizar o crear relación con restaurante
+                        if ($eventRestaurantRecord) {
+                            $eventRestaurantRecord->restaurant_id = $Event_Restaurant;
+                            $eventRestaurantRecord->update($eventRestaurantRecord->id);
                         } else {
-                            $eventRestautant = new EventRestaurant([
+                            $newER = new EventRestaurant([
                                 "event_id" => $id,
-                                "restaurant_id" => $restaurant_id
+                                "restaurant_id" => $Event_Restaurant
                             ]);
-                            $eventRestautant->save();
+                            $newER->save();
                         }
 
                         // Sincronizar los boletos
-                        if (isset($eventTickets) && $eventTickets >= 0) {
-                            Ticket::syncTickets($id, $eventTickets);
-                        }
+                        Ticket::syncTickets($id, $eventTickets);
+
+                        // Auto-asignación de tickets
+                        Ticket::autoAssignByEvent($id);
 
                         header('Location: /admin/events?updated=1');
+                        exit;
+                    } else {
+                        $alertas["error"][] = "Error al actualizar el evento";
                     }
                 }
-            } else {
-                $alertas["error"][] = "El restaurante no existe";
             }
-
         }
 
         $router->view('admin/events/edit.php', [
@@ -202,6 +214,4 @@ class EventController
             'script' => ['pages/admin/events/events']
         ], 'admin');
     }
-
-
 }

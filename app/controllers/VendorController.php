@@ -8,6 +8,12 @@ class VendorController
 {
     public static function index(Router $router)
     {
+        $alertas = [];
+        if (isset($_GET["register"])) {
+            if ($_GET["register"] == "success") {
+                $alertas["success"][] = "hola de nuevo";
+            }
+        }
         // Variables placeholder para el dashboard de vendedor
         $vendor_stats = [
             'asignados' => 100,
@@ -29,7 +35,8 @@ class VendorController
             'titulo' => 'Mi Dashboard',
             'currentPage' => 'dashboard',
             'vendor_stats' => $vendor_stats,
-            'breadcrumbs' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs,
+            'alertas' => $alertas
         ], 'vendor');
     }
 

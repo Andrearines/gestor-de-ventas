@@ -1,3 +1,5 @@
+<?php \components\ComponentManager::make('alert/alertas', ['alertas' => $alertas])->echo(); ?>
+
 <div class="vendor-dashboard-container">
     <!-- Stats Row -->
     <div class="vendor-stats-grid">

@@ -81,6 +81,7 @@ $alertasComponent->echo();
         <table class="events-table" id="eventsTable">
             <thead>
                 <tr>
+                    <th>Id</th>
                     <th>Evento</th>
                     <th>Fecha</th>
                     <th>Ubicación</th>
@@ -108,9 +109,7 @@ $alertasComponent->echo();
                                     <p class="event-name">
                                         <?php echo $event['nombre']; ?>
                                     </p>
-                                    <p class="event-category">
-                                        <?php echo $event['categoria'] ?? 'General'; ?>
-                                    </p>
+
                                 </div>
                             </div>
                         </td>
@@ -143,8 +142,7 @@ $alertasComponent->echo();
                                 <?php
                                 $statusLabels = [
                                     'activo' => 'Activo',
-                                    'finalizado' => 'Finalizado',
-                                    'cancelado' => 'Cancelado'
+                                    'inactivo' => 'Inactivo'
                                 ];
                                 echo $statusLabels[$event['status']] ?? $event['status'];
                                 ?>

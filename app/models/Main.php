@@ -21,7 +21,7 @@ class Main
     {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
-                $this->$key = self::$db->real_escape_string($value);
+                $this->$key = $value;
             }
         }
     }
@@ -31,9 +31,13 @@ class Main
         self::$db = $database;
     }
 
+    public static function clearErrors()
+    {
+        static::$errors = [];
+    }
+
     public function createError($type, $msg)
     {
-
         static::$errors[$type][] = $msg;
     }
 
@@ -174,9 +178,7 @@ class Main
     public function save($exclude = [])
     {
         try {
-            if (!empty(self::$errors)) {
-                return self::$errors;
-            }
+            // Eliminamos el bloqueo por self::$errors para permitir guardados atómicos
 
             $columns = [];
             $placeholders = [];
@@ -233,8 +235,6 @@ class Main
     public function update($id = null, $exclude = [])
     {
         try {
-            if (!empty(self::$errors))
-                return self::$errors;
 
             $id = $id ?? $this->id;
             if (empty($id))

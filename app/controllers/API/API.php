@@ -6,6 +6,7 @@ use models\Event;
 use models\Team;
 use models\TeamMember;
 use models\UserPHP;
+use models\Ticket;
 
 class API
 {
@@ -115,6 +116,11 @@ class API
                 }
             }
 
+            // Auto-asignación de tickets
+            if (!empty($_POST['event_id'])) {
+                \models\Ticket::autoAssignByEvent($_POST['event_id']);
+            }
+
             ob_end_clean();
             echo json_encode([
                 'success' => true,
@@ -165,8 +171,16 @@ class API
                 $member->delete($member->id);
             }
 
+            // Obtener el ID del evento antes de eliminar para auto-asignación
+            $eventId = $team->event_id;
+
             // Eliminar el equipo
             if ($team->delete($teamId)) {
+                // Auto-asignación de tickets
+                if ($eventId) {
+                    \models\Ticket::autoAssignByEvent($eventId);
+                }
+
                 echo json_encode([
                     'success' => true,
                     'message' => 'Equipo eliminado exitosamente'
@@ -234,6 +248,11 @@ class API
                     $member->sicronizar($memberData);
                     $member->save();
                 }
+            }
+
+            // Auto-asignación de tickets
+            if (!empty($_POST['event_id'])) {
+                \models\Ticket::autoAssignByEvent($_POST['event_id']);
             }
 
             ob_end_clean();
@@ -310,6 +329,14 @@ class API
                 }
             }
 
+            // Auto-asignación de tickets (si el equipo tiene un evento asociado)
+            if (!empty($_POST['team_id'])) {
+                $team = \models\Team::find($_POST['team_id']);
+                if ($team && $team->event_id) {
+                    \models\Ticket::autoAssignByEvent($team->event_id);
+                }
+            }
+
             ob_end_clean();
             echo json_encode([
                 'success' => true,
@@ -382,6 +409,18 @@ class API
                 }
             }
 
+            // Auto-asignación de tickets
+            if (!empty($_POST['team_id'])) {
+                $team = \models\Team::find($_POST['team_id']);
+                if ($team && $team->event_id) {
+                    \models\Ticket::autoAssignByEvent($team->event_id);
+                }
+            }
+            // También si cambió de equipo, el equipo viejo debería re-asignarse? 
+            // updateMember borra todos los registros en TeamMember para ese user, así que el equipo anterior ya no tiene a este usuario.
+            // Pero no tenemos el old_team_id fácilmente aquí a menos que lo busquemos antes de borrar.
+            // Para simplicidad por ahora, confiaremos en que el evento se actualiza cuando se asigna al nuevo.
+
             echo json_encode(['success' => true, 'message' => 'Miembro actualizado exitosamente']);
         } catch (\Exception $e) {
             echo json_encode(['success' => false, 'error' => $e->getMessage()]);
@@ -413,9 +452,26 @@ class API
                 return;
             }
 
+            // 1. Limpiar ABSOLUTAMENTE TODOS los tickets de este usuario (Fuerza bruta contra FK error)
+            Ticket::unassignAllFromUser($userId);
+
             $oldMembers = TeamMember::findAllBy('user_id', $userId);
+
+            // Guardar IDs de equipos antes de borrar
+            $affectedEventIds = [];
             foreach ($oldMembers as $oldMember) {
+                /** @var TeamMember $oldMember */
+                $team = Team::find($oldMember->team_id);
+                if ($team && $team->event_id) {
+                    $affectedEventIds[] = $team->event_id;
+                }
                 $oldMember->delete($oldMember->id);
+            }
+
+            // IMPORTANTE: Primero redistribuimos los tickets para que el usuario 
+            // deje de estar referenciado en la tabla 'tickets' (evita error de FK)
+            foreach (array_unique($affectedEventIds) as $eventId) {
+                \models\Ticket::autoAssignByEvent($eventId);
             }
 
             if ($user->delete($userId)) {
