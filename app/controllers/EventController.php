@@ -30,7 +30,7 @@ class EventController
         $saleStats = Sale::getStats();
 
         $stats = [
-            'activos' => count(Event::findAllBy('status', 'activo')) + count(Event::findAllBy('status', '1')),
+            'activos' => count(Event::findAllBy('status', 1)) + count(Event::findAllBy('status', 0)),
             'boletos_vendidos' => $saleStats['boletos_vendidos'],
             'ingresos' => $saleStats['ingresos']
         ];
@@ -71,16 +71,19 @@ class EventController
         $Event_Restaurant = 0;
         $eventTickets = 0;
 
-        if (empty($eventRestaurants)) {
-            $alertas["error"][] = "seleccione un restaurante";
-        }
-
-        if (empty($eventTickets) || $eventTickets <= 0) {
-            $alertas["error"][] = "numero de voletos no validos";
-        }
+       
 
         $event = new Event();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            if (empty($eventRestaurants)) {
+                $alertas["error"][] = "seleccione un restaurante";
+            }
+    
+            if (empty($eventTickets) || $eventTickets <= 0) {
+                $alertas["error"][] = "numero de voletos no validos";
+            }
+
             $Event_Restaurant = $_POST["restaurant_id"];
             $eventTickets = $_POST["total_boletos"];
             $event->sicronizar($_POST);

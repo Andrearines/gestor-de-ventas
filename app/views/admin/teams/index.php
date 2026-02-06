@@ -21,17 +21,14 @@
     <div class="teams-overview">
         <div class="overview-item">
             <span class="label">Equipos Totales</span>
-            <span class="value" id="label-equipos">15</span>
+            <span class="value" id="label-equipos"><?php echo count($teams); ?></span>
         </div>
         <div class="overview-item">
             <span class="label">Vendedores Activos</span>
-            <span class="value" id="label-vendedores">84</span>
+            <span class="value" id="label-vendedores"><?php echo count($users); ?></span>
         </div>
 
-        <div class="overview-item">
-            <span class="label">Vendedores inactivos</span>
-            <span class="value" id="lebel-inactivos">84</span>
-        </div>
+
     </div>
 
     <!-- Teams Table -->
@@ -53,38 +50,44 @@
                 <tbody id="teams-list">
                     <!--js-->
                     <?php foreach ($teams as $team): ?>
-                        <tr id="team-<?php echo $team['id']; ?>" data-event-id="<?php echo $team['evento_id']; ?>"
-                            data-member-ids="<?php echo isset($team['member_ids']) ? $team['member_ids'] : ''; ?>">
+                        <tr id="team-<?php echo $team->id; ?>" data-event-id="<?php echo $team->event_id; ?>"
+                            data-member-ids="<?php echo isset($team_membres[$team->id]) ? implode(',', $team_membres[$team->id]) : ''; ?>">
                             <td>
                                 <div class="team-cell">
                                     <div class="team-avatar">
-                                        <?php echo substr($team['nombre'], 0, 2); ?>
+                                        <?php echo substr($team->name, 0, 2); ?>
                                     </div>
                                     <span class="team-name">
-                                        <?php echo $team['nombre']; ?>
+                                        <?php echo $team->name; ?>
                                     </span>
                                 </div>
                             </td>
                             <td>
-                                <?php echo $team['evento']; ?>
+                                <?php
+                                // Obtener nombre del evento
+                                $event = array_filter($events, function ($e) use ($team) {
+                                    return $e->id == $team->event_id;
+                                });
+                                $event = reset($event);
+                                echo $event ? $event->name : 'Evento no encontrado';
+                                ?>
                             </td>
                             <td>
                                 <div class="members-badge">
                                     <i class="fa-solid fa-users"></i>
-                                    <?php echo $team['miembros']; ?>
-                                    <input type="hidden" name="member_ids" value="<?php echo $team['member_ids']; ?>">
+                                    <?php echo $team->members; ?>
                                 </div>
                             </td>
                             <td><span class="amount">$
-                                    <?php echo number_format($team['ventas'], 2); ?>
+                                    <?php echo number_format($team->sales, 2); ?>
                                 </span></td>
                             <td class="text-right">
                                 <div class="action-group">
                                     <button class="icon-btn" title="Editar"
-                                        onclick="openTeamModal(<?php echo $team['id']; ?>)"><i
+                                        onclick="openTeamModal(<?php echo $team->id; ?>)"><i
                                             class="fa-solid fa-pen-to-square"></i></button>
                                     <button class="icon-btn danger" title="Desactivar"
-                                        onclick="deleteTeam(<?php echo $team['id']; ?>)"><i
+                                        onclick="deleteTeam(<?php echo $team->id; ?>)"><i
                                             class="fa-solid fa-ban"></i></button>
                                 </div>
                             </td>
@@ -114,7 +117,8 @@
                 <tbody id="miembros-list">
                     <!--js-->
                     <?php foreach ($users as $user): ?>
-                        <tr id="miembro-<?php echo $user->id; ?>">
+                        <tr id="miembro-<?php echo $user->id; ?>" data-user="<?php echo $user->user ?? ''; ?>"
+                            data-team-id="<?php echo $user->team_id ?? ''; ?>">
                             <td>
                                 <div class="team-cell">
                                     <div class="team-avatar">
@@ -126,7 +130,7 @@
                                 </div>
                             </td>
                             <td>
-                                <?php echo $user->team_name ?? 'Sin equipo'; ?>
+                                <?php echo $user->team_names_string ?? 'Sin equipo'; ?>
                             </td>
                             <td>
                                 <span class="status-badge ">
@@ -139,11 +143,14 @@
                             <td class="text-right">
                                 <div class="action-group">
                                     <button class="icon-btn" title="Editar"
-                                        onclick="openMemberModal(<?php echo $member->id; ?>)">
+                                        onclick="openMemberModal(<?php echo $user->id; ?>)">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
                                     <button class="icon-btn danger" title="Desactivar">
                                         <i class="fa-solid fa-ban"></i>
+                                    </button>
+                                    <button class="icon-btn danger" title="Eliminar">
+                                        <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </div>
                             </td>
@@ -167,11 +174,11 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Nombre del Equipo *</label>
-                    <input type="text" name="nombre" id="teamName" required placeholder="Ej: Zona Norte Force">
+                    <input type="text" name="name" id="teamName" required placeholder="Ej: Zona Norte Force">
                 </div>
                 <div class="form-group">
                     <label>Asociar a Evento *</label>
-                    <select name="evento_id" id="teamEvent" required>
+                    <select name="event_id" id="teamEvent" required>
                         <option value="">Seleccionar evento...</option>
                         <?php foreach ($events as $event): ?>
                             <option value="<?php echo $event->id; ?>"><?php echo $event->name; ?></option>
@@ -217,15 +224,37 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Nombre de usuario *</label>
-                    <input type="text" id="user" required placeholder="nombre de usuario">
+                    <input type="text" name="username" id="user" required placeholder="nombre de usuario">
                 </div>
                 <div class="form-group">
                     <label>Nombre del Miembro *</label>
-                    <input type="text" id="memberName" required placeholder="Nombre completo">
+                    <input type="text" name="name" id="memberName" required placeholder="Nombre completo">
                 </div>
                 <div class="form-group">
+                    <label>
+                        Cambiar contraseña
+                    </label>
+                    <input type="checkbox" id="changePasswordCheckbox" onchange="togglePasswordField()">
+                </div>
+                <div class="form-group" id="passwordFieldGroup" style="display: none;">
                     <label>Contraseña *</label>
-                    <input type="password" id="memberPassword" required placeholder="Asignar contraseña">
+                    <input type="password" name="password" id="memberPassword" placeholder="Nueva contraseña">
+                </div>
+                <div class="form-group">
+                    <label>Asignar a Equipo</label>
+                    <select name="team_id" id="memberTeam">
+                        <option value="">Sin equipo</option>
+                        <?php foreach ($teams as $team): ?>
+                            <option value="<?php echo $team->id; ?>"><?php echo $team->name; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Estado *</label>
+                    <select name="active" id="memberStatus" required>
+                        <option value="1">Activo</option>
+                        <option value="0">Inactivo</option>
+                    </select>
                 </div>
             </div>
             <div class="modal-footer">

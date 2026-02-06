@@ -121,7 +121,7 @@
             </a>
             <button type="submit" class="btn btn-primary">
                 <i class="fa-solid fa-check"></i>
-                <?php echo isset($event) ? 'Actualizar Evento' : 'Crear Evento'; ?>
+                Crear Evento
             </button>
         </div>
     </form>

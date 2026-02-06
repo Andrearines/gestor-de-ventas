@@ -10,7 +10,9 @@ class Team extends Main
     public $id;
     public $name;
     public $event_id;
-    public $created_at;
+    public $members;
+    public $sales;
+
 
     public function __construct($args = [])
     {

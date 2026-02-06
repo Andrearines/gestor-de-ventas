@@ -16,6 +16,12 @@ class AuthController
             if ($_GET["register"] == "success") {
                 $alertas["success"][] = "Usuario creado correctamente";
             }
+            if ($_GET["register"] == "error") {
+                $alertas["error"][] = "Ya existe un usuario admin";
+            }
+            if ($_GET["register"] == "errorActivate") {
+                $alertas["error"][] = "Usuario no activado";
+            }
         }
         $user = new UserPHP();
 
@@ -32,10 +38,18 @@ class AuthController
                         "id" => $data->id,
                         "nombre" => $data->name,
                         "user" => $data->user,
-                        "rol" => ($data->role_id == 1) ? "admin" : "vendedor"
+                        "rol" => ($data->role_id == 1) ? "admin" : "vendor"
 
                     ];
-                    header('Location: /admin/dashboard?register=success');
+                    if ($data->active == 0) {
+                        header('Location: /auth/login?register=errorActivate');
+                        exit;
+                    }
+                    if ($data->role_id == 1) {
+                        header('Location: /admin/dashboard?register=success');
+                        exit;
+                    }
+                    header('Location: /vendor/dashboard?register=success');
                     exit;
                 } else {
                     $alertas["error"][] = "contraseña incorecta";
@@ -60,6 +74,10 @@ class AuthController
     public static function register(Router $router)
     {
         // Datos manuales para la vista
+        if (UserPHP::findAllBy("role_id", 1)) {
+            header('Location: /auth/login?register=error');
+            exit;
+        }
         $alertas = [];
         $user = new UserPHP();
 

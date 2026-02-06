@@ -35,8 +35,10 @@
 
 .teams-overview {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: v.$s-6;
+    width: 70%;
+    margin: auto;
+    grid-template-columns: repeat(2, 1fr);
+    gap: v.$s-3;
     margin-bottom: v.$s-8;
     background: v.$primary;
     padding: v.$s-8;
@@ -46,7 +48,8 @@
 
     .overview-item {
         text-align: center;
-
+        
+        
         .label {
             display: block;
             font-size: v.$text-xs;
@@ -55,11 +58,12 @@
             opacity: 0.8;
             margin-bottom: 5px;
         }
-
+        
         .value {
             font-size: v.$text-2xl;
             font-weight: 900;
         }
+       
     }
 }
 

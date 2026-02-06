@@ -59,7 +59,7 @@
                     <tr>
                         <th># Boleto</th>
                         <th>Evento</th>
-                        <th>Vendedor Asignado</th>
+
                         <th>Estado</th>
                         <th class="text-right">Acciones</th>
                     </tr>
@@ -72,12 +72,6 @@
                                 <span class="ticket-number">#<?php echo $ticket['numero']; ?></span>
                             </td>
                             <td><?php echo $ticket['evento']; ?></td>
-                            <td>
-                                <div class="user-cell">
-                                    <div class="avatar-sm"><?php echo substr($ticket['vendedor'], 0, 1); ?></div>
-                                    <span><?php echo $ticket['vendedor']; ?></span>
-                                </div>
-                            </td>
                             <td>
                                 <span class="status-badge status-<?php echo strtolower($ticket['status']); ?>">
                                     <?php echo $ticket['status']; ?>

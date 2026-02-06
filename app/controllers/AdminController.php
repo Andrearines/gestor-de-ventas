@@ -7,6 +7,7 @@ use models\Event;
 use models\UserPHP;
 use models\Team;
 use models\TeamMember;
+use models\Sale;
 class AdminController
 {
     public static function index(Router $router)
@@ -133,44 +134,78 @@ class AdminController
 
     public static function teams(Router $router)
     {
-        // Datos manuales de equipos (sin líder individual)
-        $teams = [
-            [
-                'id' => 1,
-                'nombre' => 'Equipo Alpha',
-                'evento' => 'Wendy\'s Music Fest',
-                'miembros' => 8,
-                'ventas' => 12500.00,
-
-
-            ],
-            [
-                'id' => 2,
-                'nombre' => 'Vendedores Centro',
-                'evento' => 'Wendy\'s Music Fest',
-                'miembros' => 5,
-                'ventas' => 8960.00,
-
-            ],
-            [
-                'id' => 3,
-                'nombre' => 'Equipo Poniente',
-                'evento' => 'Cena Benéfica 2024',
-                'miembros' => 4,
-                'ventas' => 3200.00,
-
-            ]
-        ];
-
         // Lista de eventos para el modal
         $events = Event::all();
 
-        // Lista de usuarios disponibles para ser miembros
-        $data = TeamMember::all();
-        $users = UserPHP::all();
+        // Obtener equipos de la base de datos
+        $teams = Team::all();
 
-        //ayadir un array con los id de los miembros de cada equipo
+        // Obtener todas las ventas para calcular por equipo
+        $sales = Sale::all();
 
+        // Calcular ventas por equipo
+        $teamSales = [];
+        foreach ($sales as $sale) {
+            // Buscar a qué equipo pertenece el usuario que hizo la venta
+            $teamMember = TeamMember::findBy('user_id', $sale->user_id);
+            if ($teamMember) {
+                if (!isset($teamSales[$teamMember->team_id])) {
+                    $teamSales[$teamMember->team_id] = 0;
+                }
+                $teamSales[$teamMember->team_id] += $sale->amount;
+            }
+        }
+
+        // Agregar propiedades adicionales a los equipos
+        foreach ($teams as $team) {
+            // Contar miembros del equipo
+            $teamMembers = TeamMember::findAllBy('team_id', $team->id);
+            $team->members = count($teamMembers);
+
+            // Agregar ventas del equipo
+            $team->sales = $teamSales[$team->id] ?? 0;
+        }
+
+        // Lista de usuarios con rol de vendedor
+        $users = UserPHP::findAllBy("role_id", 2);
+
+        // Obtener todas las relaciones teams <-> users
+        $allMemberships = TeamMember::all();
+
+        // Mapear nombres de equipos por ID para acceso rápido
+        $teamNamesById = [];
+        foreach ($teams as $team) {
+            $teamNamesById[$team->id] = $team->name;
+        }
+
+        // Agrupar nombres de equipos por usuario y IDs de usuarios por equipo
+        $userTeamsMap = [];
+        $team_membres = [];
+
+        foreach ($allMemberships as $membership) {
+            // Para el listado de miembros (User -> [TeamNames])
+            if (!isset($userTeamsMap[$membership->user_id])) {
+                $userTeamsMap[$membership->user_id] = [];
+            }
+            if (isset($teamNamesById[$membership->team_id])) {
+                $userTeamsMap[$membership->user_id][] = $teamNamesById[$membership->team_id];
+            }
+
+            // Para el modal de equipos (Team -> [UserIDs])
+            if (!isset($team_membres[$membership->team_id])) {
+                $team_membres[$membership->team_id] = [];
+            }
+            $team_membres[$membership->team_id][] = $membership->user_id;
+        }
+
+        // Asignar nombres de equipos concatenados a cada usuario
+        foreach ($users as $user) {
+            if (isset($userTeamsMap[$user->id])) {
+                $user->team_names_string = implode(', ', $userTeamsMap[$user->id]);
+            } else {
+                $user->team_names_string = 'Sin equipo';
+            }
+        }
 
         $breadcrumbs = [
             ['label' => 'Admin', 'url' => '/admin/dashboard'],
@@ -184,6 +219,7 @@ class AdminController
             'teams' => $teams,
             'events' => $events,
             'users' => $users,
+            'team_membres' => $team_membres,
             'breadcrumbs' => $breadcrumbs,
             "script" => ["pages/admin/teams/teams"]
         ], 'admin');

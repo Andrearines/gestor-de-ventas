@@ -44,4 +44,12 @@ $r->get("/vendor/stats", [VendorController::class, 'stats'], ["vendor"]);
 
 //API
 $r->post("/api/events/delete", [API::class, 'deleteEvent'], ["admin"]);
+
+$r->post("/api/teams/create", [API::class, 'CrearTeam'], ["admin"]);
+$r->post("/api/teams/update", [API::class, 'updateTeam'], ["admin"]);
+$r->post("/api/teams/delete", [API::class, 'deleteTeam'], ["admin"]);
+
+$r->post("/api/members/create", [API::class, 'CrearMember'], ["admin"]);
+$r->post("/api/members/update", [API::class, 'updateMember'], ["admin"]);
+$r->post("/api/members/delete", [API::class, 'deleteMember'], ["admin"]);
 $r->Rutas();

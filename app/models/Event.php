@@ -40,7 +40,7 @@ class Event extends Main
             self::$errors["error"][] = 'La fecha de fin es obligatoria';
         }
         if (!$this->status) {
-            self::$errors["error"][] = 'El estado es obligatorio';
+            $this->status = 0;
         }
         return self::$errors;
     }
