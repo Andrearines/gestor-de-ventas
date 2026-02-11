@@ -93,16 +93,35 @@
                                 </button>
                             </td>
                             <td>
-                                <select name="assigned_to" id="assigned_to" class="form-control">
-                                    <option value="">Sin asignar</option>
-                                    <?php foreach ($users as $user): ?>
-                                        <?php if ($user->id == $ticket->assigned_to): ?>
-                                            <option value="<?php echo $user->id; ?>" selected><?php echo $user->name; ?></option>
-                                        <?php else: ?>
-                                            <option value="<?php echo $user->id; ?>"><?php echo $user->name; ?></option>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
-                                </select>
+                                <div class="custom-dropdown" data-ticket-id="<?php echo $ticket->id; ?>">
+                                    <button class="dropdown-toggle" type="button">
+                                        <span>
+                                            <?php
+                                            $assignedName = 'Sin asignar';
+                                            foreach ($users as $user) {
+                                                if ($user->id == $ticket->assigned_to) {
+                                                    $assignedName = $user->name;
+                                                    break;
+                                                }
+                                            }
+                                            echo $assignedName;
+                                            ?>
+                                        </span>
+                                        <i class="fa-solid fa-chevron-down"></i>
+                                    </button>
+                                    <div class="dropdown-content">
+                                        <div class="dropdown-item <?php echo !$ticket->assigned_to ? 'selected' : ''; ?>"
+                                            data-value="">
+                                            Sin asignar
+                                        </div>
+                                        <?php foreach ($users as $user): ?>
+                                            <div class="dropdown-item <?php echo ($user->id == $ticket->assigned_to) ? 'selected' : ''; ?>"
+                                                data-value="<?php echo $user->id; ?>">
+                                                <?php echo $user->name; ?>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
                             </td>
                             <td class="text-right">
                                 <button class="action-btn" title="Más opciones">

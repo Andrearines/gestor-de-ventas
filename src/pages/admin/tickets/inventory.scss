@@ -213,26 +213,94 @@
                     }
                 }
 
-                .form-control {
-                    border: none;
-                    outline: none;
+                .custom-dropdown {
+                    position: relative;
+                    width: 100%;
 
-                    background: transparent;
-                    -webkit-appearance: none;
-                    -moz-appearance: none;
-                    appearance: none;
-
-                    &:focus {
+                    .dropdown-toggle {
+                        width: 100%;
+                        background: transparent;
                         border: none;
                         outline: none;
-                        box-shadow: none;
+                        padding: v.$s-1 v.$s-3;
+                        font-size: v.$text-sm;
+                        color: v.$gray-700;
+                        cursor: pointer;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        transition: all 0.2s;
+                        border-radius: v.$radius-md;
+                        gap: v.$s-2;
+
+                        &:hover {
+                            background: v.$gray-100;
+                        }
+
+                        i {
+                            font-size: 0.7rem;
+                            color: v.$gray-400;
+                            transition: transform 0.2s;
+                        }
+
+                        &.active {
+                            background: v.$gray-100;
+
+                            i {
+                                transform: rotate(180deg);
+                            }
+                        }
                     }
 
-                    &:hover {
-                        cursor: pointer;
-                        border: none;
-                        outline: none;
-                        box-shadow: none;
+                    .dropdown-content {
+                        display: none;
+                        position: absolute;
+                        top: 100%;
+                        left: 0;
+                        width: 100%;
+                        min-width: 180px;
+                        background: v.$white;
+                        border-radius: v.$radius-xl;
+                        box-shadow: v.$shadow-lg;
+                        z-index: 1000;
+                        overflow: hidden;
+                        margin-top: 4px;
+
+                        &.show {
+                            display: block;
+                            animation: dropdownFadeIn 0.2s ease-out;
+                        }
+
+                        .dropdown-item {
+                            padding: v.$s-2 v.$s-4;
+                            cursor: pointer;
+                            font-size: v.$text-sm;
+                            transition: all 0.2s;
+                            color: v.$gray-600;
+
+                            &:hover {
+                                background: v.$gray-50;
+                                color: v.$primary;
+                            }
+
+                            &.selected {
+                                background: rgba(v.$primary, 0.05);
+                                color: v.$primary;
+                                font-weight: 600;
+                            }
+                        }
+                    }
+                }
+
+                @keyframes dropdownFadeIn {
+                    from {
+                        opacity: 0;
+                        transform: translateY(-10px);
+                    }
+
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
                     }
                 }
 
