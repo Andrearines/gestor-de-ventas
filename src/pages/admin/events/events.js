@@ -24,13 +24,28 @@ function applyFilters() {
     const rows = document.querySelectorAll('#eventsTable tbody tr');
 
     rows.forEach(row => {
+        const rowId = row.querySelector('td:first-child').textContent.trim();
         const rowStatus = row.dataset.status ? row.dataset.status.toLowerCase() : '';
         const rowDate = row.dataset.date || '';
         const rowText = row.textContent.toLowerCase();
 
         const matchStatus = !status || rowStatus === status;
         const matchDate = !date || rowDate === date;
-        const matchSearch = !search || rowText.includes(search);
+
+        // Búsqueda inteligente: si es un número, busca coincidencia exacta de ID (ignorando ceros a la izquierda)
+        let matchSearch = false;
+        if (!search) {
+            matchSearch = true;
+        } else {
+            const searchIsNumber = !isNaN(search) && search.trim() !== "";
+            if (searchIsNumber) {
+                // Coincide si el ID actual (como número) es igual al buscar (como número)
+                // O si el texto general lo contiene
+                matchSearch = (parseInt(rowId) === parseInt(search)) || rowText.includes(search);
+            } else {
+                matchSearch = rowText.includes(search);
+            }
+        }
 
         row.style.display = matchStatus && matchDate && matchSearch ? '' : 'none';
     });

@@ -22,28 +22,31 @@ $alertasComponent->echo();
             </a>
         </div>
     </div>
-    <!-- Filtros (ocultos por defecto) -->
-    <div class="filters-panel" id="filtersPanel" style="display: none;">
-        <div class="filters-grid">
-            <div class="filter-group">
-                <label>Estado</label>
-                <select id="filterStatus" onchange="applyFilters()">
-                    <option value="">Todos</option>
-                    <option value="activo">Activo</option>
-                    <option value="finalizado">Finalizado</option>
-                    <option value="cancelado">Cancelado</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label>Fecha</label>
-                <input type="date" id="filterDate" onchange="applyFilters()">
-            </div>
-            <div class="filter-group">
-                <label>Búsqueda</label>
-                <input type="text" id="filterSearch" placeholder="Buscar evento..." oninput="applyFilters()">
-            </div>
-        </div>
-    </div>
+    <?php
+    $filterConfig = [
+        [
+            'label' => 'Estado',
+            'id' => 'filterStatus',
+            'type' => 'select',
+            'options' => ['' => 'Todos', 'activo' => 'Activo', 'inactivo' => 'Inactivo'],
+            'onchange' => 'applyFilters()'
+        ],
+        [
+            'label' => 'Fecha',
+            'id' => 'filterDate',
+            'type' => 'date',
+            'onchange' => 'applyFilters()'
+        ],
+        [
+            'label' => 'Búsqueda',
+            'id' => 'filterSearch',
+            'type' => 'text',
+            'placeholder' => 'Buscar evento...',
+            'oninput' => 'applyFilters()'
+        ]
+    ];
+    echo (new components\ComponentManager("filters/dynamic-filter", ['filters' => $filterConfig]))->render();
+    ?>
 
     <!-- Stats rápidos -->
     <div class="events-stats">
@@ -84,7 +87,7 @@ $alertasComponent->echo();
                     <th>Id</th>
                     <th>Evento</th>
                     <th>Fecha</th>
-                    <th>Ubicación</th>
+                    <th>Escuela</th>
                     <th>Boletos</th>
                     <th>Vendidos</th>
                     <th>Estado</th>

@@ -7,6 +7,7 @@ use models\Event;
 use models\UserPHP;
 use models\Team;
 use models\TeamMember;
+use models\Ticket;
 use models\Sale;
 class AdminController
 {
@@ -51,21 +52,57 @@ class AdminController
 
     public static function tickets(Router $router)
     {
-        // Datos manuales de inventario de boletos
-        $tickets = [
-            ['id' => 1, 'numero' => 1001, 'evento' => 'Escuela Norte', 'vendedor' => 'Juan Pérez', 'status' => 'Vendido'],
-            ['id' => 2, 'numero' => 1002, 'evento' => 'Escuela Norte', 'vendedor' => 'Juan Pérez', 'status' => 'Asignado'],
-            ['id' => 3, 'numero' => 1003, 'evento' => 'Escuela Norte', 'vendedor' => 'Sin asignar', 'status' => 'Disponible'],
-            ['id' => 4, 'numero' => 5001, 'evento' => 'Festival Jazz', 'vendedor' => 'Maria Garcia', 'status' => 'Perdido'],
-            ['id' => 5, 'numero' => 1004, 'evento' => 'Escuela Norte', 'vendedor' => 'Ricardo Luna', 'status' => 'Vendido'],
-            ['id' => 6, 'numero' => 1005, 'evento' => 'Escuela Norte', 'vendedor' => 'Ricardo Luna', 'status' => 'Asignado'],
+        // Consulta detallada con JOIN para obtener nombres de eventos y usuarios
+        $query = "SELECT t.*, t.number as numero, e.name as evento, u.name as usuario_asignado 
+                  FROM tickets t 
+                  LEFT JOIN events e ON t.event_id = e.id 
+                  LEFT JOIN users u ON t.assigned_to = u.id";
+
+        $tickets = Ticket::SQL($query);
+
+
+        // Calcular estadísticas dinámicamentel
+        $stats = [
+            'total' => count($tickets),
+            'vendidos' => count(array_filter($tickets, fn($t) => $t->status === 'sold')),
+            'disponibles' => count(array_filter($tickets, fn($t) => $t->status === 'available')),
+            'perdidos' => count(array_filter($tickets, fn($t) => $t->status === 'lost'))
         ];
 
-        $stats = [
-            'total' => 5000,
-            'vendidos' => 1240,
-            'disponibles' => 3650,
-            'perdidos' => 110
+        // Obtener eventos para el modal de generación y filtros
+        $events = Event::all();
+
+        // Configuración de los filtros dinámicos
+        $eventOptions = ['' => 'Todos los eventos'];
+        foreach ($events as $event) {
+            $eventOptions[$event->id] = $event->name;
+        }
+
+        $filters = [
+            [
+                'label' => 'Número de Boleto',
+                'id' => 'filterNumber',
+                'type' => 'text',
+                'placeholder' => 'Ej: 1001...'
+            ],
+            [
+                'label' => 'Evento',
+                'id' => 'filterEvent',
+                'type' => 'select',
+                'options' => $eventOptions
+            ],
+            [
+                'label' => 'Estado',
+                'id' => 'filterStatus',
+                'type' => 'select',
+                'options' => [
+                    '' => 'Todos los estados',
+                    'available' => 'disponible',
+                    'sold' => 'vendido',
+                    'lost' => 'perdido',
+                    'returned' => 'devuelto'
+                ]
+            ]
         ];
 
         $breadcrumbs = [
@@ -79,7 +116,10 @@ class AdminController
             'currentPage' => 'tickets',
             'tickets' => $tickets,
             'stats' => $stats,
+            'events' => $events,
+            'filters' => $filters,
             'breadcrumbs' => $breadcrumbs,
+            'users' => UserPHP::findAllBy('role_id', 2),
             'script' => ['pages/admin/tickets/inventory']
         ], 'admin');
     }

@@ -44,14 +44,25 @@
     <div class="table-card">
         <div class="card-header">
             <h3 class="card-title">Listado de Boletos</h3>
-            <div class="card-tools">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="inventorySearch" placeholder="Buscar boleto # o evento..."
-                        oninput="filterInventory()">
-                </div>
-            </div>
+            <button class="btn btn-secondary btn-sm" onclick="toggleFiltersPanel()">
+                <i class="fa-solid fa-filter"></i> Filtrar
+            </button>
         </div>
+
+        <?php
+        \components\ComponentManager::make('filters/dynamic-filter', [
+            'filters' => $filters ?? []
+        ])->echo();
+        ?>
+
+        <script>
+            function toggleFiltersPanel() {
+                const panel = document.getElementById('filtersPanel');
+                if (panel) {
+                    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+                }
+            }
+        </script>
 
         <div class="table-responsive">
             <table class="inventory-table" id="inventoryTable">
@@ -61,21 +72,37 @@
                         <th>Evento</th>
 
                         <th>Estado</th>
+                        <th>Asignado a</th>
                         <th class="text-right">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!--js-->
                     <?php foreach ($tickets as $ticket): ?>
-                        <tr>
+                        <tr data-evento="<?php echo $ticket->event_id; ?>" data-estado="<?php echo $ticket->status; ?>"
+                            data-asignado="<?php echo $ticket->assigned_to; ?>"
+                            data-numero="<?php echo $ticket->numero; ?>">
                             <td>
-                                <span class="ticket-number">#<?php echo $ticket['numero']; ?></span>
+                                <span class="ticket-number">#<?php echo $ticket->numero; ?></span>
                             </td>
-                            <td><?php echo $ticket['evento']; ?></td>
+                            <td><?php echo $ticket->evento; ?></td>
                             <td>
-                                <span class="status-badge status-<?php echo strtolower($ticket['status']); ?>">
-                                    <?php echo $ticket['status']; ?>
-                                </span>
+                                <button onclick="changeStatus(<?php echo $ticket->id; ?>, '<?php echo $ticket->status; ?>')"
+                                    class="status-badge status-<?php echo strtolower($ticket->status); ?>">
+                                    <?php echo $ticket->status; ?>
+                                </button>
+                            </td>
+                            <td>
+                                <select name="assigned_to" id="assigned_to" class="form-control">
+                                    <option value="">Sin asignar</option>
+                                    <?php foreach ($users as $user): ?>
+                                        <?php if ($user->id == $ticket->assigned_to): ?>
+                                            <option value="<?php echo $user->id; ?>" selected><?php echo $user->name; ?></option>
+                                        <?php else: ?>
+                                            <option value="<?php echo $user->id; ?>"><?php echo $user->name; ?></option>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </select>
                             </td>
                             <td class="text-right">
                                 <button class="action-btn" title="Más opciones">
@@ -104,10 +131,11 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Evento *</label>
-                    <select required>
+                    <select required name="event_id">
                         <option value="">Seleccionar evento...</option>
-                        <option value="1">Escuela Norte</option>
-                        <option value="2">Festival Jazz</option>
+                        <?php foreach ($events as $event): ?>
+                            <option value="<?php echo $event->id; ?>"><?php echo $event->name; ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="form-row">

@@ -213,31 +213,52 @@
                     }
                 }
 
+                .form-control {
+                    border: none;
+                    outline: none;
+
+                    background: transparent;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    appearance: none;
+
+                    &:focus {
+                        border: none;
+                        outline: none;
+                        box-shadow: none;
+                    }
+
+                    &:hover {
+                        cursor: pointer;
+                        border: none;
+                        outline: none;
+                        box-shadow: none;
+                    }
+                }
+
                 .status-badge {
+                    border: none;
                     padding: 4px 10px;
                     border-radius: 20px;
                     font-size: 10px;
                     font-weight: 700;
                     text-transform: uppercase;
+                    cursor: pointer;
 
-                    &.status-vendido {
-                        background: #dcfce7;
-                        color: #15803d;
+                    &.status-sold {
+                        background: v.$success;
                     }
 
-                    &.status-asignado {
-                        background: #dbeafe;
-                        color: #1e40af;
+                    &.status-not-assigned {
+                        background: v.$warning;
                     }
 
-                    &.status-disponible {
-                        background: v.$gray-100;
-                        color: v.$gray-600;
+                    &.status-available {
+                        background: v.$info;
                     }
 
-                    &.status-perdido {
-                        background: #fee2e2;
-                        color: #991b1b;
+                    &.status-lost {
+                        background: v.$error;
                     }
                 }
 

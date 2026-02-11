@@ -13,6 +13,11 @@ class Ticket extends Main
     public $status;
     public $assigned_to;
 
+    // Propiedades adicionales para consultas con JOIN
+    public $numero;
+    public $evento;
+    public $usuario_asignado;
+
 
     public function __construct($args = [])
     {
@@ -41,7 +46,6 @@ class Ticket extends Main
 
     public static function createTickets($event_id, $total)
     {
-        error_log("Iniciando creación de $total tickets para evento $event_id");
         for ($i = 1; $i <= $total; $i++) {
             $ticket = new self([
                 'event_id' => $event_id,
@@ -57,10 +61,8 @@ class Ticket extends Main
 
     public static function syncTickets($event_id, $newTotal)
     {
-        error_log("Sincronizando tickets para evento $event_id. Nuevo total: $newTotal");
         $currentTickets = self::findAllBy('event_id', $event_id);
         $currentTotal = count($currentTickets);
-        error_log("Total actual: $currentTotal");
 
         if ($newTotal > $currentTotal) {
             // Añadir los que faltan
@@ -76,7 +78,6 @@ class Ticket extends Main
         } elseif ($newTotal < $currentTotal) {
             // Eliminar el exceso (empezando por los números más altos)
             $diff = $currentTotal - $newTotal;
-            error_log("Eliminando $diff tickets de exceso");
             $query = "DELETE FROM tickets WHERE event_id = ? AND status = 'available' ORDER BY number DESC LIMIT ?";
             $stmt = self::$db->prepare($query);
             if ($stmt) {
@@ -91,8 +92,6 @@ class Ticket extends Main
 
     public static function autoAssignByEvent($eventId)
     {
-        error_log("Auto-asignando tickets para el evento $eventId");
-
         // 1. Obtener todos los miembros de equipos asociados al evento
         $queryMembers = "SELECT DISTINCT tm.user_id FROM team_members tm 
                          JOIN teams t ON tm.team_id = t.id 
